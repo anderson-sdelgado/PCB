@@ -168,7 +168,7 @@ public final class CameraManager {
   }
 
   /**
-   * Convenience method for {@link br.com.usinasantafe.pcomp.zxing.CaptureActivity}
+   * Convenience method for {@link br.com.usinasantafe.pcbmp.zxing.CaptureActivity}
    *
    * @param newSetting if {@code true}, light should be turned on if currently off. And vice versa.
    */
