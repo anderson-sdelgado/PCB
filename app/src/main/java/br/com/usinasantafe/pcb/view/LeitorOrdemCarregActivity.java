@@ -11,36 +11,34 @@ import android.widget.TextView;
 
 import br.com.usinasantafe.pcb.PCBContext;
 import br.com.usinasantafe.pcb.R;
-import br.com.usinasantafe.pcb.model.bean.estaticas.FuncBean;
-import br.com.usinasantafe.pcb.model.bean.estaticas.OrdemCargaBean;
+import br.com.usinasantafe.pcb.model.bean.estaticas.OrdemCarregBean;
 import br.com.usinasantafe.pcb.model.dao.LogProcessoDAO;
 
-public class LeitorOrdemCargaActivity extends ActivityGeneric {
+public class LeitorOrdemCarregActivity extends ActivityGeneric {
 
     public static final int REQUEST_CODE = 0;
     private PCBContext pcbContext;
-    private TextView txtRetOrdemCarga;
+    private TextView txtRetOrdemCarreg;
     private ProgressDialog progressBar;
-    private OrdemCargaBean ordemCargaBean;
+    private OrdemCarregBean ordemCarregBean;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_leitor_ordem_carga);
+        setContentView(R.layout.activity_leitor_ordem_carreg);
 
         pcbContext = (PCBContext) getApplication();
 
-        txtRetOrdemCarga = (TextView) findViewById(R.id.txtRetOrdemCarga);
-        Button buttonOkOrdemCarga = (Button) findViewById(R.id.buttonOkOrdemCarga);
-        Button buttonCancOrdemCarga = (Button) findViewById(R.id.buttonCancOrdemCarga);
+        txtRetOrdemCarreg = (TextView) findViewById(R.id.txtRetOrdemCarreg);
+        Button buttonOkOrdemCarga = (Button) findViewById(R.id.buttonOkOrdemCarreg);
+        Button buttonCancOrdemCarga = (Button) findViewById(R.id.buttonCancOrdemCarreg);
         Button buttonAtualPadrao = (Button) findViewById(R.id.buttonAtualPadrao);
-        Button buttonCaptOrdemCarga = (Button) findViewById(R.id.buttonCaptOrdemCarga);
+        Button buttonCaptOrdemCarga = (Button) findViewById(R.id.buttonCaptOrdemCarreg);
 
-        ordemCargaBean = new OrdemCargaBean();
-        ordemCargaBean.setIdOrdemCarga(0L);
-        ordemCargaBean.setNroOrdemCarga("");
+        ordemCarregBean = new OrdemCarregBean();
+        ordemCarregBean.setIdOrdemCarreg(0L);
 
-        txtRetOrdemCarga.setText("POR FAVOR, REALIZE A LEITURA DO CÓDIGO DA ORDEM DE CARGA.");
+        txtRetOrdemCarreg.setText("POR FAVOR, REALIZE A LEITURA DO CÓDIGO DA ORDEM DE CARGA.");
 
         buttonOkOrdemCarga.setOnClickListener(new View.OnClickListener() {
 
@@ -51,14 +49,12 @@ public class LeitorOrdemCargaActivity extends ActivityGeneric {
                         "            @Override\n" +
                         "            public void onClick(View v) {", getLocalClassName());
 
-                if (ordemCargaBean.getIdOrdemCarga() > 0) {
-                    pcbContext.getCargaCTR().getCabecCargaDAO().getCabecCargaBean().setIdOrdemCargaCabecCarga(ordemCargaBean.getIdOrdemCarga());
-
-                    LogProcessoDAO.getInstance().insertLogProcesso("if (ordemCargaBean.getIdOrdemCarga() > 0) {\n" +
+                if (ordemCarregBean.getIdOrdemCarreg() > 0L) {
+                    LogProcessoDAO.getInstance().insertLogProcesso("if (ordemCarregBean.getIdOrdemCarreg() > 0L) {\n" +
                             "                    pcbContext.getCargaCTR().getCabecCargaDAO().getCabecCargaBean().setIdOrdemCargaCabecCarga(ordemCargaBean.getIdOrdemCarga());\n" +
                             "                    Intent it = new Intent(LeitorOrdemCargaActivity.this, ListaOrdemCarregActivity.class);", getLocalClassName());
-
-                    Intent it = new Intent(LeitorOrdemCargaActivity.this, ListaOrdemCarregActivity.class);
+                    pcbContext.getCarregCTR().getCabecCargaDAO().getCabecCargaBean().setIdOrdemCabecCarreg(ordemCarregBean.getIdOrdemCarreg());
+                    Intent it = new Intent(LeitorOrdemCarregActivity.this, ListaOrdemCarregActivity.class);
                     startActivity(it);
                     finish();
                 }
@@ -75,7 +71,7 @@ public class LeitorOrdemCargaActivity extends ActivityGeneric {
                         "            @Override\n" +
                         "            public void onClick(View v) {\n" +
                         "                Intent it = new Intent(LeitorOrdemCargaActivity.this, ListaOrdemCarregActivity.class);", getLocalClassName());
-                Intent it = new Intent(LeitorOrdemCargaActivity.this, ListaOrdemCarregActivity.class);
+                Intent it = new Intent(LeitorOrdemCarregActivity.this, ListaOrdemCarregActivity.class);
                 startActivity(it);
                 finish();
             }
@@ -91,7 +87,7 @@ public class LeitorOrdemCargaActivity extends ActivityGeneric {
                         "            public void onClick(View v) {\n" +
                         "                Intent it = new Intent(LeitorOrdemCargaActivity.this, br.com.usinasantafe.pcb.zxing.CaptureActivity.class);\n" +
                         "                startActivityForResult(it, REQUEST_CODE);", getLocalClassName());
-                Intent it = new Intent(LeitorOrdemCargaActivity.this, br.com.usinasantafe.pcb.zxing.CaptureActivity.class);
+                Intent it = new Intent(LeitorOrdemCarregActivity.this, br.com.usinasantafe.pcb.zxing.CaptureActivity.class);
                 startActivityForResult(it, REQUEST_CODE);
             }
 
@@ -104,7 +100,7 @@ public class LeitorOrdemCargaActivity extends ActivityGeneric {
                 LogProcessoDAO.getInstance().insertLogProcesso("AlertDialog.Builder alerta = new AlertDialog.Builder(LeitorOrdemCargaActivity.this);\n" +
                         "                alerta.setTitle(\"ATENÇÃO\");\n" +
                         "                alerta.setMessage(\"DESEJA REALMENTE ATUALIZAR BASE DE DADOS?\");", getLocalClassName());
-                AlertDialog.Builder alerta = new AlertDialog.Builder( LeitorOrdemCargaActivity.this);
+                AlertDialog.Builder alerta = new AlertDialog.Builder( LeitorOrdemCarregActivity.this);
                 alerta.setTitle("ATENÇÃO");
                 alerta.setMessage("DESEJA REALMENTE ATUALIZAR BASE DE DADOS?");
                 alerta.setNegativeButton("SIM", new DialogInterface.OnClickListener() {
@@ -125,7 +121,7 @@ public class LeitorOrdemCargaActivity extends ActivityGeneric {
                                     "                            progressBar.setProgress(0);\n" +
                                     "                            progressBar.setMax(100);\n" +
                                     "                            progressBar.show();", getLocalClassName());
-                            progressBar = new ProgressDialog(LeitorOrdemCargaActivity.this);
+                            progressBar = new ProgressDialog(LeitorOrdemCarregActivity.this);
                             progressBar.setCancelable(true);
                             progressBar.setMessage("ATUALIZANDO ...");
                             progressBar.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
@@ -134,7 +130,7 @@ public class LeitorOrdemCargaActivity extends ActivityGeneric {
                             progressBar.show();
 
                             LogProcessoDAO.getInstance().insertLogProcesso("customHandler.removeCallbacks(updateTimerThread)", getLocalClassName());
-                            pcbContext.getConfigCTR().atualDados(LeitorOrdemCargaActivity.this, LeitorOrdemCargaActivity.class, progressBar, "OrdemCarga", 1, getLocalClassName());
+                            pcbContext.getConfigCTR().atualDados(LeitorOrdemCarregActivity.this, LeitorOrdemCarregActivity.class, progressBar, "OrdemCarga", 1, getLocalClassName());
 
                         } else {
 
@@ -147,7 +143,7 @@ public class LeitorOrdemCargaActivity extends ActivityGeneric {
                                     "                                }\n" +
                                     "                            });\n" +
                                     "                            alerta.show();", getLocalClassName());
-                            AlertDialog.Builder alerta = new AlertDialog.Builder( LeitorOrdemCargaActivity.this);
+                            AlertDialog.Builder alerta = new AlertDialog.Builder( LeitorOrdemCarregActivity.this);
                             alerta.setTitle("ATENÇÃO");
                             alerta.setMessage("FALHA NA CONEXÃO DE DADOS. O CELULAR ESTA SEM SINAL. POR FAVOR, TENTE NOVAMENTE QUANDO O CELULAR ESTIVE COM SINAL.");
                             alerta.setPositiveButton("OK", new DialogInterface.OnClickListener() {
@@ -187,24 +183,24 @@ public class LeitorOrdemCargaActivity extends ActivityGeneric {
             LogProcessoDAO.getInstance().insertLogProcesso("    @Override\n" +
                     "    public void onActivityResult(int requestCode, int resultCode, Intent data) {\n" +
                     "        if (REQUEST_CODE == requestCode && RESULT_OK == resultCode) {\n" +
-                    "            String matricula = data.getStringExtra(\"SCAN_RESULT\");", getLocalClassName());
+                    "            String nroOrdemCarga = data.getStringExtra(\"SCAN_RESULT\");", getLocalClassName());
             String nroOrdemCarga = data.getStringExtra("SCAN_RESULT");
-//            if (matricula.length() == 8) {
-//                LogProcessoDAO.getInstance().insertLogProcesso("            if (matricula.length() == 8) {\n" +
-//                        "                matricula = matricula.substring(0, 7);", getLocalClassName());
-//                matricula = matricula.substring(0, 7);
-                if (pcbContext.getCargaCTR().verOrdemCargaNro(nroOrdemCarga)) {
-                    LogProcessoDAO.getInstance().insertLogProcesso("if (pcbContext.getCargaCTR().verFunc(Long.parseLong(matricula))) {\n" +
-                            "                    funcBean = pcbContext.getCargaCTR().getFuncMatric(Long.parseLong(matricula));\n" +
-                            "                    txtRetColab.setText(matricula + \"\\n\" + funcBean.getNomeFunc());", getLocalClassName());
-                    ordemCargaBean = pcbContext.getCargaCTR().getOrdemCargaNro(nroOrdemCarga);
-                    txtRetOrdemCarga.setText(nroOrdemCarga);
+            if (nroOrdemCarga.length() == 7) {
+                LogProcessoDAO.getInstance().insertLogProcesso("if (nroOrdemCarga.length() == 7) {\n" +
+                        "nroOrdemCarga = nroOrdemCarga.substring(0, 6);", getLocalClassName());
+                nroOrdemCarga = nroOrdemCarga.substring(0, 6);
+                if (pcbContext.getCarregCTR().verOrdemCarregTicket(nroOrdemCarga)) {
+                    LogProcessoDAO.getInstance().insertLogProcesso("if (pcbContext.getCargaCTR().verOrdemCargaNro(nroOrdemCarga)) {\n" +
+                            "                    ordemCarregBean = pcbContext.getCargaCTR().getOrdemCargaNro(nroOrdemCarga);\n" +
+                            "                    txtRetOrdemCarga.setText(nroOrdemCarga);", getLocalClassName());
+                    ordemCarregBean = pcbContext.getCarregCTR().getOrdemCarregTicket(nroOrdemCarga);
+                    txtRetOrdemCarreg.setText(nroOrdemCarga);
                 } else {
                     LogProcessoDAO.getInstance().insertLogProcesso("} else {\n" +
-                            "                    txtRetColab.setText(\"Nro de Ordem de Carga Inexistente\");", getLocalClassName());
-                    txtRetOrdemCarga.setText("Nro de Ordem de Carga Inexistente");
+                            "                    txtRetOrdemCarga.setText(\"Nro de Ordem de Carga Inexistente\");", getLocalClassName());
+                    txtRetOrdemCarreg.setText("Nro de Ordem de Carga Inexistente");
                 }
-//            }
+            }
         }
 
     }

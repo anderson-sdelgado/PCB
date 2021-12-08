@@ -3,8 +3,10 @@ package br.com.usinasantafe.pcb.util;
 import java.util.HashMap;
 import java.util.Map;
 
+import br.com.usinasantafe.pcb.control.CarregCTR;
 import br.com.usinasantafe.pcb.model.dao.LogErroDAO;
 import br.com.usinasantafe.pcb.model.dao.LogProcessoDAO;
+import br.com.usinasantafe.pcb.util.connHttp.PostCadGenerico;
 import br.com.usinasantafe.pcb.util.connHttp.UrlsConexaoHttp;
 import br.com.usinasantafe.pcb.view.ActivityGeneric;
 
@@ -28,21 +30,19 @@ public class EnvioDadosServ {
     ////////////////////////////////// ENVIAR DADOS ///////////////////////////////////////////////
 
 
-    public void enviarBolFechadoMMFert(String activity) {
+    public void enviarCabecFechado(String activity) {
 
-        MotoMecFertCTR motoMecFertCTR = new MotoMecFertCTR();
-
-        LogProcessoDAO.getInstance().insertLogProcesso("motoMecFertCTR.dadosEnvioBolFechadoMMFert()", activity);
-        envio(urlsConexaoHttp.getsInsertBolFechadoMMFert(), motoMecFertCTR.dadosEnvioBolFechadoMMFert(), activity);
+        CarregCTR carregCTR = new CarregCTR();
+        LogProcessoDAO.getInstance().insertLogProcesso("envio(urlsConexaoHttp.getsInsertBolFechadoMMFert(), carregCTR.dadosEnvioCabecFechado(), activity);", activity);
+        envio(urlsConexaoHttp.getsInsertCarreg(), carregCTR.dadosEnvioCabecFechado(), activity);
 
     }
 
-    public void enviarBolAbertoMMFert(String activity) {
+    public void enviarCabecAberto(String activity) {
 
-        MotoMecFertCTR motoMecFertCTR = new MotoMecFertCTR();
-
-        LogProcessoDAO.getInstance().insertLogProcesso("motoMecFertCTR.dadosEnvioBolAbertoMMFert()", activity);
-        envio(urlsConexaoHttp.getsInsertBolAbertoMMFert(), motoMecFertCTR.dadosEnvioBolAbertoMMFert(), activity);
+        CarregCTR carregCTR = new CarregCTR();
+        LogProcessoDAO.getInstance().insertLogProcesso("envio(urlsConexaoHttp.getsInsertCabecAberto(), carregCTR.dadosEnvioCabecAberto(), activity);", activity);
+        envio(urlsConexaoHttp.getsInsertCarreg(), carregCTR.dadosEnvioCabecAberto(), activity);
 
     }
 
@@ -62,14 +62,19 @@ public class EnvioDadosServ {
 
     //////////////////////////////////VERIFICAÇÃO DE DADOS/////////////////////////////////////////
 
-    public Boolean verifBolFechadoMMFert() {
-        MotoMecFertCTR motoMecFertCTR = new MotoMecFertCTR();
-        return motoMecFertCTR.verEnvioBolFech();
+    public boolean verifCabecAberto() {
+        CarregCTR carregCTR = new CarregCTR();
+        return carregCTR.verCabecAberto();
     }
 
-    public Boolean verifBolAbertoMMFert() {
-        MotoMecFertCTR motoMecFertCTR = new MotoMecFertCTR();
-        return motoMecFertCTR.verEnvioApont();
+    public boolean verifCabecFechado() {
+        CarregCTR carregCTR = new CarregCTR();
+        return carregCTR.verCabecFechado();
+    }
+
+    public boolean verifItemAberto() {
+        CarregCTR carregCTR = new CarregCTR();
+        return carregCTR.verItemCarregNEnviado();
     }
 
     ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -81,15 +86,15 @@ public class EnvioDadosServ {
         if(ActivityGeneric.connectNetwork) {
             LogProcessoDAO.getInstance().insertLogProcesso("ActivityGeneric.connectNetwork", activity);
             status = 2;
-            if (verifBolFechadoMMFert()) {
-                LogProcessoDAO.getInstance().insertLogProcesso("if (verifBolFechadoMMFert()) {", activity);
-                LogProcessoDAO.getInstance().insertLogProcesso("enviarBolFechadoMMFert()", activity);
-                enviarBolFechadoMMFert(activity);
+            if (verifCabecFechado()) {
+                LogProcessoDAO.getInstance().insertLogProcesso("if (verifCabecFechado()) {\n" +
+                        "enviarBolFechadoMMFert()", activity);
+                enviarCabecFechado(activity);
             } else {
-                if (verifBolAbertoMMFert()) {
-                    LogProcessoDAO.getInstance().insertLogProcesso("if (verifBolAbertoMMFert()) {", activity);
-                    LogProcessoDAO.getInstance().insertLogProcesso("enviarBolAbertoMMFert()", activity);
-                    enviarBolAbertoMMFert(activity);
+                if (verifCabecAberto()) {
+                    LogProcessoDAO.getInstance().insertLogProcesso("if (verifCabecAberto()) {\n" +
+                            "enviarBolAbertoMMFert()", activity);
+                    enviarCabecAberto(activity);
                 } else {
                     status = 3;
                 }
@@ -98,7 +103,7 @@ public class EnvioDadosServ {
     }
 
     public boolean verifDadosEnvio() {
-        if ((!verifBolFechadoMMFert())){
+        if ((!verifItemAberto())){
             return false;
         } else {
             return true;
@@ -111,19 +116,12 @@ public class EnvioDadosServ {
 
     public void recDados(String result, String activity){
         LogProcessoDAO.getInstance().insertLogProcesso("public void recDados(String " + result + ", String activity){", activity);
-        else if (result.trim().startsWith("BOLABERTOMM")) {
-            MotoMecFertCTR motoMecFertCTR = new MotoMecFertCTR();
-            LogProcessoDAO.getInstance().insertLogProcesso("else if (result.trim().startsWith(\"BOLABERTOMM\")) {\n" +
-                    "            MotoMecFertCTR motoMecFertCTR = new MotoMecFertCTR();\n" +
-                    "motoMecFertCTR.updBolAberto(result)", activity);
-            motoMecFertCTR.updBolAberto(result, activity);
-        }
-        else if (result.trim().startsWith("BOLFECHADOMM")) {
-            MotoMecFertCTR motoMecFertCTR = new MotoMecFertCTR();
-            LogProcessoDAO.getInstance().insertLogProcesso("else if (result.trim().startsWith(\"BOLFECHADOMM\")) {\n" +
-                    "            MotoMecFertCTR motoMecFertCTR = new MotoMecFertCTR();\n" +
-                    "motoMecFertCTR.delBolFechado(result)", activity);
-            motoMecFertCTR.updateBolEnviado(result, activity);
+        if (result.trim().startsWith("RETORNO")) {
+            CarregCTR carregCTR = new CarregCTR();
+            LogProcessoDAO.getInstance().insertLogProcesso("if (result.trim().startsWith(\"RETORNO\")) {\n" +
+                    "            CarregCTR carregCTR = new CarregCTR();\n" +
+                    "carregCTR.updCabec(result, activity);", activity);
+            carregCTR.updCabec(result, activity);
         }
         else {
             LogProcessoDAO.getInstance().insertLogProcesso("else {\n" +

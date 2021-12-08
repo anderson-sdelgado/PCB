@@ -123,12 +123,12 @@ public class DigFuncActivity extends ActivityGeneric {
                 if (!editTextPadrao.getText().toString().equals("")) {
 
                     LogProcessoDAO.getInstance().insertLogProcesso("if (!editTextPadrao.getText().toString().equals(\"\")) {", getLocalClassName());
-                    if (pcbContext.getCargaCTR().verFunc(Long.parseLong(editTextPadrao.getText().toString()))) {
+                    if (pcbContext.getCarregCTR().verFunc(Long.parseLong(editTextPadrao.getText().toString()))) {
 
                         LogProcessoDAO.getInstance().insertLogProcesso("if (pmmContext.getMotoMecFertCTR().verFunc(Long.parseLong(editTextPadrao.getText().toString()))) {\n" +
                                 "pmmContext.getMotoMecFertCTR().getBoletimMMFertDAO().setBoletimMMBean();\n" +
                                 "                        pmmContext.getMotoMecFertCTR().getBoletimMMFertDAO().getBoletimMMFertBean().setMatricFuncBolMMFert(Long.parseLong(editTextPadrao.getText().toString()));", getLocalClassName());
-                        pcbContext.getCargaCTR().getCabecCargaDAO().getCabecCargaBean().setMatricFuncCabecCarga(Long.parseLong(editTextPadrao.getText().toString()));
+                        pcbContext.getCarregCTR().getCabecCargaDAO().getCabecCargaBean().setIdFuncCabecCarreg(Long.parseLong(editTextPadrao.getText().toString()));
 
                         LogProcessoDAO.getInstance().insertLogProcesso("Intent it = new Intent(OperadorActivity.this, EquipActivity.class);", getLocalClassName());
                         Intent it = new Intent(DigFuncActivity.this, ListaOrdemCarregActivity.class);

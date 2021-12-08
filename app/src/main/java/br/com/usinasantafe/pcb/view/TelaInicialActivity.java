@@ -1,8 +1,12 @@
 package br.com.usinasantafe.pcb.view;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
 
@@ -24,21 +28,47 @@ public class TelaInicialActivity extends ActivityGeneric {
 
         pcbContext = (PCBContext) getApplication();
 
+        LogProcessoDAO.getInstance().insertLogProcesso("        if (!checkPermission(Manifest.permission.CAMERA)) {\n" +
+                "            String[] PERMISSIONS = {Manifest.permission.CAMERA};\n" +
+                "            ActivityCompat.requestPermissions(this, PERMISSIONS, 112);\n" +
+                "        if (!checkPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {\n" +
+                "            String[] PERMISSIONS = {android.Manifest.permission.WRITE_EXTERNAL_STORAGE};\n" +
+                "            ActivityCompat.requestPermissions(this, PERMISSIONS, 112);\n" +
+                "        }\n" +
+                "customHandler.postDelayed(excluirBDThread, 0);", getLocalClassName());
         customHandler.postDelayed(excluirBDThread, 0);
 
     }
 
+    public boolean checkPermission(String permission) {
+        int check = ContextCompat.checkSelfPermission(this, permission);
+        return (check == PackageManager.PERMISSION_GRANTED);
+    }
+
+    public void onBackPressed() {
+    }
 
     public void goMenuInicial(){
 
-        LogProcessoDAO.getInstance().insertLogProcesso("customHandler.removeCallbacks(updateTimerThread);", getLocalClassName());
+        LogProcessoDAO.getInstance().insertLogProcesso("customHandler.removeCallbacks(encerraAtualThread);", getLocalClassName());
         customHandler.removeCallbacks(encerraAtualThread);
         LogProcessoDAO.getInstance().insertLogProcesso("}\n" +
                 "        else{\n" +
                 "Intent it = new Intent(TelaInicialActivity.this, MenuInicialActivity.class);", getLocalClassName());
-        Intent it = new Intent(TelaInicialActivity.this, MenuInicialActivity.class);
-        startActivity(it);
-        finish();
+        if(pcbContext.getCarregCTR().verCabecAberto()){
+            LogProcessoDAO.getInstance().insertLogProcesso("if(pcbContext.getCarregCTR().verCabecAberto()){\n" +
+                    "            Intent it = new Intent(TelaInicialActivity.this, ListaBagCarregActivity.class);", getLocalClassName());
+            Intent it = new Intent(TelaInicialActivity.this, ListaBagCarregActivity.class);
+            startActivity(it);
+            finish();
+        }
+        else{
+            LogProcessoDAO.getInstance().insertLogProcesso("else{\n" +
+                    "            Intent it = new Intent(TelaInicialActivity.this, MenuInicialActivity.class);", getLocalClassName());
+            Intent it = new Intent(TelaInicialActivity.this, MenuInicialActivity.class);
+            startActivity(it);
+            finish();
+        }
 
     }
 

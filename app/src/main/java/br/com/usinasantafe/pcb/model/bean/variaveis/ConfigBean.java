@@ -19,13 +19,12 @@ public class ConfigBean extends Entidade {
     @DatabaseField
     private String dthrServConfig;
     @DatabaseField
-    private Long flagLogEnvio;
-    @DatabaseField
-    private Long flagLogErro;
-    @DatabaseField
     private Long statusRetVerif; // 0 - Não Verificando; 1 - Verificando
     @DatabaseField
     private Long posicaoTela;
+    // 1 - Inicio do Boletim;
+    // 2 - Configuracao;
+    // 3 - Log;
 
     public ConfigBean() {
     }
@@ -52,22 +51,6 @@ public class ConfigBean extends Entidade {
 
     public void setSenhaConfig(String senhaConfig) {
         this.senhaConfig = senhaConfig;
-    }
-
-    public Long getFlagLogEnvio() {
-        return flagLogEnvio;
-    }
-
-    public void setFlagLogEnvio(Long flagLogEnvio) {
-        this.flagLogEnvio = flagLogEnvio;
-    }
-
-    public Long getFlagLogErro() {
-        return flagLogErro;
-    }
-
-    public void setFlagLogErro(Long flagLogErro) {
-        this.flagLogErro = flagLogErro;
     }
 
     public Long getStatusRetVerif() {

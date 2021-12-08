@@ -12,6 +12,8 @@ import java.util.Map;
 
 import br.com.usinasantafe.pcb.control.ConfigCTR;
 import br.com.usinasantafe.pcb.model.dao.LogProcessoDAO;
+import br.com.usinasantafe.pcb.util.connHttp.PostVerGenerico;
+import br.com.usinasantafe.pcb.util.connHttp.UrlsConexaoHttp;
 import br.com.usinasantafe.pcb.view.TelaInicialActivity;
 
 /**

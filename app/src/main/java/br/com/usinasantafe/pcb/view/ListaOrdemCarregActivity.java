@@ -9,19 +9,19 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.TextView;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import br.com.usinasantafe.pcb.PCBContext;
 import br.com.usinasantafe.pcb.R;
+import br.com.usinasantafe.pcb.model.bean.estaticas.OrdemCarregBean;
 import br.com.usinasantafe.pcb.model.dao.LogProcessoDAO;
 
 public class ListaOrdemCarregActivity extends ActivityGeneric {
 
-    private ListView ordemCarregListView;
     private PCBContext pcbContext;
     private ProgressDialog progressBar;
+    private List<OrdemCarregBean> ordemCarregList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,16 +32,18 @@ public class ListaOrdemCarregActivity extends ActivityGeneric {
         Button buttonAtualOrdemCarreg = findViewById(R.id.buttonAtualOrdemCarreg);
         Button buttonRetOrdemCarreg = findViewById(R.id.buttonRetOrdemCarreg);
 
-        ArrayList<String> itens = new ArrayList<>();
+        pcbContext = (PCBContext) getApplication();
 
-        itens.add("CAR0001");
+        LogProcessoDAO.getInstance().insertLogProcesso("ordemCarregList = pcbContext.getCarregCTR().ordemCargaList();\n" +
+                "        ListView listOrdemCarreg = findViewById(R.id.listOrdemCarreg);\n" +
+                "        AdapterListOrdemCarreg adapterListOrdemCarreg = new AdapterListOrdemCarreg(this, ordemCarregList);\n" +
+                "        listOrdemCarreg.setAdapter(adapterListOrdemCarreg);", getLocalClassName());
 
-        LogProcessoDAO.getInstance().insertLogProcesso("AdapterList adapterList = new AdapterList(this, itens);\n" +
-                "        menuInicialListView = findViewById(R.id.listaMenuInicial);\n" +
-                "        menuInicialListView.setAdapter(adapterList);", getLocalClassName());
-        AdapterList adapterList = new AdapterList(this, itens);
-        ordemCarregListView = findViewById(R.id.listOrdemCarreg);
-        ordemCarregListView.setAdapter(adapterList);
+        ordemCarregList = pcbContext.getCarregCTR().ordemCargaList();
+
+        ListView ordemCarregListView = findViewById(R.id.listOrdemCarreg);
+        AdapterListOrdemCarreg adapterListOrdemCarreg = new AdapterListOrdemCarreg(this, ordemCarregList);
+        ordemCarregListView.setAdapter(adapterListOrdemCarreg);
 
         ordemCarregListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
@@ -53,10 +55,19 @@ public class ListaOrdemCarregActivity extends ActivityGeneric {
                         "            @Override\n" +
                         "            public void onItemClick(AdapterView<?> l, View v, int position,\n" +
                         "                                    long id) {\n" +
-                        "                TextView textView = v.findViewById(R.id.textViewItemList);\n" +
-                        "                String text = textView.getText().toString();", getLocalClassName());
-                TextView textView = v.findViewById(R.id.textViewItemList);
-                String text = textView.getText().toString();
+                        "                OrdemCarregBean ordemCarregBean = ordemCarregList.get(position);\n" +
+                        "                ordemCarregList.clear();\n" +
+                        "                pcbContext.getCarregCTR().getCabecCargaDAO().getCabecCargaBean().setIdOrdemCabecCarreg(ordemCarregBean.getIdOrdemCarreg());\n" +
+                        "                Intent it = new Intent(ListaOrdemCarregActivity.this, DetalheOrdemCarregActivity.class);", getLocalClassName());
+
+                OrdemCarregBean ordemCarregBean = ordemCarregList.get(position);
+                ordemCarregList.clear();
+
+                pcbContext.getCarregCTR().getCabecCargaDAO().getCabecCargaBean().setIdOrdemCabecCarreg(ordemCarregBean.getIdOrdemCarreg());
+
+                Intent it = new Intent(ListaOrdemCarregActivity.this, DetalhesOrdemCarregActivity.class);
+                startActivity(it);
+                finish();
 
             }
 
@@ -70,7 +81,7 @@ public class ListaOrdemCarregActivity extends ActivityGeneric {
                         "            @Override\n" +
                         "            public void onClick(View v) {\n" +
                         "                Intent it = new Intent(ListaOrdemCarregActivity.this, LeitorOrdemCargaActivity.class);", getLocalClassName());
-                Intent it = new Intent(ListaOrdemCarregActivity.this, LeitorOrdemCargaActivity.class);
+                Intent it = new Intent(ListaOrdemCarregActivity.this, LeitorOrdemCarregActivity.class);
                 startActivity(it);
                 finish();
             }
@@ -117,8 +128,8 @@ public class ListaOrdemCarregActivity extends ActivityGeneric {
                             progressBar.setMax(100);
                             progressBar.show();
 
-                            LogProcessoDAO.getInstance().insertLogProcesso("customHandler.removeCallbacks(updateTimerThread)", getLocalClassName());
-                            pcbContext.getConfigCTR().atualDados(ListaOrdemCarregActivity.this, ListaOrdemCarregActivity.class, progressBar, "OrdemCarga", 1, getLocalClassName());
+                            LogProcessoDAO.getInstance().insertLogProcesso("pcbContext.getConfigCTR().atualDados(ListaOrdemCarregActivity.this, ListaOrdemCarregActivity.class, progressBar, \"OrdemCarreg\", 1, getLocalClassName());", getLocalClassName());
+                            pcbContext.getConfigCTR().atualDados(ListaOrdemCarregActivity.this, ListaOrdemCarregActivity.class, progressBar, "OrdemCarreg", 1, getLocalClassName());
 
                         } else {
 
@@ -177,4 +188,8 @@ public class ListaOrdemCarregActivity extends ActivityGeneric {
         });
 
     }
+
+    public void onBackPressed() {
+    }
+
 }

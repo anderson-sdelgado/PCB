@@ -1,13 +1,10 @@
 package br.com.usinasantafe.pcb.view;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import android.Manifest;
-import android.app.AlarmManager;
 import android.app.AlertDialog;
-import android.app.PendingIntent;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -15,14 +12,12 @@ import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 
 import br.com.usinasantafe.pcb.PCBContext;
 import br.com.usinasantafe.pcb.R;
@@ -57,11 +52,18 @@ public class MenuInicialActivity extends ActivityGeneric {
             ActivityCompat.requestPermissions(this, PERMISSIONS, 112);
         }
 
-        LogProcessoDAO.getInstance().insertLogProcesso("customHandler.postDelayed(updateTimerThread, 0);", getLocalClassName());
+        LogProcessoDAO.getInstance().insertLogProcesso("        if (!checkPermission(Manifest.permission.CAMERA)) {\n" +
+                "            String[] PERMISSIONS = {Manifest.permission.CAMERA};\n" +
+                "            ActivityCompat.requestPermissions(this, PERMISSIONS, 112);\n" +
+                "        }\n" +
+                "        if (!checkPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {\n" +
+                "            String[] PERMISSIONS = {android.Manifest.permission.WRITE_EXTERNAL_STORAGE};\n" +
+                "            ActivityCompat.requestPermissions(this, PERMISSIONS, 112);\n" +
+                "        }\n" +
+                "customHandler.postDelayed(updateTimerThread, 0);", getLocalClassName());
         customHandler.postDelayed(updateTimerThread, 0);
 
-        LogProcessoDAO.getInstance().insertLogProcesso("        verifEnvio();\n" +
-                "        progressBar = new ProgressDialog(this);\n" +
+        LogProcessoDAO.getInstance().insertLogProcesso("progressBar = new ProgressDialog(this);\n" +
                 "        ArrayList<String> itens = new ArrayList<>();\n" +
                 "        itens.add(\"APONTAMENTO\");\n" +
                 "        itens.add(\"CONFIGURAÇÃO\");\n" +
@@ -102,8 +104,8 @@ public class MenuInicialActivity extends ActivityGeneric {
                 String text = textView.getText().toString();
 
                 if (text.equals("APONTAMENTO")) {
-                    LogProcessoDAO.getInstance().insertLogProcesso("if (text.equals(\"BOLETIM\")) {", getLocalClassName());
-                    if (pcbContext.getCargaCTR().hasElemFunc()
+                    LogProcessoDAO.getInstance().insertLogProcesso("if text.equals(\"APONTAMENTO\")) {", getLocalClassName());
+                    if (pcbContext.getCarregCTR().hasElemFunc()
                             && pcbContext.getConfigCTR().hasElemConfig()
                             && (VerifDadosServ.status == 3)) {
                         LogProcessoDAO.getInstance().insertLogProcesso("pmmContext.getMotoMecFertCTR().hasElemFunc()\n" +
@@ -111,20 +113,16 @@ public class MenuInicialActivity extends ActivityGeneric {
                                 "                            && (VerifDadosServ.status == 3)\n" +
                                 "pmmContext.getConfigCTR().setPosicaoTela(1L);", getLocalClassName());
                         pcbContext.getConfigCTR().setPosicaoTela(1L);
-                        LogProcessoDAO.getInstance().insertLogProcesso("Intent it = new Intent(MenuInicialActivity.this, OperadorActivity.class)", getLocalClassName());
+                        LogProcessoDAO.getInstance().insertLogProcesso("Intent it = new Intent(MenuInicialActivity.this, LeitorFuncActivity.class)", getLocalClassName());
                         Intent it = new Intent(MenuInicialActivity.this, LeitorFuncActivity.class);
                         startActivity(it);
                         finish();
                     }
                 } else if (text.equals("CONFIGURAÇÃO")) {
                     LogProcessoDAO.getInstance().insertLogProcesso("} else if (text.equals(\"CONFIGURAÇÃO\")) {\n" +
-                            "                    if(pmmContext.getConfigCTR().hasElemConfig()) {\n" +
-                            "                        pmmContext.getConfigCTR().setPosicaoTela(11L);\n" +
-                            "                    }\n" +
+                            "                    pmmContext.getConfigCTR().setPosicaoTela(2L);\n" +
                             "                    Intent it = new Intent(MenuInicialActivity.this, SenhaActivity.class);", getLocalClassName());
-                    if(pcbContext.getConfigCTR().hasElemConfig()) {
-                        pcbContext.getConfigCTR().setPosicaoTela(11L);
-                    }
+                    pcbContext.getConfigCTR().setPosicaoTela(2L);
                     Intent it = new Intent(MenuInicialActivity.this, SenhaActivity.class);
                     startActivity(it);
                     finish();
@@ -191,7 +189,7 @@ public class MenuInicialActivity extends ActivityGeneric {
                         LogProcessoDAO.getInstance().insertLogProcesso("if(pmmContext.getConfigCTR().hasElemConfig()) {\n" +
                                 "                        pmmContext.getConfigCTR().setPosicaoTela(12L);\n" +
                                 "                        Intent it = new Intent(MenuInicialActivity.this, SenhaActivity.class);", getLocalClassName());
-                        pcbContext.getConfigCTR().setPosicaoTela(12L);
+                        pcbContext.getConfigCTR().setPosicaoTela(3L);
                         Intent it = new Intent(MenuInicialActivity.this, SenhaActivity.class);
                         startActivity(it);
                         finish();

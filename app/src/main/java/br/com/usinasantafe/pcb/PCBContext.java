@@ -2,7 +2,7 @@ package br.com.usinasantafe.pcb;
 
 import android.app.Application;
 
-import br.com.usinasantafe.pcb.control.CargaCTR;
+import br.com.usinasantafe.pcb.control.CarregCTR;
 import br.com.usinasantafe.pcb.control.ConfigCTR;
 import br.com.usinasantafe.pcb.model.dao.LogErroDAO;
 
@@ -11,9 +11,10 @@ public class PCBContext extends Application {
     private Thread.UncaughtExceptionHandler mDefaultExceptionHandler;
 
     private ConfigCTR configCTR;
-    private CargaCTR cargaCTR;
+    private CarregCTR carregCTR;
+    private String codBarraBagLido;
 
-    public static String versaoAplic = "4.00";
+    public static String versaoAplic = "1.00";
     public static int aplic = 1;   // 1 - PMM; 2 - ECM; 3 - PCOMP
 
     @Override
@@ -29,10 +30,18 @@ public class PCBContext extends Application {
         return configCTR;
     }
 
-    public CargaCTR getCargaCTR(){
-        if (cargaCTR == null)
-            cargaCTR = new CargaCTR();
-        return cargaCTR;
+    public CarregCTR getCarregCTR(){
+        if (carregCTR == null)
+            carregCTR = new CarregCTR();
+        return carregCTR;
+    }
+
+    public String getCodBarraBagLido() {
+        return codBarraBagLido;
+    }
+
+    public void setCodBarraBagLido(String codBarraBagLido) {
+        this.codBarraBagLido = codBarraBagLido;
     }
 
     private Thread.UncaughtExceptionHandler handler = new Thread.UncaughtExceptionHandler() {

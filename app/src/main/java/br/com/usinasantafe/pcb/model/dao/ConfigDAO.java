@@ -46,9 +46,10 @@ public class ConfigDAO {
         return configBean.get("senhaConfig", senha);
     }
 
-    public void salvarConfig(String senha){
+    public void salvarConfig(Long nroAparelho, String senha){
         ConfigBean configBean = new ConfigBean();
         configBean.deleteAll();
+        configBean.setNroAparelhoConfig(nroAparelho);
         configBean.setSenhaConfig(senha);
         configBean.insert();
         configBean.commit();
@@ -87,8 +88,6 @@ public class ConfigDAO {
         AtualAplicBean atualAplicBean = gson.fromJson(objeto.toString(), AtualAplicBean.class);
 
         ConfigBean configBean = getConfig();
-        configBean.setFlagLogEnvio(atualAplicBean.getFlagLogEnvio());
-        configBean.setFlagLogErro(atualAplicBean.getFlagLogErro());
         configBean.setDthrServConfig(atualAplicBean.getDthr());
         configBean.update();
 

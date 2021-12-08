@@ -53,7 +53,7 @@ public class LeitorFuncActivity extends ActivityGeneric {
 
                 if (funcBean.getMatricFunc() > 0) {
 
-                    pcbContext.getCargaCTR().getCabecCargaDAO().getCabecCargaBean().setMatricFuncCabecCarga(funcBean.getMatricFunc());
+                    pcbContext.getCarregCTR().getCabecCargaDAO().getCabecCargaBean().setIdFuncCabecCarreg(funcBean.getMatricFunc());
 
                     LogProcessoDAO.getInstance().insertLogProcesso("                if (funcBean.getMatricFunc() > 0) {\n" +
                             "                    pcbContext.getCargaCTR().getCabecCargaDAO().getCabecCargaBean().setMatricFuncCabecCarga(funcBean.getMatricFunc());\n" +
@@ -209,11 +209,11 @@ public class LeitorFuncActivity extends ActivityGeneric {
                 LogProcessoDAO.getInstance().insertLogProcesso("            if (matricula.length() == 8) {\n" +
                         "                matricula = matricula.substring(0, 7);", getLocalClassName());
                 matricula = matricula.substring(0, 7);
-                if (pcbContext.getCargaCTR().verFunc(Long.parseLong(matricula))) {
+                if (pcbContext.getCarregCTR().verFunc(Long.parseLong(matricula))) {
                     LogProcessoDAO.getInstance().insertLogProcesso("if (pcbContext.getCargaCTR().verFunc(Long.parseLong(matricula))) {\n" +
                             "                    funcBean = pcbContext.getCargaCTR().getFuncMatric(Long.parseLong(matricula));\n" +
                             "                    txtRetColab.setText(matricula + \"\\n\" + funcBean.getNomeFunc());", getLocalClassName());
-                    funcBean = pcbContext.getCargaCTR().getFuncMatric(Long.parseLong(matricula));
+                    funcBean = pcbContext.getCarregCTR().getFuncMatric(Long.parseLong(matricula));
                     txtRetColab.setText(matricula + "\n" + funcBean.getNomeFunc());
                 } else {
                     LogProcessoDAO.getInstance().insertLogProcesso("} else {\n" +

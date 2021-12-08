@@ -9,7 +9,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context=".view.LeitorOrdemCargaActivity">
+    tools:context=".view.LeitorOrdemCarregActivity">
 
     <TextView
         android:id="@+id/txtTituloOrdemCarga"
@@ -17,12 +17,12 @@
         android:text="@string/texto_ordem_carga" />
 
     <TextView
-        android:id="@+id/txtRetOrdemCarga"
+        android:id="@+id/txtRetOrdemCarreg"
         style="@style/TextView"
         android:text="@string/texto_nro_ordem_carga" />
 
     <Button
-        android:id="@+id/buttonCaptOrdemCarga"
+        android:id="@+id/buttonCaptOrdemCarreg"
         style="@style/BotaoAvulso"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -34,7 +34,7 @@
         android:layout_height="wrap_content" >
 
         <Button
-            android:id="@+id/buttonOkOrdemCarga"
+            android:id="@+id/buttonOkOrdemCarreg"
             style="@style/BotaoAvulso"
             android:layout_weight="1"
             android:layout_width="fill_parent"
@@ -42,7 +42,7 @@
             android:text="@string/texto_padrao_ok" />
 
         <Button
-            android:id="@+id/buttonCancOrdemCarga"
+            android:id="@+id/buttonCancOrdemCarreg"
             style="@style/BotaoAvulso"
             android:layout_weight="1"
             android:layout_width="fill_parent"

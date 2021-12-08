@@ -8,7 +8,14 @@ import com.j256.ormlite.android.apptools.OrmLiteSqliteOpenHelper;
 import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableUtils;
 
+import br.com.usinasantafe.pcb.model.bean.estaticas.BagCarregBean;
+import br.com.usinasantafe.pcb.model.bean.estaticas.FuncBean;
+import br.com.usinasantafe.pcb.model.bean.estaticas.OrdemCarregBean;
+import br.com.usinasantafe.pcb.model.bean.variaveis.CabecCarregBean;
 import br.com.usinasantafe.pcb.model.bean.variaveis.ConfigBean;
+import br.com.usinasantafe.pcb.model.bean.variaveis.ItemCarregBean;
+import br.com.usinasantafe.pcb.model.bean.variaveis.LogErroBean;
+import br.com.usinasantafe.pcb.model.bean.variaveis.LogProcessoBean;
 
 public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 
@@ -41,7 +48,15 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 		
 		try{
 
+			TableUtils.createTable(cs, BagCarregBean.class);
+			TableUtils.createTable(cs, FuncBean.class);
+			TableUtils.createTable(cs, OrdemCarregBean.class);
+
+			TableUtils.createTable(cs, CabecCarregBean.class);
 			TableUtils.createTable(cs, ConfigBean.class);
+			TableUtils.createTable(cs, ItemCarregBean.class);
+			TableUtils.createTable(cs, LogErroBean.class);
+			TableUtils.createTable(cs, LogProcessoBean.class);
 
 		}
 		catch(Exception e){

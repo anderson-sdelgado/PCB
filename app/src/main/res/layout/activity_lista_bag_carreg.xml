@@ -9,28 +9,35 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context=".view.ListaBagActivity">
+    tools:context=".view.ListaBagCarregActivity">
 
     <TextView
-        android:id="@+id/textViewQtdeBag"
+        android:id="@+id/textViewTotalBagCarreg"
         style="@style/TextViewMenuNegrito"
         android:paddingLeft="3dp"
         android:paddingTop="3dp"
-        android:text="@string/texto_qtde_bag" />
+        android:text="@string/texto_total_bag_carreg" />
 
     <TextView
-        android:id="@+id/textViewDthrInicial"
+        android:id="@+id/textViewQtdeBagAdd"
+        style="@style/TextViewMenuNegrito"
+        android:paddingLeft="3dp"
+        android:text="@string/texto_qtde_bag_carreg" />
+
+    <TextView
+        android:id="@+id/textViewDthr"
         style="@style/TextViewMenuNormal"
         android:paddingLeft="3dp"
+        android:paddingBottom="3dp"
         android:text="@string/texto_dthr_inicial" />
 
     <TextView
-        android:id="@+id/textViewListaBag"
+        android:id="@+id/textViewTituloListaBag"
         style="@style/TextViewTituloLista"
         android:text="@string/texto_titulo_lista_bag" />
 
     <ListView
-        android:id="@+id/passageiroListView"
+        android:id="@+id/bagListView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1" />
@@ -41,21 +48,28 @@
         android:text="@string/texto_item_list" />
 
     <Button
-        android:id="@+id/buttonLeituraBag"
+        android:id="@+id/buttonLeituraBagCarreg"
         style="@style/BotaoAvulso"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/texto_leitura_bag" />
 
     <Button
-        android:id="@+id/buttonDigBag"
+        android:id="@+id/buttonDigBagCarreg"
         style="@style/BotaoAvulso"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/texto_dig_bag" />
 
     <Button
-        android:id="@+id/buttonFinalizarCarga"
+        android:id="@+id/buttonLog"
+        style="@style/BotaoAvulso"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/texto_log" />
+
+    <Button
+        android:id="@+id/buttonFinalizarCarreg"
         style="@style/BotaoAvulso"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

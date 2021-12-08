@@ -7,11 +7,16 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import br.com.usinasantafe.pcb.model.bean.AtualAplicBean;
 import br.com.usinasantafe.pcb.model.bean.variaveis.ConfigBean;
+import br.com.usinasantafe.pcb.model.bean.variaveis.LogErroBean;
+import br.com.usinasantafe.pcb.model.bean.variaveis.LogProcessoBean;
 import br.com.usinasantafe.pcb.model.dao.AtualAplicDAO;
+import br.com.usinasantafe.pcb.model.dao.CabecCarregDAO;
 import br.com.usinasantafe.pcb.model.dao.ConfigDAO;
+import br.com.usinasantafe.pcb.model.dao.ItemCarregDAO;
 import br.com.usinasantafe.pcb.model.dao.LogErroDAO;
 import br.com.usinasantafe.pcb.model.dao.LogProcessoDAO;
 import br.com.usinasantafe.pcb.util.AtualDadosServ;
@@ -55,9 +60,9 @@ public class ConfigCTR {
         return configDAO.verSenha(senha);
     }
 
-    public void salvarConfig(String senha){
+    public void salvarConfig(Long nroAparelho, String senha){
         ConfigDAO configDAO = new ConfigDAO();
-        configDAO.salvarConfig(senha);
+        configDAO.salvarConfig(nroAparelho, senha);
     }
 
     ////////////////////////////////////// ATUALIZAR DADOS ////////////////////////////////////////
@@ -75,9 +80,9 @@ public class ConfigCTR {
             case "Func":
                 classeArrayList.add("FuncBean");
                 break;
-            case "OrdemCarga":
-                classeArrayList.add("OrdemCargaBean");
-                classeArrayList.add("BagCargaBean");
+            case "OrdemCarreg":
+                classeArrayList.add("OrdemCarregBean");
+                classeArrayList.add("BagCarregBean");
                 break;
         }
         LogProcessoDAO.getInstance().insertLogProcesso("AtualDadosServ.getInstance().atualGenericoBD(telaAtual, telaProx, progressDialog, classeArrayList, tipoReceb, activity);", activity);
@@ -121,12 +126,37 @@ public class ConfigCTR {
 
     /////////////////////////////////////////// LOG ///////////////////////////////////////////////
 
+
+    /////////////////////////////////////////// LOG ///////////////////////////////////////////////
+
+    public List<LogProcessoBean> logProcessoList(){
+        LogProcessoDAO logProcessoDAO = new LogProcessoDAO();
+        return logProcessoDAO.logProcessoList();
+    }
+
+    public ArrayList<String> logBaseDadoList(){
+        ArrayList<String> dadosArrayList = new ArrayList<>();
+        CabecCarregDAO cabecCarregDAO = new CabecCarregDAO();
+        ItemCarregDAO itemCarregDAO = new ItemCarregDAO();
+        dadosArrayList = cabecCarregDAO.cabecAllArrayList(dadosArrayList);
+        dadosArrayList = itemCarregDAO.itemCarregAllArrayList(dadosArrayList);
+        return dadosArrayList;
+    }
+
+    public List<LogErroBean> logErroList(){
+        LogErroDAO logErroDAO = new LogErroDAO();
+        return logErroDAO.logErroBeanList();
+    }
+
     public void deleteLogs(){
         LogProcessoDAO logProcessoDAO = new LogProcessoDAO();
         LogErroDAO logErroDAO = new LogErroDAO();
         logProcessoDAO.deleteLogProcesso();
         logErroDAO.deleteLogErro();
     }
+
+    ///////////////////////////////////////////////////////////////////////////////////////////////
+
 
     ///////////////////////////////////////////////////////////////////////////////////////////////
 
