@@ -27,9 +27,17 @@ public class CabecCarregDAO {
     }
 
     public void salvarCabecAberto(){
-        cabecCarregBean.setDthrCabecCarreg(Tempo.getInstance().dthr());
+        Long dthrLong = Tempo.getInstance().dthr();
+        cabecCarregBean.setDthrCabecCarreg(Tempo.getInstance().dthr(dthrLong));
+        cabecCarregBean.setDthrLongCabecCarreg(dthrLong);
         cabecCarregBean.setStatusCabecCarreg(1L);
         cabecCarregBean.insert();
+    }
+
+    public void fecharCabec(){
+        CabecCarregBean cabecCarregBean = getCabecAberto();
+        cabecCarregBean.setStatusCabecCarreg(2L);
+        cabecCarregBean.update();
     }
 
     public CabecCarregBean getCabecAberto() {
@@ -70,6 +78,16 @@ public class CabecCarregDAO {
     public List<CabecCarregBean> cabecCarregFechadoList(){
         CabecCarregBean cabecCarregBean = new CabecCarregBean();
         return cabecCarregBean.get("statusCabecCarreg", 2L);
+    }
+
+    public List<CabecCarregBean> cabecCarregEnviadoList(){
+        CabecCarregBean cabecCarregBean = new CabecCarregBean();
+        return cabecCarregBean.get("statusCabecCarreg", 3L);
+    }
+
+    public List<CabecCarregBean> cabecCarregListId(Long idCabecCarreg){
+        CabecCarregBean cabecCarregBean = new CabecCarregBean();
+        return cabecCarregBean.get("idCabecCarreg", idCabecCarreg);
     }
 
     public String dadosEnvioCabecAberto(){
@@ -135,6 +153,28 @@ public class CabecCarregDAO {
     private String dadosBolMMFert(CabecCarregBean cabecCarregBean){
         Gson gsonCabec = new Gson();
         return gsonCabec.toJsonTree(cabecCarregBean, cabecCarregBean.getClass()).toString();
+    }
+
+    public ArrayList<CabecCarregBean> cabecEnviadoExcluirArrayList(){
+
+        List<CabecCarregBean> boletimMMFertList = cabecCarregEnviadoList();
+
+        ArrayList<CabecCarregBean> boletimMMFertArrayList = new ArrayList<>();
+        for (CabecCarregBean boletimMMFertBeanBD : boletimMMFertList) {
+            if(boletimMMFertBeanBD.getDthrLongCabecCarreg() < Tempo.getInstance().dthrLongDia1Menos()) {
+                boletimMMFertArrayList.add(boletimMMFertBeanBD);
+            }
+        }
+        boletimMMFertList.clear();
+        return boletimMMFertArrayList;
+
+    }
+
+    public void deleteCabecCarreg(Long idCabecCarreg){
+        List<CabecCarregBean> cabecCarregList = cabecCarregListId(idCabecCarreg);
+        CabecCarregBean cabecCarregBean = cabecCarregList.get(0);
+        cabecCarregBean.delete();
+        cabecCarregList.clear();
     }
 
 }

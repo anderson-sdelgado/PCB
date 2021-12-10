@@ -27,7 +27,7 @@ public class ItemCarregDAO {
     }
 
     public int qtdeItemCarreg(Long idCabec){
-        List<ItemCarregBean> itemCarregList = itemCarregListId(idCabec);
+        List<ItemCarregBean> itemCarregList = itemCarregListIdCabec(idCabec);
         int qtde = itemCarregList.size();
         itemCarregList.clear();
         return qtde;
@@ -40,19 +40,51 @@ public class ItemCarregDAO {
         return ret;
     }
 
-    public List<ItemCarregBean> itemCarregListId(Long idCabec){
+    public boolean verItemCarregNEnviado(Long idCabecCarreg){
+        List<ItemCarregBean> itemCarregList = itemEnvioList(idCabecCarreg);
+        boolean ret = itemCarregList.size() > 0;
+        itemCarregList.clear();
+        return ret;
+    }
+
+    public boolean verBagRepetido(Long idCabecItemCarreg, Long idRegMedPesBagCarreg){
+
+        ArrayList pesqArrayList = new ArrayList();
+        pesqArrayList.add(getPesqIdCabec(idCabecItemCarreg));
+        pesqArrayList.add(getPesqIdReg(idRegMedPesBagCarreg));
+
+        ItemCarregBean itemCarregBean = new ItemCarregBean();
+        List<ItemCarregBean> itemCarregList = itemCarregBean.get(pesqArrayList);
+        boolean ret = itemCarregList.size() == 0;
+        itemCarregList.clear();
+        pesqArrayList.clear();
+        return ret;
+    }
+
+    public List<ItemCarregBean> itemCarregListIdCabec(Long idCabec){
         ItemCarregBean itemCarregBean = new ItemCarregBean();
         return itemCarregBean.get("idCabecItemCarreg", idCabec);
     }
 
-    public List<ItemCarregBean> itemCarregList(ArrayList<Long> idCabecArrayList){
+    public List<ItemCarregBean> itemCarregListId(ArrayList<Long> idItemCarregArrayList){
         ItemCarregBean itemCarregBean = new ItemCarregBean();
-        return itemCarregBean.in("idCabecItemCarreg", idCabecArrayList);
+        return itemCarregBean.in("idItemCarreg", idItemCarregArrayList);
     }
 
     private List<ItemCarregBean> itemCarregNEnviado(){
         ItemCarregBean itemCarregBean = new ItemCarregBean();
         return itemCarregBean.get("statusItemCarreg", 1L);
+    }
+
+    public List<ItemCarregBean> itemEnvioList(Long idCabecItemCarreg){
+
+        ArrayList pesqArrayList = new ArrayList();
+        pesqArrayList.add(getPesqStatusItem());
+        pesqArrayList.add(getPesqIdCabec(idCabecItemCarreg));
+
+        ItemCarregBean itemCarregBean = new ItemCarregBean();
+        return itemCarregBean.get(pesqArrayList);
+
     }
 
     public List<ItemCarregBean> itemEnvioList(ArrayList<Long> idCabecList){
@@ -85,7 +117,7 @@ public class ItemCarregDAO {
 
     public void updateItem(ArrayList<Long> idItemArrayList){
 
-        List<ItemCarregBean> itemList = itemCarregList(idItemArrayList);
+        List<ItemCarregBean> itemList = itemCarregListId(idItemArrayList);
 
         for (int i = 0; i < itemList.size(); i++) {
             ItemCarregBean itemCarregBean = itemList.get(i);
@@ -96,6 +128,14 @@ public class ItemCarregDAO {
         itemList.clear();
         idItemArrayList.clear();
 
+    }
+
+    public ArrayList<Long> idItemArrayList(List<ItemCarregBean> apontMMFertList){
+        ArrayList<Long> idApontList = new ArrayList<Long>();
+        for (ItemCarregBean itemCarregBean : apontMMFertList) {
+            idApontList.add(itemCarregBean.getIdItemCarreg());
+        }
+        return idApontList;
     }
 
     public ArrayList<Long> idItemArrayList(String objeto) throws Exception {
@@ -114,6 +154,22 @@ public class ItemCarregDAO {
 
         return idItemArrayList;
 
+    }
+
+    private EspecificaPesquisa getPesqIdCabec(Long idCabecItemCarreg){
+        EspecificaPesquisa pesquisa = new EspecificaPesquisa();
+        pesquisa.setCampo("idCabecItemCarreg");
+        pesquisa.setValor(idCabecItemCarreg);
+        pesquisa.setTipo(1);
+        return pesquisa;
+    }
+
+    private EspecificaPesquisa getPesqIdReg(Long idRegMedPesBagCarreg){
+        EspecificaPesquisa pesquisa = new EspecificaPesquisa();
+        pesquisa.setCampo("idRegMedPesBagCarreg");
+        pesquisa.setValor(idRegMedPesBagCarreg);
+        pesquisa.setTipo(1);
+        return pesquisa;
     }
 
     private EspecificaPesquisa getPesqStatusItem(){
@@ -138,6 +194,19 @@ public class ItemCarregDAO {
     private String dadosApont(ItemCarregBean itemCarregBean){
         Gson gsonItemImp = new Gson();
         return gsonItemImp.toJsonTree(itemCarregBean, itemCarregBean.getClass()).toString();
+    }
+
+    public void deleteItemCabec(ArrayList<Long> idItemCabecArrayList){
+
+        List<ItemCarregBean> itemCabecList = itemCarregListId(idItemCabecArrayList);
+
+        for (ItemCarregBean itemCarregBean : itemCabecList) {
+            itemCarregBean.delete();
+        }
+
+        itemCabecList.clear();
+        idItemCabecArrayList.clear();
+
     }
 
 }

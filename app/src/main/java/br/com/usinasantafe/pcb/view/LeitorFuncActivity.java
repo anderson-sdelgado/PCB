@@ -53,7 +53,7 @@ public class LeitorFuncActivity extends ActivityGeneric {
 
                 if (funcBean.getMatricFunc() > 0) {
 
-                    pcbContext.getCarregCTR().getCabecCargaDAO().getCabecCargaBean().setIdFuncCabecCarreg(funcBean.getMatricFunc());
+                    pcbContext.getCarregCTR().getCabecCargaDAO().getCabecCargaBean().setIdFuncCabecCarreg(funcBean.getIdFunc());
 
                     LogProcessoDAO.getInstance().insertLogProcesso("                if (funcBean.getMatricFunc() > 0) {\n" +
                             "                    pcbContext.getCargaCTR().getCabecCargaDAO().getCabecCargaBean().setMatricFuncCabecCarga(funcBean.getMatricFunc());\n" +

@@ -36,10 +36,12 @@ public class ConfigActivity extends ActivityGeneric {
 
         pcbContext = (PCBContext) getApplication();
 
-        if(pcbContext.getConfigCTR().hasElemConfig()) {
+        if (!pcbContext.getConfigCTR().getConfig().getSenhaConfig().equals("")) {
             LogProcessoDAO.getInstance().insertLogProcesso("if(pcbContext.getConfigCTR().hasElemConfig()) {\n" +
-                    "            editTextLinhaConfig.setText(String.valueOf(pcbContext.getConfigCTR().getConfig().getNroAparelhoConfig()));", getLocalClassName());
+                    "            editTextLinhaConfig.setText(String.valueOf(pcbContext.getConfigCTR().getConfig().getNroAparelhoConfig()));\n" +
+                    "editTextSenhaConfig.setText(String.valueOf(pcbContext.getConfigCTR().getConfig().getSenhaConfig()));", getLocalClassName());
             editTextLinhaConfig.setText(String.valueOf(pcbContext.getConfigCTR().getConfig().getNroAparelhoConfig()));
+            editTextSenhaConfig.setText(String.valueOf(pcbContext.getConfigCTR().getConfig().getSenhaConfig()));
         }
 
         buttonAtualizarBD.setOnClickListener(new View.OnClickListener() {
@@ -102,7 +104,7 @@ public class ConfigActivity extends ActivityGeneric {
                         "            public void onClick(View v) {", getLocalClassName());
                 if(!editTextLinhaConfig.getText().toString().equals("")
                     && !editTextSenhaConfig.getText().toString().equals("")) {
-                    pcbContext.getConfigCTR().salvarConfig(Long.parseLong(editTextLinhaConfig.getText().toString()), editTextLinhaConfig.getText().toString());
+                    pcbContext.getConfigCTR().salvarConfig(Long.parseLong(editTextLinhaConfig.getText().toString()), editTextSenhaConfig.getText().toString());
                     LogProcessoDAO.getInstance().insertLogProcesso("if(!editTextLinhaConfig.getText().toString().equals(\"\")\n" +
                             "                    && !editTextSenhaConfig.getText().toString().equals(\"\")) {\n" +
                             "                    pcbContext.getConfigCTR().salvarConfig(Long.parseLong(editTextLinhaConfig.getText().toString()), editTextLinhaConfig.getText().toString());\n" +

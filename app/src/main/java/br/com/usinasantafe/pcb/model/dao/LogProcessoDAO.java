@@ -18,11 +18,12 @@ public class LogProcessoDAO {
     }
 
     public void insertLogProcesso(String processo, String activity){
+        Long dthrLong = Tempo.getInstance().dthr();
         LogProcessoBean logProcessoBean = new LogProcessoBean();
         logProcessoBean.setProcesso(processo);
         logProcessoBean.setActivity(activity);
-        logProcessoBean.setDthr(Tempo.getInstance().dthr());
-        logProcessoBean.setDthrLong(Tempo.getInstance().dthrStringToLong(Tempo.getInstance().dthr()));
+        logProcessoBean.setDthr(Tempo.getInstance().dthr(dthrLong));
+        logProcessoBean.setDthrLong(dthrLong);
         logProcessoBean.insert();
     }
 

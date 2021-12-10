@@ -1,5 +1,7 @@
 package br.com.usinasantafe.pcb.util;
 
+import android.util.Log;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -51,7 +53,6 @@ public class EnvioDadosServ {
         String[] strings = {url, activity};
         Map<String, Object> parametrosPost = new HashMap<String, Object>();
         parametrosPost.put("dado", dados);
-
         LogProcessoDAO.getInstance().insertLogProcesso("postCadGenerico.execute('" + url + "'); - Dados de Envio = " + dados, activity);
         PostCadGenerico postCadGenerico = new PostCadGenerico();
         postCadGenerico.setParametrosPost(parametrosPost);
@@ -62,9 +63,9 @@ public class EnvioDadosServ {
 
     //////////////////////////////////VERIFICAÇÃO DE DADOS/////////////////////////////////////////
 
-    public boolean verifCabecAberto() {
+    public boolean verCabecAbertoItemEnvio() {
         CarregCTR carregCTR = new CarregCTR();
-        return carregCTR.verCabecAberto();
+        return carregCTR.verCabecAbertoItemEnvio();
     }
 
     public boolean verifCabecFechado() {
@@ -86,18 +87,23 @@ public class EnvioDadosServ {
         if(ActivityGeneric.connectNetwork) {
             LogProcessoDAO.getInstance().insertLogProcesso("ActivityGeneric.connectNetwork", activity);
             status = 2;
-            if (verifCabecFechado()) {
-                LogProcessoDAO.getInstance().insertLogProcesso("if (verifCabecFechado()) {\n" +
-                        "enviarBolFechadoMMFert()", activity);
-                enviarCabecFechado(activity);
-            } else {
-                if (verifCabecAberto()) {
-                    LogProcessoDAO.getInstance().insertLogProcesso("if (verifCabecAberto()) {\n" +
-                            "enviarBolAbertoMMFert()", activity);
-                    enviarCabecAberto(activity);
+            if(verifDadosEnvio()){
+                if (verifCabecFechado()) {
+                    LogProcessoDAO.getInstance().insertLogProcesso("if (verifCabecFechado()) {\n" +
+                            "enviarBolFechadoMMFert()", activity);
+                    enviarCabecFechado(activity);
                 } else {
-                    status = 3;
+                    if (verCabecAbertoItemEnvio()) {
+                        LogProcessoDAO.getInstance().insertLogProcesso("if (verifCabecAberto()) {\n" +
+                                "enviarBolAbertoMMFert()", activity);
+                        enviarCabecAberto(activity);
+                    } else {
+                        status = 3;
+                    }
                 }
+            }
+            else{
+                status = 3;
             }
         }
     }

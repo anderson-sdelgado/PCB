@@ -37,7 +37,7 @@ public class SenhaActivity extends ActivityGeneric {
                         "            public void onClick(View v) {", getLocalClassName());
                 if (pcbContext.getConfigCTR().getConfig().getPosicaoTela() == 2L){
                     LogProcessoDAO.getInstance().insertLogProcesso("if (pcbContext.getConfigCTR().getConfig().getPosicaoTela() == 2L){", getLocalClassName());
-                    if (!pcbContext.getConfigCTR().hasElemConfig()) {
+                    if (pcbContext.getConfigCTR().getConfig().getSenhaConfig().equals("")) {
                         LogProcessoDAO.getInstance().insertLogProcesso("if (!pmmContext.getConfigCTR().hasElemConfig()) {\n" +
                                 "Intent it = new Intent(SenhaActivity.this, ConfigActivity.class);", getLocalClassName());
                         Intent it = new Intent(SenhaActivity.this, ConfigActivity.class);
@@ -45,7 +45,7 @@ public class SenhaActivity extends ActivityGeneric {
                         finish();
                     }
                     else if(pcbContext.getConfigCTR().verSenha(editTextSenha.getText().toString())) {
-                        LogProcessoDAO.getInstance().insertLogProcesso("if (pmmContext.getConfigCTR().verSenha(editTextSenha.getText().toString())) {\n" +
+                        LogProcessoDAO.getInstance().insertLogProcesso("else if(pcbContext.getConfigCTR().verSenha(editTextSenha.getText().toString())) {\n" +
                                 "Intent it = new Intent(SenhaActivity.this, ConfigActivity.class);", getLocalClassName());
                         Intent it = new Intent(SenhaActivity.this, ConfigActivity.class);
                         startActivity(it);
@@ -75,20 +75,23 @@ public class SenhaActivity extends ActivityGeneric {
                 if (pcbContext.getConfigCTR().getConfig().getPosicaoTela() == 2L) {
                     LogProcessoDAO.getInstance().insertLogProcesso("if (pcbContext.getConfigCTR().getConfig().getPosicaoTela() == 2L) {\n" +
                             "                    Intent it = new Intent(SenhaActivity.this, MenuInicialActivity.class);", getLocalClassName());
-                    Intent it = new Intent(SenhaActivity.this, MenuInicialActivity.class);
+                    Intent it = new Intent(SenhaActivity.this, TelaInicialActivity.class);
+                    startActivity(it);
+                    finish();
+                }
+                else if (pcbContext.getConfigCTR().getConfig().getPosicaoTela() == 3L){
+                    LogProcessoDAO.getInstance().insertLogProcesso("else if (pcbContext.getConfigCTR().getConfig().getPosicaoTela() == 3L){\n" +
+                            "                        Intent it = new Intent(SenhaActivity.this, TelaInicialActivity.class);", getLocalClassName());
+                    Intent it = new Intent(SenhaActivity.this, TelaInicialActivity.class);
                     startActivity(it);
                     finish();
                 }
                 else{
-                    LogProcessoDAO.getInstance().insertLogProcesso("}\n" +
-                            "                else{", getLocalClassName());
-                    if (pcbContext.getConfigCTR().getConfig().getPosicaoTela() == 3L){
-                        LogProcessoDAO.getInstance().insertLogProcesso("if (pcbContext.getConfigCTR().getConfig().getPosicaoTela() == 3L){\n" +
-                                "                        Intent it = new Intent(SenhaActivity.this, TelaInicialActivity.class);", getLocalClassName());
-                        Intent it = new Intent(SenhaActivity.this, TelaInicialActivity.class);
-                        startActivity(it);
-                        finish();
-                    }
+                    LogProcessoDAO.getInstance().insertLogProcesso("}else{\n" +
+                            "                        Intent it = new Intent(SenhaActivity.this, ListaBagCarregActivity.class);", getLocalClassName());
+                    Intent it = new Intent(SenhaActivity.this, ListaBagCarregActivity.class);
+                    startActivity(it);
+                    finish();
                 }
             }
 

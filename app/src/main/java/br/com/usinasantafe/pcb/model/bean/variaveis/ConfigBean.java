@@ -24,7 +24,8 @@ public class ConfigBean extends Entidade {
     private Long posicaoTela;
     // 1 - Inicio do Boletim;
     // 2 - Configuracao;
-    // 3 - Log;
+    // 3 - Log Menu Inicial;
+    // 4 - Log Lista de Bag;
 
     public ConfigBean() {
     }

@@ -63,16 +63,19 @@ public class ConfigDAO {
         return ret;
     }
 
-    public void setNroAparelhoConfig(Long nroAparelho){
-        ConfigBean configBean = getConfig();
-        configBean.setNroAparelhoConfig(nroAparelho);
-        configBean.update();
-    }
-
     public void setPosicaoTela(Long posicaoTela){
-        ConfigBean configBean = getConfig();
-        configBean.setPosicaoTela(posicaoTela);
-        configBean.update();
+        if(hasElements()){
+            ConfigBean configBean = getConfig();
+            configBean.setPosicaoTela(posicaoTela);
+            configBean.update();
+        }
+        else{
+            ConfigBean configBean = new ConfigBean();
+            configBean.setPosicaoTela(posicaoTela);
+            configBean.setSenhaConfig("");
+            configBean.insert();
+            configBean.commit();
+        }
     }
 
     public void setStatusRetVerif(Long statusRetVerif){

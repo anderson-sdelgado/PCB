@@ -128,7 +128,7 @@ public class DigFuncActivity extends ActivityGeneric {
                         LogProcessoDAO.getInstance().insertLogProcesso("if (pmmContext.getMotoMecFertCTR().verFunc(Long.parseLong(editTextPadrao.getText().toString()))) {\n" +
                                 "pmmContext.getMotoMecFertCTR().getBoletimMMFertDAO().setBoletimMMBean();\n" +
                                 "                        pmmContext.getMotoMecFertCTR().getBoletimMMFertDAO().getBoletimMMFertBean().setMatricFuncBolMMFert(Long.parseLong(editTextPadrao.getText().toString()));", getLocalClassName());
-                        pcbContext.getCarregCTR().getCabecCargaDAO().getCabecCargaBean().setIdFuncCabecCarreg(Long.parseLong(editTextPadrao.getText().toString()));
+                        pcbContext.getCarregCTR().getCabecCargaDAO().getCabecCargaBean().setIdFuncCabecCarreg(pcbContext.getCarregCTR().getFuncMatric(Long.parseLong(editTextPadrao.getText().toString())).getIdFunc());
 
                         LogProcessoDAO.getInstance().insertLogProcesso("Intent it = new Intent(OperadorActivity.this, EquipActivity.class);", getLocalClassName());
                         Intent it = new Intent(DigFuncActivity.this, ListaOrdemCarregActivity.class);

@@ -129,7 +129,7 @@ public class DigBagCarregActivity extends ActivityGeneric {
                         LogProcessoDAO.getInstance().insertLogProcesso("if (pmmContext.getMotoMecFertCTR().verFunc(Long.parseLong(editTextPadrao.getText().toString()))) {\n" +
                                 "pmmContext.getMotoMecFertCTR().getBoletimMMFertDAO().setBoletimMMBean();\n" +
                                 "                        pmmContext.getMotoMecFertCTR().getBoletimMMFertDAO().getBoletimMMFertBean().setMatricFuncBolMMFert(Long.parseLong(editTextPadrao.getText().toString()));", getLocalClassName());
-                        pcbContext.getCarregCTR().inserirItemCarreg(editTextPadrao.getText().toString());
+                        pcbContext.getCarregCTR().inserirItemCarreg(editTextPadrao.getText().toString(), getLocalClassName());
 
                         LogProcessoDAO.getInstance().insertLogProcesso("Intent it = new Intent(OperadorActivity.this, EquipActivity.class);", getLocalClassName());
                         Intent it = new Intent(DigBagCarregActivity.this, ListaBagCarregActivity.class);

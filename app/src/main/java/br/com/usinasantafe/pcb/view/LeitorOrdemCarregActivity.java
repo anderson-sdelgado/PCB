@@ -5,6 +5,7 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -29,11 +30,11 @@ public class LeitorOrdemCarregActivity extends ActivityGeneric {
 
         pcbContext = (PCBContext) getApplication();
 
-        txtRetOrdemCarreg = (TextView) findViewById(R.id.txtRetOrdemCarreg);
-        Button buttonOkOrdemCarga = (Button) findViewById(R.id.buttonOkOrdemCarreg);
-        Button buttonCancOrdemCarga = (Button) findViewById(R.id.buttonCancOrdemCarreg);
-        Button buttonAtualPadrao = (Button) findViewById(R.id.buttonAtualPadrao);
-        Button buttonCaptOrdemCarga = (Button) findViewById(R.id.buttonCaptOrdemCarreg);
+        txtRetOrdemCarreg = findViewById(R.id.txtRetOrdemCarreg);
+        Button buttonOkOrdemCarga = findViewById(R.id.buttonOkOrdemCarreg);
+        Button buttonCancOrdemCarga = findViewById(R.id.buttonCancOrdemCarreg);
+        Button buttonAtualPadrao = findViewById(R.id.buttonAtualPadrao);
+        Button buttonCaptOrdemCarga = findViewById(R.id.buttonCaptOrdemCarreg);
 
         ordemCarregBean = new OrdemCarregBean();
         ordemCarregBean.setIdOrdemCarreg(0L);
@@ -52,9 +53,9 @@ public class LeitorOrdemCarregActivity extends ActivityGeneric {
                 if (ordemCarregBean.getIdOrdemCarreg() > 0L) {
                     LogProcessoDAO.getInstance().insertLogProcesso("if (ordemCarregBean.getIdOrdemCarreg() > 0L) {\n" +
                             "                    pcbContext.getCargaCTR().getCabecCargaDAO().getCabecCargaBean().setIdOrdemCargaCabecCarga(ordemCargaBean.getIdOrdemCarga());\n" +
-                            "                    Intent it = new Intent(LeitorOrdemCargaActivity.this, ListaOrdemCarregActivity.class);", getLocalClassName());
+                            "                    Intent it = new Intent(LeitorOrdemCargaActivity.this, DetalhesOrdemCarregActivity.class);", getLocalClassName());
                     pcbContext.getCarregCTR().getCabecCargaDAO().getCabecCargaBean().setIdOrdemCabecCarreg(ordemCarregBean.getIdOrdemCarreg());
-                    Intent it = new Intent(LeitorOrdemCarregActivity.this, ListaOrdemCarregActivity.class);
+                    Intent it = new Intent(LeitorOrdemCarregActivity.this, DetalhesOrdemCarregActivity.class);
                     startActivity(it);
                     finish();
                 }
@@ -186,9 +187,7 @@ public class LeitorOrdemCarregActivity extends ActivityGeneric {
                     "            String nroOrdemCarga = data.getStringExtra(\"SCAN_RESULT\");", getLocalClassName());
             String nroOrdemCarga = data.getStringExtra("SCAN_RESULT");
             if (nroOrdemCarga.length() == 7) {
-                LogProcessoDAO.getInstance().insertLogProcesso("if (nroOrdemCarga.length() == 7) {\n" +
-                        "nroOrdemCarga = nroOrdemCarga.substring(0, 6);", getLocalClassName());
-                nroOrdemCarga = nroOrdemCarga.substring(0, 6);
+                LogProcessoDAO.getInstance().insertLogProcesso("if (nroOrdemCarga.length() == 7) {", getLocalClassName());
                 if (pcbContext.getCarregCTR().verOrdemCarregTicket(nroOrdemCarga)) {
                     LogProcessoDAO.getInstance().insertLogProcesso("if (pcbContext.getCargaCTR().verOrdemCargaNro(nroOrdemCarga)) {\n" +
                             "                    ordemCarregBean = pcbContext.getCargaCTR().getOrdemCargaNro(nroOrdemCarga);\n" +

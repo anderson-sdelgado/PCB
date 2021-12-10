@@ -54,15 +54,15 @@ public class LogProcessoActivity extends ActivityGeneric {
                 LogProcessoDAO.getInstance().insertLogProcesso("buttonRetLogProcesso.setOnClickListener(new View.OnClickListener() {\n" +
                         "            @Override\n" +
                         "            public void onClick(View v) {", getLocalClassName());
-                if (pcbContext.getConfigCTR().getConfig().getPosicaoTela() == 12L){
-                    LogProcessoDAO.getInstance().insertLogProcesso("if (pmmContext.getConfigCTR().getConfig().getPosicaoTela() == 12L){\n" +
+                if (pcbContext.getConfigCTR().getConfig().getPosicaoTela() == 3L){
+                    LogProcessoDAO.getInstance().insertLogProcesso("if (pmmContext.getConfigCTR().getConfig().getPosicaoTela() == 3L){\n" +
                             "Intent it = new Intent(LogProcessoActivity.this, TelaInicialActivity.class);", getLocalClassName());
                     Intent it = new Intent(LogProcessoActivity.this, TelaInicialActivity.class);
                     startActivity(it);
                     finish();
                 }
-                else if (pcbContext.getConfigCTR().getConfig().getPosicaoTela() == 23L){
-                    LogProcessoDAO.getInstance().insertLogProcesso("else if (pmmContext.getConfigCTR().getConfig().getPosicaoTela() == 23L){\n" +
+                else {
+                    LogProcessoDAO.getInstance().insertLogProcesso("} else {\n" +
                             "Intent it = new Intent(LogProcessoActivity.this, MenuPrincPMMActivity.class);", getLocalClassName());
                     Intent it = new Intent(LogProcessoActivity.this, ListaBagCarregActivity.class);
                     startActivity(it);

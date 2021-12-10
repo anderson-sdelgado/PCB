@@ -22,12 +22,13 @@ public class LogErroDAO {
     public void insertLogErro(Throwable ex){
         ConfigCTR configCTR = new ConfigCTR();
         if(configCTR.hasElemConfig()){
+            Long dthrLong = Tempo.getInstance().dthr();
             ConfigBean configBean = configCTR.getConfig();
             LogErroBean logErroBean = new LogErroBean();
             logErroBean.setNroAparelho(configBean.getNroAparelhoConfig());
             logErroBean.setException(throwableToString(ex));
-            logErroBean.setDthr(Tempo.getInstance().dthr());
-            logErroBean.setDthrLong(Tempo.getInstance().dthrStringToLong(Tempo.getInstance().dthr()));
+            logErroBean.setDthr(Tempo.getInstance().dthr(dthrLong));
+            logErroBean.setDthrLong(dthrLong);
             logErroBean.setStatus(1L);
             logErroBean.insert();
         }
@@ -36,12 +37,13 @@ public class LogErroDAO {
     public void insertLogErro(String erro){
         ConfigCTR configCTR = new ConfigCTR();
         if(configCTR.hasElemConfig()){
+            Long dthrLong = Tempo.getInstance().dthr();
             ConfigBean configBean = configCTR.getConfig();
             LogErroBean logErroBean = new LogErroBean();
             logErroBean.setNroAparelho(configBean.getNroAparelhoConfig());
             logErroBean.setException("RETORNO SERVIDOR COM FALHA = " + erro);
-            logErroBean.setDthr(Tempo.getInstance().dthr());
-            logErroBean.setDthrLong(Tempo.getInstance().dthrStringToLong(Tempo.getInstance().dthr()));
+            logErroBean.setDthr(Tempo.getInstance().dthr(dthrLong));
+            logErroBean.setDthrLong(dthrLong);
             logErroBean.setStatus(1L);
             logErroBean.insert();
         }

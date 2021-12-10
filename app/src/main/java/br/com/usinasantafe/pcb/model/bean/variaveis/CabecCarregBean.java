@@ -19,6 +19,8 @@ public class CabecCarregBean extends Entidade {
     @DatabaseField
     private String dthrCabecCarreg;
     @DatabaseField
+    private Long dthrLongCabecCarreg;
+    @DatabaseField
     private Long statusCabecCarreg; // 1 - Aberto; 2 - Fechado
 
     public CabecCarregBean() {
@@ -62,5 +64,13 @@ public class CabecCarregBean extends Entidade {
 
     public void setStatusCabecCarreg(Long statusCabecCarreg) {
         this.statusCabecCarreg = statusCabecCarreg;
+    }
+
+    public Long getDthrLongCabecCarreg() {
+        return dthrLongCabecCarreg;
+    }
+
+    public void setDthrLongCabecCarreg(Long dthrLongCabecCarreg) {
+        this.dthrLongCabecCarreg = dthrLongCabecCarreg;
     }
 }

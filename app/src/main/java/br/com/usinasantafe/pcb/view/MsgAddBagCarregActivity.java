@@ -54,9 +54,8 @@ public class MsgAddBagCarregActivity extends ActivityGeneric {
                         "            @Override\n" +
                         "            public void onClick(View v) {\n" +
                         "                int qtdeRest = pcbContext.getCarregCTR().qtdeRestItemCarreg();", getLocalClassName());
-                int qtdeRest = pcbContext.getCarregCTR().qtdeRestItemCarreg();
-                if(qtdeRest == 0){
-                    LogProcessoDAO.getInstance().insertLogProcesso("if(qtdeRest == 0){\n" +
+                if(pcbContext.getCarregCTR().qtdeRestItemCarreg() > 0){
+                    LogProcessoDAO.getInstance().insertLogProcesso("if(qtdeRest > 0){\n" +
                             "                    Intent it = new Intent(MsgAddBagCarregActivity.this, CaptureActivity.class);\n" +
                             "                    startActivityForResult(it, REQUEST_CODE);", getLocalClassName());
                     Intent it = new Intent(MsgAddBagCarregActivity.this, CaptureActivity.class);
@@ -115,7 +114,7 @@ public class MsgAddBagCarregActivity extends ActivityGeneric {
             LogProcessoDAO.getInstance().insertLogProcesso("if(pcbContext.getCarregCTR().verBagCarregCodBarra(pcbContext.getCodBarraBagLido())){\n" +
                     "            pcbContext.getCarregCTR().inserirItemCarreg(pcbContext.getCodBarraBagLido());\n" +
                     "            msgBag = msgBag + \"NUMERAÇÃO DE BAG \" + pcbContext.getCodBarraBagLido();", getLocalClassName());
-            pcbContext.getCarregCTR().inserirItemCarreg(pcbContext.getCodBarraBagLido());
+            pcbContext.getCarregCTR().inserirItemCarreg(pcbContext.getCodBarraBagLido(), getLocalClassName());
             msgBag = msgBag + "NUMERAÇÃO DE BAG " + pcbContext.getCodBarraBagLido();
         }
         else{
@@ -124,10 +123,9 @@ public class MsgAddBagCarregActivity extends ActivityGeneric {
             msgBag = msgBag + "NUMERAÇÃO DE BAG INVÁLIDA!";
         }
 
-        int qtdeRest = pcbContext.getCarregCTR().qtdeRestItemCarreg();
-        LogProcessoDAO.getInstance().insertLogProcesso("int qtdeRest = pcbContext.getCarregCTR().qtdeRestItemCarreg();", getLocalClassName());
-        if(qtdeRest == 0){
-            LogProcessoDAO.getInstance().insertLogProcesso("if(qtdeRest == 0){\n" +
+
+        if(pcbContext.getCarregCTR().qtdeRestItemCarreg() == 0){
+            LogProcessoDAO.getInstance().insertLogProcesso("if(pcbContext.getCarregCTR().qtdeRestItemCarreg() == 0){\n" +
                     "            msgBag = msgBag + \"\\nCARGA COMPLETA!\" +\n" +
                     "                    \"\\nPOR FAVOR, FINALIZE A CARREGAMENTO CLICANDO NO BOTÃO 'NÃO'.\";", getLocalClassName());
             msgBag = msgBag + "\nCARGA COMPLETA!" +
@@ -137,7 +135,7 @@ public class MsgAddBagCarregActivity extends ActivityGeneric {
             LogProcessoDAO.getInstance().insertLogProcesso("else{\n" +
                     "            msgBag = msgBag + \"\\nFALTA \" + qtdeRest + \" BAG(S) PARA FECHA O CARREGAMENTO.\" +\n" +
                     "                    \"\\nDESEJA ADICIONAR MAIS UM BAG NA CARGA?\";", getLocalClassName());
-            msgBag = msgBag + "\nFALTA " + qtdeRest + " BAG(S) PARA FECHA O CARREGAMENTO." +
+            msgBag = msgBag + "\nFALTA " + pcbContext.getCarregCTR().qtdeRestItemCarreg() + " BAG(S) PARA FECHA O CARREGAMENTO." +
                     "\nDESEJA ADICIONAR MAIS UM BAG NA CARGA?";
         }
 

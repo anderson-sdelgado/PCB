@@ -4,8 +4,8 @@ import br.com.usinasantafe.pcb.PCBContext;
 
 public class UrlsConexaoHttp {
 
-    public static String urlPrincipal = "http://www.usinasantafe.com.br/pcbdev/view/";
-    public static String urlPrincEnvio = "http://www.usinasantafe.com.br/pcbdev/view/";
+    public static String urlPrincipal = "http://www.usinasantafe.com.br/pcbqa/view/";
+    public static String urlPrincEnvio = "http://www.usinasantafe.com.br/pcbqa/view/";
 
     public static String localPSTEstatica = "br.com.usinasantafe.pcb.model.bean.estaticas.";
     public static String localUrl = "br.com.usinasantafe.pcb.util.connHttp.UrlsConexaoHttp";

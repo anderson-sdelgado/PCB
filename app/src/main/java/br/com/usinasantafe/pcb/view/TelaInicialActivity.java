@@ -77,11 +77,21 @@ public class TelaInicialActivity extends ActivityGeneric {
         if (connectNetwork) {
             LogProcessoDAO.getInstance().insertLogProcesso("if (connectNetwork) {", getLocalClassName());
             if (pcbContext.getConfigCTR().hasElemConfig()) {
-                LogProcessoDAO.getInstance().insertLogProcesso("pmmContext.getConfigCTR().hasElemConfig()\n" +
-                        "                customHandler.postDelayed(updateTimerThread, 10000);", getLocalClassName());
-                customHandler.postDelayed(encerraAtualThread, 10000);
-                LogProcessoDAO.getInstance().insertLogProcesso("pmmContext.getConfigCTR().verAtualAplic(pmmContext.versaoAplic, this, getLocalClassName());", getLocalClassName());
-                pcbContext.getConfigCTR().verAtualAplic(pcbContext.versaoAplic, this, getLocalClassName());
+                LogProcessoDAO.getInstance().insertLogProcesso("if (pcbContext.getConfigCTR().hasElemConfig()) {", getLocalClassName());
+                if(!pcbContext.getConfigCTR().getConfig().getSenhaConfig().equals("")){
+                    LogProcessoDAO.getInstance().insertLogProcesso("if(!pcbContext.getConfigCTR().getConfig().getSenhaConfig().equals(\"\")){\n" +
+                            "                customHandler.postDelayed(updateTimerThread, 10000);\n" +
+                            "pmmContext.getConfigCTR().verAtualAplic(pmmContext.versaoAplic, this, getLocalClassName());", getLocalClassName());
+                    customHandler.postDelayed(encerraAtualThread, 10000);
+                    pcbContext.getConfigCTR().verAtualAplic(pcbContext.versaoAplic, this, getLocalClassName());
+                }
+                else{
+                    LogProcessoDAO.getInstance().insertLogProcesso("else{\n" +
+                            "                VerifDadosServ.status = 3;\n" +
+                            "goMenuInicial();", getLocalClassName());
+                    VerifDadosServ.status = 3;
+                    goMenuInicial();
+                }
             }
             else{
                 LogProcessoDAO.getInstance().insertLogProcesso("else{\n" +

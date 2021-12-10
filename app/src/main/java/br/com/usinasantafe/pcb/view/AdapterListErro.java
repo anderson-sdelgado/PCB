@@ -1,6 +1,7 @@
 package br.com.usinasantafe.pcb.view;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,10 +19,10 @@ import br.com.usinasantafe.pcb.model.bean.variaveis.LogErroBean;
 
 public class AdapterListErro extends BaseAdapter {
 
-    private List itens;
+    private List<LogErroBean> itens;
     private LayoutInflater layoutInflater;
     private TextView textViewErroId;
-    private TextView textViewErroEquip;
+    private TextView textViewErroAparelho;
     private TextView textViewErroDthr;
     private TextView textViewErroDescr;
 
@@ -48,16 +49,16 @@ public class AdapterListErro extends BaseAdapter {
     @Override
     public View getView(int position, View view, ViewGroup parent) {
 
-        view = layoutInflater.inflate(R.layout.activity_item_historico, null);
+        view = layoutInflater.inflate(R.layout.activity_item_log_erro, null);
         textViewErroId = view.findViewById(R.id.textViewErroId);
-        textViewErroEquip = view.findViewById(R.id.textViewErroEquip);
+        textViewErroAparelho = view.findViewById(R.id.textViewErroAparelho);
         textViewErroDthr = view.findViewById(R.id.textViewErroDthr);
         textViewErroDescr = view.findViewById(R.id.textViewErroDescr);
 
         LogErroBean logErroBean = (LogErroBean) itens.get(position);
 
         textViewErroId.setText("ID = " + logErroBean.getIdLogErro());
-        textViewErroEquip.setText("NRO APARELHO = " + logErroBean.getNroAparelho());
+        textViewErroAparelho.setText("NRO APARELHO = " + logErroBean.getNroAparelho());
         textViewErroDthr.setText("DTHR = " + logErroBean.getDthr());
         textViewErroDescr.setText(logErroBean.getException());
 

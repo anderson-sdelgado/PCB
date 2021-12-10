@@ -11,11 +11,21 @@ public class FuncBean extends Entidade {
     private static final long serialVersionUID = 1L;
 
     @DatabaseField(id=true)
+    private Long idFunc;
+    @DatabaseField
     private Long matricFunc;
     @DatabaseField
     private String nomeFunc;
 
     public FuncBean() {
+    }
+
+    public Long getIdFunc() {
+        return idFunc;
+    }
+
+    public void setIdFunc(Long idFunc) {
+        this.idFunc = idFunc;
     }
 
     public Long getMatricFunc() {
@@ -33,5 +43,4 @@ public class FuncBean extends Entidade {
     public void setNomeFunc(String nomeFunc) {
         this.nomeFunc = nomeFunc;
     }
-
 }

@@ -2,7 +2,6 @@ package br.com.usinasantafe.pcb.util;
 
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
 
 import br.com.usinasantafe.pcb.model.dao.LogErroDAO;
 
@@ -19,22 +18,13 @@ public class Tempo {
         return instance;
     }
 
-    public Long dtHr(){
+    public Long dthr(){
         Date dataHora = new Date();
         return dataHora.getTime();
     }
 
-    public String dthr(){
-        return dthrLongToString(dtHr());
-    }
-
-    public String dt(){
-        return dtLongToString(dtHr());
-    }
-
-    public Long dthrAddMinutoLong(Long dthrLong, int minuto){
-        dthrLong = dthrLong + (minuto * 60 * 1000);
-        return dthrLong;
+    public String dthr(Long dthr){
+        return dthrLongToString(dthr);
     }
 
     public boolean verDthrServ(String dthrServ){
@@ -103,7 +93,7 @@ public class Tempo {
         Date dataHoraDig = cal.getTime();
         Long longDtDig =  dataHoraDig.getTime();
 
-        Long dif = longDtDig - dtHr();
+        Long dif = longDtDig - dthr();
 
         return dif;
 
@@ -188,7 +178,7 @@ public class Tempo {
     }
 
     public Long dthrLongDia1Menos(){
-        return Tempo.getInstance().dthrStringToLong(Tempo.getInstance().dthr()) - (1*24*60*60*1000);
+        return dthr() - (1*24*60*60*1000);
     }
 
     public Long dthrStringToLong(String dthrString){
