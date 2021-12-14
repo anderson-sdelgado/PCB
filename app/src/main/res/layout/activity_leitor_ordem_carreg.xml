@@ -27,7 +27,7 @@
         style="@style/BotaoAvulso"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/texto_captura_ordem_carga" />
+        android:text="@string/texto_captura_ticket" />
 
     <LinearLayout
         android:id="@+id/rightRelativeLayout"

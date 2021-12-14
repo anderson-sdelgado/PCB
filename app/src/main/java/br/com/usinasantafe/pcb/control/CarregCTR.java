@@ -38,26 +38,9 @@ public class CarregCTR {
         EnvioDadosServ.getInstance().envioDados(activity);
     }
 
-
     public boolean verCabecAberto(){
         CabecCarregDAO cabecCarregDAO = new CabecCarregDAO();
         return cabecCarregDAO.verCabecAberto();
-    }
-
-    public boolean verCabecAbertoItemEnvio(){
-        CabecCarregDAO cabecCarregDAO = new CabecCarregDAO();
-        if(cabecCarregDAO.verCabecAberto()){
-            ItemCarregDAO itemCarregDAO = new ItemCarregDAO();
-            if(itemCarregDAO.verItemCarregNEnviado(cabecCarregDAO.getCabecAberto().getIdCabecCarreg())){
-                return true;
-            }
-            else{
-               return false;
-            }
-        }
-        else{
-            return false;
-        }
     }
 
     public boolean verCabecFechado(){
@@ -77,7 +60,6 @@ public class CarregCTR {
     public void inserirItemCarreg(String codBarraBag, String activity){
         ItemCarregDAO itemCarregDAO = new ItemCarregDAO();
         itemCarregDAO.inserirItemCarreg(getCabecAberto().getIdCabecCarreg(), getBagCarregCodBarra(codBarraBag).getIdRegMedPesBag());
-        EnvioDadosServ.getInstance().envioDados(activity);
     }
 
     public int qtdeRestItemCarreg(){
@@ -93,11 +75,6 @@ public class CarregCTR {
         CabecCarregDAO cabecCarregDAO = new CabecCarregDAO();
         ItemCarregDAO itemCarregDAO = new ItemCarregDAO();
         return itemCarregDAO.qtdeItemCarreg(cabecCarregDAO.getCabecAberto().getIdCabecCarreg());
-    }
-
-    public boolean verItemCarregNEnviado(){
-        ItemCarregDAO itemCarregDAO = new ItemCarregDAO();
-        return itemCarregDAO.verItemCarregNEnviado();
     }
 
     public ArrayList<String> bagItemCarregArrayList(){
@@ -162,12 +139,17 @@ public class CarregCTR {
     public boolean verBagCarregCodBarra(String codBarra){
         BagCarregDAO bagCarregDAO = new BagCarregDAO();
         OrdemCarregBean ordemCarregBean = getOrdemCargaId(getCabecAberto().getIdOrdemCabecCarreg());
-        if(bagCarregDAO.verBagCarregCodBarra(codBarra, ordemCarregBean.getIdEmprUsuOrdemCarreg(), ordemCarregBean.getIdPeriodProdOrdemCarreg(), ordemCarregBean.getIdEmbProdOrdemCarreg())){
-            BagCarregBean bagCarregBean = bagCarregDAO.getBagCarregCodBarra(codBarra, ordemCarregBean.getIdEmprUsuOrdemCarreg(), ordemCarregBean.getIdPeriodProdOrdemCarreg(), ordemCarregBean.getIdEmbProdOrdemCarreg());
-            ItemCarregDAO itemCarregDAO = new ItemCarregDAO();
-            CabecCarregDAO cabecCarregDAO = new CabecCarregDAO();
-            if(itemCarregDAO.verBagRepetido(cabecCarregDAO.getCabecAberto().getIdCabecCarreg(), bagCarregBean.getIdRegMedPesBag())){
-                return true;
+        if(codBarra.matches("[+-]?\\d*(\\.\\d+)?")){
+            if(bagCarregDAO.verBagCarregCodBarra(codBarra, ordemCarregBean.getIdEmprUsuOrdemCarreg(), ordemCarregBean.getIdPeriodProdOrdemCarreg(), ordemCarregBean.getIdEmbProdOrdemCarreg())){
+                BagCarregBean bagCarregBean = bagCarregDAO.getBagCarregCodBarra(codBarra, ordemCarregBean.getIdEmprUsuOrdemCarreg(), ordemCarregBean.getIdPeriodProdOrdemCarreg(), ordemCarregBean.getIdEmbProdOrdemCarreg());
+                ItemCarregDAO itemCarregDAO = new ItemCarregDAO();
+                CabecCarregDAO cabecCarregDAO = new CabecCarregDAO();
+                if(itemCarregDAO.verBagRepetido(cabecCarregDAO.getCabecAberto().getIdCabecCarreg(), bagCarregBean.getIdRegMedPesBag())){
+                    return true;
+                }
+                else{
+                    return false;
+                }
             }
             else{
                 return false;
@@ -188,17 +170,6 @@ public class CarregCTR {
 
     //////////////////////////////////// ENVIO DE DADOS ///////////////////////////////////////////
 
-    public String dadosEnvioCabecAberto(){
-
-        CabecCarregDAO cabecCarregDAO = new CabecCarregDAO();
-        String cabecDadosEnvio = cabecCarregDAO.dadosEnvioCabecAberto();
-
-        ItemCarregDAO itemCarregDAO = new ItemCarregDAO();
-        String itemDadosEnvio = itemCarregDAO.dadosEnvioItem(itemCarregDAO.itemEnvioList(cabecCarregDAO.idCabecArrayList(cabecCarregDAO.cabecCarregAbertoList())));
-
-        return cabecDadosEnvio + "_" + itemDadosEnvio;
-    }
-
     public String dadosEnvioCabecFechado(){
 
         CabecCarregDAO cabecCarregDAO = new CabecCarregDAO();
@@ -215,14 +186,8 @@ public class CarregCTR {
         try {
 
             int pos1 = retorno.indexOf("_") + 1;
-            int pos2 = retorno.indexOf("|") + 1;
 
-            String objPrinc = retorno.substring(pos1, pos2);
-            String objSeg = retorno.substring(pos2);
-
-            ItemCarregDAO itemCarregDAO = new ItemCarregDAO();
-            ArrayList<Long> idItemArrayList = itemCarregDAO.idItemArrayList(objSeg);
-            itemCarregDAO.updateItem(idItemArrayList);
+            String objPrinc = retorno.substring(pos1);
 
             CabecCarregDAO cabecCarregDAO = new CabecCarregDAO();
             cabecCarregDAO.updateCabecFechado(objPrinc);
@@ -237,7 +202,12 @@ public class CarregCTR {
 
     }
 
-    public void deleteBolEnviados(){
+    ///////////////////////////////////////////////////////////////////////////////////////////////
+
+    /////////////////////////////////////// EXCLUIR DADOS /////////////////////////////////////////
+
+
+    public void deleteCabecEnviados(){
 
         CabecCarregDAO cabecCarregDAO = new CabecCarregDAO();
         ArrayList<CabecCarregBean> cabecCarregArrayList = cabecCarregDAO.cabecEnviadoExcluirArrayList();
@@ -254,6 +224,21 @@ public class CarregCTR {
         }
 
         cabecCarregArrayList.clear();
+
+    }
+
+
+    public void deleteCabecAberto(){
+
+        CabecCarregDAO cabecCarregDAO = new CabecCarregDAO();
+        CabecCarregBean cabecCarregBean = cabecCarregDAO.getCabecAberto();
+
+        ItemCarregDAO itemCarregDAO = new ItemCarregDAO();
+        List<ItemCarregBean> itemCarregFertList = itemCarregDAO.itemCarregListIdCabec(cabecCarregBean.getIdCabecCarreg());
+        ArrayList<Long> idItemCarregArrayList = itemCarregDAO.idItemArrayList(itemCarregFertList);
+        itemCarregDAO.deleteItemCabec(idItemCarregArrayList);
+
+        cabecCarregDAO.deleteCabecCarreg(cabecCarregBean.getIdCabecCarreg());
 
     }
 

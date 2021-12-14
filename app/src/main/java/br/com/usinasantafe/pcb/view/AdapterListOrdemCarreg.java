@@ -51,8 +51,8 @@ public class AdapterListOrdemCarreg extends BaseAdapter {
         textViewQtdeCarreg = view.findViewById(R.id.textViewQtdeCarreg);
 
         OrdemCarregBean ordemCarregBean = (OrdemCarregBean) itens.get(position);
-        textViewTicketCarreg.setText(ordemCarregBean.getTicketOrdemCarreg());
-        textViewQtdeCarreg.setText(String.valueOf(ordemCarregBean.getQtdeEmbProdOrdemCarreg()));
+        textViewTicketCarreg.setText("TICKET: " + ordemCarregBean.getTicketOrdemCarreg());
+        textViewQtdeCarreg.setText("QTDE EMBALAGENS: " + ordemCarregBean.getQtdeEmbProdOrdemCarreg());
 
         return view;
     }

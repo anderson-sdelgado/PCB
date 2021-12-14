@@ -40,14 +40,14 @@ public class LeitorFuncActivity extends ActivityGeneric {
         funcBean.setMatricFunc(0L);
         funcBean.setNomeFunc("");
 
-        txtRetColab.setText("POR FAVOR, REALIZE A LEITURA DO CARTÃO DO COLABORADOR RESPONSÁVEL.");
+        txtRetColab.setText("POR FAVOR, REALIZE A LEITURA DO CRACHÁ DO COLABORADOR.");
 
         buttonOkColab.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
 
-                LogProcessoDAO.getInstance().insertLogProcesso("        buttonOkColab.setOnClickListener(new View.OnClickListener() {\n" +
+                LogProcessoDAO.getInstance().insertLogProcesso("buttonOkColab.setOnClickListener(new View.OnClickListener() {\n" +
                         "            @Override\n" +
                         "            public void onClick(View v) {", getLocalClassName());
 

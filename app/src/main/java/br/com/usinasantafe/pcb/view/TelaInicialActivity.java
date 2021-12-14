@@ -1,10 +1,7 @@
 package br.com.usinasantafe.pcb.view;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
-import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -112,6 +109,7 @@ public class TelaInicialActivity extends ActivityGeneric {
     public void clearBD() {
         LogProcessoDAO.getInstance().insertLogProcesso("pmmContext.getConfigCTR().deleteLogs();", getLocalClassName());
         pcbContext.getConfigCTR().deleteLogs();
+        pcbContext.getCarregCTR().deleteCabecEnviados();
     }
 
     private Runnable encerraAtualThread = new Runnable() {

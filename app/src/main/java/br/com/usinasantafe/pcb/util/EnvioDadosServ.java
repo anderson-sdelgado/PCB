@@ -31,20 +31,11 @@ public class EnvioDadosServ {
 
     ////////////////////////////////// ENVIAR DADOS ///////////////////////////////////////////////
 
-
     public void enviarCabecFechado(String activity) {
 
         CarregCTR carregCTR = new CarregCTR();
         LogProcessoDAO.getInstance().insertLogProcesso("envio(urlsConexaoHttp.getsInsertBolFechadoMMFert(), carregCTR.dadosEnvioCabecFechado(), activity);", activity);
         envio(urlsConexaoHttp.getsInsertCarreg(), carregCTR.dadosEnvioCabecFechado(), activity);
-
-    }
-
-    public void enviarCabecAberto(String activity) {
-
-        CarregCTR carregCTR = new CarregCTR();
-        LogProcessoDAO.getInstance().insertLogProcesso("envio(urlsConexaoHttp.getsInsertCabecAberto(), carregCTR.dadosEnvioCabecAberto(), activity);", activity);
-        envio(urlsConexaoHttp.getsInsertCarreg(), carregCTR.dadosEnvioCabecAberto(), activity);
 
     }
 
@@ -63,20 +54,11 @@ public class EnvioDadosServ {
 
     //////////////////////////////////VERIFICAÇÃO DE DADOS/////////////////////////////////////////
 
-    public boolean verCabecAbertoItemEnvio() {
-        CarregCTR carregCTR = new CarregCTR();
-        return carregCTR.verCabecAbertoItemEnvio();
-    }
-
     public boolean verifCabecFechado() {
         CarregCTR carregCTR = new CarregCTR();
         return carregCTR.verCabecFechado();
     }
 
-    public boolean verifItemAberto() {
-        CarregCTR carregCTR = new CarregCTR();
-        return carregCTR.verItemCarregNEnviado();
-    }
 
     ///////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -87,29 +69,20 @@ public class EnvioDadosServ {
         if(ActivityGeneric.connectNetwork) {
             LogProcessoDAO.getInstance().insertLogProcesso("ActivityGeneric.connectNetwork", activity);
             status = 2;
-            if(verifDadosEnvio()){
-                if (verifCabecFechado()) {
-                    LogProcessoDAO.getInstance().insertLogProcesso("if (verifCabecFechado()) {\n" +
-                            "enviarBolFechadoMMFert()", activity);
-                    enviarCabecFechado(activity);
-                } else {
-                    if (verCabecAbertoItemEnvio()) {
-                        LogProcessoDAO.getInstance().insertLogProcesso("if (verifCabecAberto()) {\n" +
-                                "enviarBolAbertoMMFert()", activity);
-                        enviarCabecAberto(activity);
-                    } else {
-                        status = 3;
-                    }
-                }
-            }
-            else{
+            if (verifCabecFechado()) {
+                LogProcessoDAO.getInstance().insertLogProcesso("if (verifCabecFechado()) {\n" +
+                        "enviarCabecFechado(activity);", activity);
+                enviarCabecFechado(activity);
+            } else {
                 status = 3;
             }
+        } else{
+            status = 3;
         }
     }
 
     public boolean verifDadosEnvio() {
-        if ((!verifItemAberto())){
+        if ((!verifCabecFechado())){
             return false;
         } else {
             return true;

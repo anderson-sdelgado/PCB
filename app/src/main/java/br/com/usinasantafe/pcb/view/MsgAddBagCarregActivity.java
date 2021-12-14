@@ -115,28 +115,28 @@ public class MsgAddBagCarregActivity extends ActivityGeneric {
                     "            pcbContext.getCarregCTR().inserirItemCarreg(pcbContext.getCodBarraBagLido());\n" +
                     "            msgBag = msgBag + \"NUMERAÇÃO DE BAG \" + pcbContext.getCodBarraBagLido();", getLocalClassName());
             pcbContext.getCarregCTR().inserirItemCarreg(pcbContext.getCodBarraBagLido(), getLocalClassName());
-            msgBag = msgBag + "NUMERAÇÃO DE BAG " + pcbContext.getCodBarraBagLido();
+            msgBag = msgBag + "NUMERAÇÃO DE EMBALAGEM " + pcbContext.getCodBarraBagLido();
         }
         else{
             LogProcessoDAO.getInstance().insertLogProcesso("else{\n" +
                     "            msgBag = msgBag + \"NUMERAÇÃO DE BAG INVÁLIDA!\";", getLocalClassName());
-            msgBag = msgBag + "NUMERAÇÃO DE BAG INVÁLIDA!";
+            msgBag = msgBag + "NUMERAÇÃO DE EMBALAGEM INVÁLIDA!";
         }
 
 
         if(pcbContext.getCarregCTR().qtdeRestItemCarreg() == 0){
             LogProcessoDAO.getInstance().insertLogProcesso("if(pcbContext.getCarregCTR().qtdeRestItemCarreg() == 0){\n" +
                     "            msgBag = msgBag + \"\\nCARGA COMPLETA!\" +\n" +
-                    "                    \"\\nPOR FAVOR, FINALIZE A CARREGAMENTO CLICANDO NO BOTÃO 'NÃO'.\";", getLocalClassName());
+                    "                    \"\\nPOR FAVOR, RETORNE A TELA DE LISTAGEM DE BAG CLICANDO NO BOTÃO 'NÃO'.\";", getLocalClassName());
             msgBag = msgBag + "\nCARGA COMPLETA!" +
-                    "\nPOR FAVOR, FINALIZE A CARREGAMENTO CLICANDO NO BOTÃO 'NÃO'.";
+                    "\nPOR FAVOR, RETORNE A TELA DE LISTAGEM DE BAG CLICANDO NO BOTÃO 'NÃO'.";
         }
         else{
             LogProcessoDAO.getInstance().insertLogProcesso("else{\n" +
-                    "            msgBag = msgBag + \"\\nFALTA \" + qtdeRest + \" BAG(S) PARA FECHA O CARREGAMENTO.\" +\n" +
-                    "                    \"\\nDESEJA ADICIONAR MAIS UM BAG NA CARGA?\";", getLocalClassName());
-            msgBag = msgBag + "\nFALTA " + pcbContext.getCarregCTR().qtdeRestItemCarreg() + " BAG(S) PARA FECHA O CARREGAMENTO." +
-                    "\nDESEJA ADICIONAR MAIS UM BAG NA CARGA?";
+                    "            msgBag = msgBag + \"\\nQUANTIDADE DE EMBALAGENS A SEREM RELACIONADAS: \" + pcbContext.getCarregCTR().qtdeRestItemCarreg() +\n" +
+                    "                    \"\\nDESEJA REALIZAR UMA NOVA LEITURA?\"", getLocalClassName());
+            msgBag = msgBag + "\nQUANTIDADE DE EMBALAGENS A SEREM RELACIONADAS: " + pcbContext.getCarregCTR().qtdeRestItemCarreg() +
+                    "\nDESEJA REALIZAR UMA NOVA LEITURA?";
         }
 
         LogProcessoDAO.getInstance().insertLogProcesso("textViewMsgBag.setText(msgBag);", getLocalClassName());

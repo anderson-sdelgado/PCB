@@ -16,9 +16,11 @@ import br.com.usinasantafe.pcb.PCBContext;
 import br.com.usinasantafe.pcb.R;
 import br.com.usinasantafe.pcb.model.bean.estaticas.OrdemCarregBean;
 import br.com.usinasantafe.pcb.model.dao.LogProcessoDAO;
+import br.com.usinasantafe.pcb.zxing.CaptureActivity;
 
 public class ListaOrdemCarregActivity extends ActivityGeneric {
 
+    public static final int REQUEST_CODE = 0;
     private PCBContext pcbContext;
     private ProgressDialog progressBar;
     private List<OrdemCarregBean> ordemCarregList;
@@ -80,10 +82,11 @@ public class ListaOrdemCarregActivity extends ActivityGeneric {
                 LogProcessoDAO.getInstance().insertLogProcesso("buttonCapturaOrdemCarreg.setOnClickListener(new View.OnClickListener() {\n" +
                         "            @Override\n" +
                         "            public void onClick(View v) {\n" +
-                        "                Intent it = new Intent(ListaOrdemCarregActivity.this, LeitorOrdemCargaActivity.class);", getLocalClassName());
-                Intent it = new Intent(ListaOrdemCarregActivity.this, LeitorOrdemCarregActivity.class);
-                startActivity(it);
-                finish();
+                        " Intent it = new Intent(ListaBagCarregActivity.this, CaptureActivity.class);\n" +
+                        "                startActivityForResult(it, REQUEST_CODE);", getLocalClassName());
+
+                Intent it = new Intent(ListaOrdemCarregActivity.this, CaptureActivity.class);
+                startActivityForResult(it, REQUEST_CODE);
             }
 
         });
@@ -186,6 +189,63 @@ public class ListaOrdemCarregActivity extends ActivityGeneric {
             }
 
         });
+
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data){
+        LogProcessoDAO.getInstance().insertLogProcesso("public void onActivityResult(int requestCode, int resultCode, Intent data){", getLocalClassName());
+        if(REQUEST_CODE == requestCode && RESULT_OK == resultCode){
+            String codBarraBag = data.getStringExtra("SCAN_RESULT");
+            pcbContext.setCodBarraBagLido(codBarraBag);
+            LogProcessoDAO.getInstance().insertLogProcesso("if(REQUEST_CODE == requestCode && RESULT_OK == resultCode){\n" +
+                    "            String codBarraBag = data.getStringExtra(\"SCAN_RESULT\");\n" +
+                    "            pcbContext.setCodBarraBagLido(" + codBarraBag + ");\n" +
+                    "            Intent it = new Intent(ListaBagCarregActivity.this, MsgAddBagCarregActivity.class);", getLocalClassName());
+            Intent it = new Intent(ListaOrdemCarregActivity.this, DetalhesOrdemCarregActivity.class);
+            startActivity(it);
+            finish();
+        }
+
+        if (REQUEST_CODE == requestCode && RESULT_OK == resultCode) {
+            LogProcessoDAO.getInstance().insertLogProcesso("    @Override\n" +
+                    "    public void onActivityResult(int requestCode, int resultCode, Intent data) {\n" +
+                    "        if (REQUEST_CODE == requestCode && RESULT_OK == resultCode) {\n" +
+                    "            String nroOrdemCarga = data.getStringExtra(\"SCAN_RESULT\");", getLocalClassName());
+            String nroOrdemCarga = data.getStringExtra("SCAN_RESULT");
+            if (nroOrdemCarga.length() == 7) {
+                LogProcessoDAO.getInstance().insertLogProcesso("if (nroOrdemCarga.length() == 7) {", getLocalClassName());
+                if (pcbContext.getCarregCTR().verOrdemCarregTicket(nroOrdemCarga)) {
+                    LogProcessoDAO.getInstance().insertLogProcesso("if (pcbContext.getCargaCTR().verOrdemCargaNro(nroOrdemCarga)) {\n" +
+                            "                    pcbContext.getCarregCTR().getCabecCargaDAO().getCabecCargaBean().setIdOrdemCabecCarreg(pcbContext.getCarregCTR().getOrdemCarregTicket(nroOrdemCarga).getIdOrdemCarreg());\n" +
+                            "                    Intent it = new Intent(ListaOrdemCarregActivity.this, DetalhesOrdemCarregActivity.class);", getLocalClassName());
+                    pcbContext.getCarregCTR().getCabecCargaDAO().getCabecCargaBean().setIdOrdemCabecCarreg(pcbContext.getCarregCTR().getOrdemCarregTicket(nroOrdemCarga).getIdOrdemCarreg());
+                    Intent it = new Intent(ListaOrdemCarregActivity.this, DetalhesOrdemCarregActivity.class);
+                    startActivity(it);
+                    finish();
+                } else {
+                    LogProcessoDAO.getInstance().insertLogProcesso("} else {\n" +
+                            "AlertDialog.Builder alerta = new AlertDialog.Builder( ListaOrdemCarregActivity.this);\n" +
+                            "                    alerta.setTitle(\"ATENÇÃO\");\n" +
+                            "                    alerta.setMessage(\"NRO DE ORDEM DE CARGA INEXISTENTE!\");\n" +
+                            "                    alerta.setPositiveButton(\"OK\", new DialogInterface.OnClickListener() {\n" +
+                            "                        @Override\n" +
+                            "                        public void onClick(DialogInterface dialog, int which) {\n" +
+                            "                        }\n" +
+                            "                    });\n" +
+                            "                    alerta.show();", getLocalClassName());
+                    AlertDialog.Builder alerta = new AlertDialog.Builder( ListaOrdemCarregActivity.this);
+                    alerta.setTitle("ATENÇÃO");
+                    alerta.setMessage("TICKET INEXISTENTE!");
+                    alerta.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                        }
+                    });
+                    alerta.show();
+                }
+            }
+        }
 
     }
 

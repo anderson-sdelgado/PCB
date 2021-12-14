@@ -16,8 +16,6 @@ public class ItemCarregBean extends Entidade {
     private Long idCabecItemCarreg;
     @DatabaseField
     private Long idRegMedPesBagCarreg;
-    @DatabaseField
-    private Long statusItemCarreg; // 1 - Não Enviado; 2 - Enviado
 
     public ItemCarregBean() {
     }
@@ -46,11 +44,4 @@ public class ItemCarregBean extends Entidade {
         this.idRegMedPesBagCarreg = idRegMedPesBagCarreg;
     }
 
-    public Long getStatusItemCarreg() {
-        return statusItemCarreg;
-    }
-
-    public void setStatusItemCarreg(Long statusItemCarreg) {
-        this.statusItemCarreg = statusItemCarreg;
-    }
 }

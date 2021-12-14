@@ -90,10 +90,6 @@ public class CabecCarregDAO {
         return cabecCarregBean.get("idCabecCarreg", idCabecCarreg);
     }
 
-    public String dadosEnvioCabecAberto(){
-        return dadosEnvioCabec(cabecCarregAbertoList());
-    }
-
     public String dadosEnvioCabecFechado(){
         return dadosEnvioCabec(cabecCarregFechadoList());
     }

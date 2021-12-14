@@ -29,17 +29,17 @@ public class DetalhesOrdemCarregActivity extends ActivityGeneric {
         pcbContext = (PCBContext) getApplication();
 
         LogProcessoDAO.getInstance().insertLogProcesso("OrdemCarregBean ordemCarregBean = pcbContext.getCarregCTR().getOrdemCargaId(pcbContext.getCarregCTR().getCabecCargaDAO().getCabecCargaBean().getIdOrdemCabecCarreg());\n" +
-                "        String descr = \"ID ORDEM CARREG: \" + ordemCarregBean.getIdOrdemCarreg() + \"\\n\" +\n" +
-                "                            \"EXPORTAÇÃO: \" + ((ordemCarregBean.getDestExpOrdemCarreg() == 1L) ? \"SIM\" : \"NÃO\") + \"\\n\" +\n" +
+                "        String descr = \"ORDEM DE CARGA: \" + ordemCarregBean.getIdOrdemCarreg() + \"\\n\" +\n" +
                 "                            \"TICKET: \" + ordemCarregBean.getTicketOrdemCarreg() + \"\\n\" +\n" +
+                "                            \"EXPORTAÇÃO? \" + ((ordemCarregBean.getDestExpOrdemCarreg() == 1L) ? \"SIM\" : \"NÃO\") + \"\\n\" +\n" +
                 "                            \"PRODUTO: \" + ordemCarregBean.getProdutoOrdemCarreg() + \"\\n\" +\n" +
                 "                            \"CLASSIFICAÇÃO: \" + ordemCarregBean.getClassifOrdemCarreg();\n" +
                 "        textViewDescrOrdemCarreg.setText(descr);", getLocalClassName());
 
         OrdemCarregBean ordemCarregBean = pcbContext.getCarregCTR().getOrdemCargaId(pcbContext.getCarregCTR().getCabecCargaDAO().getCabecCargaBean().getIdOrdemCabecCarreg());
-        String descr = "ID ORDEM CARREG: " + ordemCarregBean.getIdOrdemCarreg() + "\n" +
-                            "EXPORTAÇÃO: " + ((ordemCarregBean.getDestExpOrdemCarreg() == 1L) ? "SIM" : "NÃO") + "\n" +
+        String descr = "ORDEM DE CARGA: " + ordemCarregBean.getIdOrdemCarreg() + "\n" +
                             "TICKET: " + ordemCarregBean.getTicketOrdemCarreg() + "\n" +
+                            "EXPORTAÇÃO? " + ((ordemCarregBean.getDestExpOrdemCarreg() == 1L) ? "SIM" : "NÃO") + "\n" +
                             "PRODUTO: " + ordemCarregBean.getProdutoOrdemCarreg() + "\n" +
                             "CLASSIFICAÇÃO: " + ordemCarregBean.getClassifOrdemCarreg();
         textViewDescrOrdemCarreg.setText(descr);
@@ -50,7 +50,7 @@ public class DetalhesOrdemCarregActivity extends ActivityGeneric {
             public void onClick(View v) {
 
                 pcbContext.getCarregCTR().salvarCabecAberto();
-                LogProcessoDAO.getInstance().insertLogProcesso("        buttonOkDetalhesOrdemCarreg.setOnClickListener(new View.OnClickListener() {\n" +
+                LogProcessoDAO.getInstance().insertLogProcesso("buttonOkDetalhesOrdemCarreg.setOnClickListener(new View.OnClickListener() {\n" +
                         "            @Override\n" +
                         "            public void onClick(View v) {\n" +
                         "                pcbContext.getCarregCTR().salvarCabecAberto();\n" +

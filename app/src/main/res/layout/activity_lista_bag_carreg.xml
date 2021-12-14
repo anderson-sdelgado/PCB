@@ -62,11 +62,11 @@
         android:text="@string/texto_dig_bag" />
 
     <Button
-        android:id="@+id/buttonLog"
+        android:id="@+id/buttonCancelarCarreg"
         style="@style/BotaoAvulso"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/texto_log" />
+        android:text="@string/texto_canc_carga" />
 
     <Button
         android:id="@+id/buttonFinalizarCarreg"
