@@ -30,7 +30,6 @@ public class SenhaActivity extends ActivityGeneric {
             @SuppressWarnings("unchecked")
             @Override
             public void onClick(View v) {
-
                 LogProcessoDAO.getInstance().insertLogProcesso("btOkSenha.setOnClickListener(new View.OnClickListener() {\n" +
                         "            @SuppressWarnings(\"unchecked\")\n" +
                         "            @Override\n" +

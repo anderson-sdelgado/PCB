@@ -140,8 +140,8 @@ public class CarregCTR {
         BagCarregDAO bagCarregDAO = new BagCarregDAO();
         OrdemCarregBean ordemCarregBean = getOrdemCargaId(getCabecAberto().getIdOrdemCabecCarreg());
         if(codBarra.matches("[+-]?\\d*(\\.\\d+)?")){
-            if(bagCarregDAO.verBagCarregCodBarra(codBarra, ordemCarregBean.getIdEmprUsuOrdemCarreg(), ordemCarregBean.getIdPeriodProdOrdemCarreg(), ordemCarregBean.getIdEmbProdOrdemCarreg())){
-                BagCarregBean bagCarregBean = bagCarregDAO.getBagCarregCodBarra(codBarra, ordemCarregBean.getIdEmprUsuOrdemCarreg(), ordemCarregBean.getIdPeriodProdOrdemCarreg(), ordemCarregBean.getIdEmbProdOrdemCarreg());
+            if(bagCarregDAO.verBagCarregCodBarra(codBarra, ordemCarregBean.getIdEmprUsuOrdemCarreg(), ordemCarregBean.getIdPeriodProdOrdemCarreg(), ordemCarregBean.getIdProdOrdemCarreg())){
+                BagCarregBean bagCarregBean = bagCarregDAO.getBagCarregCodBarra(codBarra, ordemCarregBean.getIdEmprUsuOrdemCarreg(), ordemCarregBean.getIdPeriodProdOrdemCarreg(), ordemCarregBean.getIdProdOrdemCarreg());
                 ItemCarregDAO itemCarregDAO = new ItemCarregDAO();
                 CabecCarregDAO cabecCarregDAO = new CabecCarregDAO();
                 if(itemCarregDAO.verBagRepetido(cabecCarregDAO.getCabecAberto().getIdCabecCarreg(), bagCarregBean.getIdRegMedPesBag())){
@@ -163,7 +163,7 @@ public class CarregCTR {
     public BagCarregBean getBagCarregCodBarra(String codBarra){
         BagCarregDAO bagCarregDAO = new BagCarregDAO();
         OrdemCarregBean ordemCarregBean = getOrdemCargaId(getCabecAberto().getIdOrdemCabecCarreg());
-        return bagCarregDAO.getBagCarregCodBarra(codBarra, ordemCarregBean.getIdEmprUsuOrdemCarreg(), ordemCarregBean.getIdPeriodProdOrdemCarreg(), ordemCarregBean.getIdEmbProdOrdemCarreg());
+        return bagCarregDAO.getBagCarregCodBarra(codBarra, ordemCarregBean.getIdEmprUsuOrdemCarreg(), ordemCarregBean.getIdPeriodProdOrdemCarreg(), ordemCarregBean.getIdProdOrdemCarreg());
     }
 
     ///////////////////////////////////////////////////////////////////////////////////////////////

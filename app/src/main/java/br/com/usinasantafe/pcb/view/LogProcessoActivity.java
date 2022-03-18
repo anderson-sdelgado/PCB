@@ -19,15 +19,14 @@ public class LogProcessoActivity extends ActivityGeneric {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_log_processo);
 
-
         pcbContext = (PCBContext) getApplication();
 
         Button buttonAvancaLogProcesso = findViewById(R.id.buttonAvancaLogProcesso);
         Button buttonRetLogProcesso = findViewById(R.id.buttonRetLogProcesso);
 
-        LogProcessoDAO.getInstance().insertLogProcesso("ListView listaHistorico = findViewById(R.id.listaHistorico);\n" +
-                "        AdapterListHistorico adapterListHistorico = new AdapterListHistorico(this, pmmContext.getConfigCTR().logProcessoList());\n" +
-                "        listaHistorico.setAdapter(adapterListHistorico);", getLocalClassName());
+        LogProcessoDAO.getInstance().insertLogProcesso("ListView listViewLogProcesso = findViewById(R.id.listViewLogProcesso);\n" +
+                "        AdapterListProcesso adapterListProcesso = new AdapterListProcesso(this, pcbContext.getConfigCTR().logProcessoList());\n" +
+                "        listViewLogProcesso.setAdapter(adapterListProcesso);", getLocalClassName());
         ListView listViewLogProcesso = findViewById(R.id.listViewLogProcesso);
         AdapterListProcesso adapterListProcesso = new AdapterListProcesso(this, pcbContext.getConfigCTR().logProcessoList());
         listViewLogProcesso.setAdapter(adapterListProcesso);

@@ -15,7 +15,6 @@ public class PCBContext extends Application {
     private String codBarraBagLido;
 
     public static String versaoAplic = "1.00";
-    public static int aplic = 1;   // 1 - PMM; 2 - ECM; 3 - PCOMP
 
     @Override
     public void onCreate() {

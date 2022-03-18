@@ -2,8 +2,11 @@ package br.com.usinasantafe.pcb.view;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -24,6 +27,15 @@ public class ListaOrdemCarregActivity extends ActivityGeneric {
     private PCBContext pcbContext;
     private ProgressDialog progressBar;
     private List<OrdemCarregBean> ordemCarregList;
+
+    private static final String EXTRA_CONTROL = "com.honeywell.aidc.action.ACTION_CONTROL_SCANNER";
+    private static final String EXTRA_SCAN = "com.honeywell.aidc.extra.EXTRA_SCAN";
+    public static final String ACTION_BARCODE_DATA = "com.honeywell.sample.intentapisample.BARCODE";
+    public static final String ACTION_CLAIM_SCANNER = "com.honeywell.aidc.action.ACTION_CLAIM_SCANNER";
+    public static final String ACTION_RELEASE_SCANNER = "com.honeywell.aidc.action.ACTION_RELEASE_SCANNER";
+    public static final String EXTRA_SCANNER = "com.honeywell.aidc.extra.EXTRA_SCANNER";
+    public static final String EXTRA_PROFILE = "com.honeywell.aidc.extra.EXTRA_PROFILE";
+    public static final String EXTRA_PROPERTIES = "com.honeywell.aidc.extra.EXTRA_PROPERTIES";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,26 +88,26 @@ public class ListaOrdemCarregActivity extends ActivityGeneric {
         });
 
         buttonCapturaOrdemCarreg.setOnClickListener(new View.OnClickListener() {
-
             @Override
             public void onClick(View v) {
                 LogProcessoDAO.getInstance().insertLogProcesso("buttonCapturaOrdemCarreg.setOnClickListener(new View.OnClickListener() {\n" +
                         "            @Override\n" +
                         "            public void onClick(View v) {\n" +
-                        " Intent it = new Intent(ListaBagCarregActivity.this, CaptureActivity.class);\n" +
-                        "                startActivityForResult(it, REQUEST_CODE);", getLocalClassName());
-
-                Intent it = new Intent(ListaOrdemCarregActivity.this, CaptureActivity.class);
-                startActivityForResult(it, REQUEST_CODE);
+                        "                sendBroadcast(new Intent(EXTRA_CONTROL)\n" +
+                        "                        .setPackage(\"com.intermec.datacollectionservice\")\n" +
+                        "                        .putExtra(EXTRA_SCAN, true)\n" +
+                        "                );", getLocalClassName());
+                sendBroadcast(new Intent(EXTRA_CONTROL)
+                        .setPackage("com.intermec.datacollectionservice")
+                        .putExtra(EXTRA_SCAN, true)
+                );
             }
 
         });
 
         buttonAtualOrdemCarreg.setOnClickListener(new View.OnClickListener() {
-
             @Override
             public void onClick(View v) {
-
                 LogProcessoDAO.getInstance().insertLogProcesso("buttonAtualPadrao.setOnClickListener(new View.OnClickListener() {\n" +
                         "            @Override\n" +
                         "            public void onClick(View v) {\n" +
@@ -196,30 +208,16 @@ public class ListaOrdemCarregActivity extends ActivityGeneric {
     public void onActivityResult(int requestCode, int resultCode, Intent data){
         LogProcessoDAO.getInstance().insertLogProcesso("public void onActivityResult(int requestCode, int resultCode, Intent data){", getLocalClassName());
         if(REQUEST_CODE == requestCode && RESULT_OK == resultCode){
-            String codBarraBag = data.getStringExtra("SCAN_RESULT");
-            pcbContext.setCodBarraBagLido(codBarraBag);
             LogProcessoDAO.getInstance().insertLogProcesso("if(REQUEST_CODE == requestCode && RESULT_OK == resultCode){\n" +
-                    "            String codBarraBag = data.getStringExtra(\"SCAN_RESULT\");\n" +
-                    "            pcbContext.setCodBarraBagLido(" + codBarraBag + ");\n" +
-                    "            Intent it = new Intent(ListaBagCarregActivity.this, MsgAddBagCarregActivity.class);", getLocalClassName());
-            Intent it = new Intent(ListaOrdemCarregActivity.this, DetalhesOrdemCarregActivity.class);
-            startActivity(it);
-            finish();
-        }
-
-        if (REQUEST_CODE == requestCode && RESULT_OK == resultCode) {
-            LogProcessoDAO.getInstance().insertLogProcesso("    @Override\n" +
-                    "    public void onActivityResult(int requestCode, int resultCode, Intent data) {\n" +
-                    "        if (REQUEST_CODE == requestCode && RESULT_OK == resultCode) {\n" +
-                    "            String nroOrdemCarga = data.getStringExtra(\"SCAN_RESULT\");", getLocalClassName());
-            String nroOrdemCarga = data.getStringExtra("SCAN_RESULT");
-            if (nroOrdemCarga.length() == 7) {
+                    "            String codBarraBag = data.getStringExtra(\"SCAN_RESULT\");", getLocalClassName());
+            String ticketOrdemCarreg = data.getStringExtra("SCAN_RESULT");
+            if (ticketOrdemCarreg.length() == 7) {
                 LogProcessoDAO.getInstance().insertLogProcesso("if (nroOrdemCarga.length() == 7) {", getLocalClassName());
-                if (pcbContext.getCarregCTR().verOrdemCarregTicket(nroOrdemCarga)) {
-                    LogProcessoDAO.getInstance().insertLogProcesso("if (pcbContext.getCargaCTR().verOrdemCargaNro(nroOrdemCarga)) {\n" +
-                            "                    pcbContext.getCarregCTR().getCabecCargaDAO().getCabecCargaBean().setIdOrdemCabecCarreg(pcbContext.getCarregCTR().getOrdemCarregTicket(nroOrdemCarga).getIdOrdemCarreg());\n" +
+                if (pcbContext.getCarregCTR().verOrdemCarregTicket(ticketOrdemCarreg)) {
+                    LogProcessoDAO.getInstance().insertLogProcesso("if (pcbContext.getCarregCTR().verOrdemCarregTicket(codBarraBag)) {\n" +
+                            "pcbContext.getCarregCTR().getCabecCargaDAO().getCabecCargaBean().setIdOrdemCabecCarreg(pcbContext.getCarregCTR().getOrdemCarregTicket(codBarraBag).getIdOrdemCarreg());\n" +
                             "                    Intent it = new Intent(ListaOrdemCarregActivity.this, DetalhesOrdemCarregActivity.class);", getLocalClassName());
-                    pcbContext.getCarregCTR().getCabecCargaDAO().getCabecCargaBean().setIdOrdemCabecCarreg(pcbContext.getCarregCTR().getOrdemCarregTicket(nroOrdemCarga).getIdOrdemCarreg());
+                    pcbContext.getCarregCTR().getCabecCargaDAO().getCabecCargaBean().setIdOrdemCabecCarreg(pcbContext.getCarregCTR().getOrdemCarregTicket(ticketOrdemCarreg).getIdOrdemCarreg());
                     Intent it = new Intent(ListaOrdemCarregActivity.this, DetalhesOrdemCarregActivity.class);
                     startActivity(it);
                     finish();
@@ -236,7 +234,7 @@ public class ListaOrdemCarregActivity extends ActivityGeneric {
                             "                    alerta.show();", getLocalClassName());
                     AlertDialog.Builder alerta = new AlertDialog.Builder( ListaOrdemCarregActivity.this);
                     alerta.setTitle("ATENÇÃO");
-                    alerta.setMessage("TICKET INEXISTENTE!");
+                    alerta.setMessage("FALHA NA LEITURA DO TICKET!");
                     alerta.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
@@ -244,12 +242,162 @@ public class ListaOrdemCarregActivity extends ActivityGeneric {
                     });
                     alerta.show();
                 }
+            } else {
+                LogProcessoDAO.getInstance().insertLogProcesso("} else {\n" +
+                        "AlertDialog.Builder alerta = new AlertDialog.Builder( ListaOrdemCarregActivity.this);\n" +
+                        "                    alerta.setTitle(\"ATENÇÃO\");\n" +
+                        "                    alerta.setMessage(\"NRO DE ORDEM DE CARGA INEXISTENTE!\");\n" +
+                        "                    alerta.setPositiveButton(\"OK\", new DialogInterface.OnClickListener() {\n" +
+                        "                        @Override\n" +
+                        "                        public void onClick(DialogInterface dialog, int which) {\n" +
+                        "                        }\n" +
+                        "                    });\n" +
+                        "                    alerta.show();", getLocalClassName());
+                AlertDialog.Builder alerta = new AlertDialog.Builder( ListaOrdemCarregActivity.this);
+                alerta.setTitle("ATENÇÃO");
+                alerta.setMessage("FALHA NA LEITURA DO TICKET!");
+                alerta.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                    }
+                });
+                alerta.show();
             }
         }
-
     }
 
     public void onBackPressed() {
+    }
+
+    private BroadcastReceiver barcodeDataReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            LogProcessoDAO.getInstance().insertLogProcesso("private BroadcastReceiver barcodeDataReceiver = new BroadcastReceiver() {\n" +
+                    "        @Override\n" +
+                    "        public void onReceive(Context context, Intent intent) {\n" +
+                    "            String action = intent.getAction();", getLocalClassName());
+            String action = intent.getAction();
+            if (ACTION_BARCODE_DATA.equals(action)) {
+                LogProcessoDAO.getInstance().insertLogProcesso("if (ACTION_BARCODE_DATA.equals(action)) {\n" +
+                        "                int version = intent.getIntExtra(\"version\", 0);", getLocalClassName());
+                int version = intent.getIntExtra("version", 0);
+                if (version >= 1) {
+                    LogProcessoDAO.getInstance().insertLogProcesso("if (version >= 1) {\n" +
+                            "                    String ticketOrdemCarreg = intent.getStringExtra(\"data\");", getLocalClassName());
+                    String ticketOrdemCarreg = intent.getStringExtra("data");
+                    if (ticketOrdemCarreg.length() == 7) {
+                        LogProcessoDAO.getInstance().insertLogProcesso("if (ticketOrdemCarreg.length() == 7) {", getLocalClassName());
+                        if (pcbContext.getCarregCTR().verOrdemCarregTicket(ticketOrdemCarreg)) {
+                            LogProcessoDAO.getInstance().insertLogProcesso("if (pcbContext.getCarregCTR().verOrdemCarregTicket(ticketOrdemCarreg)) {\n" +
+                                    "pcbContext.getCarregCTR().getCabecCargaDAO().getCabecCargaBean().setIdOrdemCabecCarreg(pcbContext.getCarregCTR().getOrdemCarregTicket(ticketOrdemCarreg).getIdOrdemCarreg());\n" +
+                                    "                    Intent it = new Intent(ListaOrdemCarregActivity.this, DetalhesOrdemCarregActivity.class);", getLocalClassName());
+                            pcbContext.getCarregCTR().getCabecCargaDAO().getCabecCargaBean().setIdOrdemCabecCarreg(pcbContext.getCarregCTR().getOrdemCarregTicket(ticketOrdemCarreg).getIdOrdemCarreg());
+                            Intent it = new Intent(ListaOrdemCarregActivity.this, DetalhesOrdemCarregActivity.class);
+                            startActivity(it);
+                            finish();
+                        } else {
+                            LogProcessoDAO.getInstance().insertLogProcesso("} else {\n" +
+                                    "AlertDialog.Builder alerta = new AlertDialog.Builder( ListaOrdemCarregActivity.this);\n" +
+                                    "                    alerta.setTitle(\"ATENÇÃO\");\n" +
+                                    "                    alerta.setMessage(\"NRO DE ORDEM DE CARGA INEXISTENTE!\");\n" +
+                                    "                    alerta.setPositiveButton(\"OK\", new DialogInterface.OnClickListener() {\n" +
+                                    "                        @Override\n" +
+                                    "                        public void onClick(DialogInterface dialog, int which) {\n" +
+                                    "                        }\n" +
+                                    "                    });\n" +
+                                    "                    alerta.show();", getLocalClassName());
+                            AlertDialog.Builder alerta = new AlertDialog.Builder( ListaOrdemCarregActivity.this);
+                            alerta.setTitle("ATENÇÃO");
+                            alerta.setMessage("FALHA NA LEITURA DO TICKET!");
+                            alerta.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                }
+                            });
+                            alerta.show();
+                        }
+                    } else {
+                        LogProcessoDAO.getInstance().insertLogProcesso("} else {\n" +
+                                "AlertDialog.Builder alerta = new AlertDialog.Builder( ListaOrdemCarregActivity.this);\n" +
+                                "                    alerta.setTitle(\"ATENÇÃO\");\n" +
+                                "                    alerta.setMessage(\"NRO DE ORDEM DE CARGA INEXISTENTE!\");\n" +
+                                "                    alerta.setPositiveButton(\"OK\", new DialogInterface.OnClickListener() {\n" +
+                                "                        @Override\n" +
+                                "                        public void onClick(DialogInterface dialog, int which) {\n" +
+                                "                        }\n" +
+                                "                    });\n" +
+                                "                    alerta.show();", getLocalClassName());
+                        AlertDialog.Builder alerta = new AlertDialog.Builder( ListaOrdemCarregActivity.this);
+                        alerta.setTitle("ATENÇÃO");
+                        alerta.setMessage("FALHA NA LEITURA DO TICKET!");
+                        alerta.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                            }
+                        });
+                        alerta.show();
+                    }
+                }
+            }
+        }
+    };
+
+    @Override
+    protected void onResume() {
+        LogProcessoDAO.getInstance().insertLogProcesso("protected void onResume() {\n" +
+                "        super.onResume();\n" +
+                "        IntentFilter intentFilter = new IntentFilter(ACTION_BARCODE_DATA);\n" +
+                "        registerReceiver(barcodeDataReceiver, intentFilter);\n" +
+                "        claimScanner();", getLocalClassName());
+        super.onResume();
+        IntentFilter intentFilter = new IntentFilter(ACTION_BARCODE_DATA);
+        registerReceiver(barcodeDataReceiver, intentFilter);
+        claimScanner();
+    }
+
+    private void claimScanner() {
+        LogProcessoDAO.getInstance().insertLogProcesso("private void claimScanner() {\n" +
+                "        Bundle properties = new Bundle();\n" +
+                "        properties.putBoolean(\"DPR_DATA_INTENT\", true);\n" +
+                "        properties.putString(\"DPR_DATA_INTENT_ACTION\", ACTION_BARCODE_DATA);\n" +
+                "        Intent intent = new Intent();\n" +
+                "        intent.setAction(ACTION_CLAIM_SCANNER);\n" +
+                "        intent.setPackage(\"com.intermec.datacollectionservice\");\n" +
+                "        intent.putExtra(EXTRA_SCANNER, \"dcs.scanner.imager\");\n" +
+                "        intent.putExtra(EXTRA_PROFILE, \"MyProfile1\");\n" +
+                "        intent.putExtra(EXTRA_PROPERTIES, properties);\n" +
+                "        sendBroadcast(intent);", getLocalClassName());
+        Bundle properties = new Bundle();
+        properties.putBoolean("DPR_DATA_INTENT", true);
+        properties.putString("DPR_DATA_INTENT_ACTION", ACTION_BARCODE_DATA);
+        Intent intent = new Intent();
+        intent.setAction(ACTION_CLAIM_SCANNER);
+        intent.setPackage("com.intermec.datacollectionservice");
+        intent.putExtra(EXTRA_SCANNER, "dcs.scanner.imager");
+        intent.putExtra(EXTRA_PROFILE, "MyProfile1");
+        intent.putExtra(EXTRA_PROPERTIES, properties);
+        sendBroadcast(intent);
+    }
+
+    @Override
+    protected void onPause() {
+        LogProcessoDAO.getInstance().insertLogProcesso("protected void onPause() {\n" +
+                "        super.onPause();\n" +
+                "        unregisterReceiver(barcodeDataReceiver);\n" +
+                "        releaseScanner();", getLocalClassName());
+        super.onPause();
+        unregisterReceiver(barcodeDataReceiver);
+        releaseScanner();
+    }
+
+    private void releaseScanner() {
+        LogProcessoDAO.getInstance().insertLogProcesso("private void releaseScanner() {\n" +
+                "        Intent intent = new Intent();\n" +
+                "        intent.setAction(ACTION_RELEASE_SCANNER);\n" +
+                "        sendBroadcast(intent);", getLocalClassName());
+        Intent intent = new Intent();
+        intent.setAction(ACTION_RELEASE_SCANNER);
+        sendBroadcast(intent);
     }
 
 }

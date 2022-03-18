@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.com.usinasantafe.pcb.model.bean.estaticas.BagCarregBean;
-import br.com.usinasantafe.pcb.model.bean.estaticas.OrdemCarregBean;
 import br.com.usinasantafe.pcb.model.pst.EspecificaPesquisa;
 
 public class BagCarregDAO {
@@ -19,20 +18,20 @@ public class BagCarregDAO {
         return ret;
     }
 
-    public BagCarregBean getBagCarregCodBarra(String codBarra, Long idEmprUsu, Long idPeriodProd, Long idEmbProd){
-        List<BagCarregBean> bagCarregList = bagCarregCodBarraList(codBarra, idEmprUsu, idPeriodProd, idEmbProd);
+    public BagCarregBean getBagCarregCodBarra(String codBarra, Long idEmprUsu, Long idPeriodProd, Long idProd){
+        List<BagCarregBean> bagCarregList = bagCarregCodBarraList(codBarra, idEmprUsu, idPeriodProd, idProd);
         BagCarregBean bagCarregBean =  bagCarregList.get(0);
         bagCarregList.clear();
         return bagCarregBean;
     }
 
-    private List<BagCarregBean> bagCarregCodBarraList(String codBarraBag, Long idEmprUsu, Long idPeriodProd, Long idEmbProd){
+    private List<BagCarregBean> bagCarregCodBarraList(String codBarraBag, Long idEmprUsu, Long idPeriodProd, Long idProd){
 
         ArrayList pesqArrayList = new ArrayList();
         pesqArrayList.add(getPesqCodBarra(codBarraBag));
         pesqArrayList.add(getPesqIdEmprUsu(idEmprUsu));
         pesqArrayList.add(getPesqIdPeriodProd(idPeriodProd));
-        pesqArrayList.add(getPesqIdEmbProd(idEmbProd));
+        pesqArrayList.add(getPesqIdProd(idProd));
 
         BagCarregBean bagCarregBean = new BagCarregBean();
         return bagCarregBean.get(pesqArrayList);
@@ -63,10 +62,10 @@ public class BagCarregDAO {
         return pesquisa;
     }
 
-    private EspecificaPesquisa getPesqIdEmbProd(Long idEmbProd){
+    private EspecificaPesquisa getPesqIdProd(Long idProd){
         EspecificaPesquisa pesquisa = new EspecificaPesquisa();
-        pesquisa.setCampo("idEmbProdBag");
-        pesquisa.setValor(idEmbProd);
+        pesquisa.setCampo("idProdBag");
+        pesquisa.setValor(idProd);
         pesquisa.setTipo(1);
         return pesquisa;
     }

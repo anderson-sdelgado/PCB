@@ -4,8 +4,8 @@ import br.com.usinasantafe.pcb.PCBContext;
 
 public class UrlsConexaoHttp {
 
-    public static String urlPrincipal = "http://www.usinasantafe.com.br/pcbqa/view/";
-    public static String urlPrincEnvio = "http://www.usinasantafe.com.br/pcbqa/view/";
+    public static String urlPrincipal = "https://www.usinasantafe.com.br/pcbqa/view/";
+    public static String urlPrincEnvio = "https://www.usinasantafe.com.br/pcbqa/view/";
 
     public static String localPSTEstatica = "br.com.usinasantafe.pcb.model.bean.estaticas.";
     public static String localUrl = "br.com.usinasantafe.pcb.util.connHttp.UrlsConexaoHttp";
@@ -29,8 +29,8 @@ public class UrlsConexaoHttp {
 
     public String urlVerifica(String classe) {
         String retorno = "";
-        if (classe.equals("Equip")) {
-            retorno = urlPrincipal + "equip.php" + put;
+        if (classe.equals("OrdemCarreg")) {
+            retorno = urlPrincipal + "ordemcarreg.php" + put;
         } else if (classe.equals("Atualiza")) {
             retorno = urlPrincipal + "atualaplic.php" + put;
         }

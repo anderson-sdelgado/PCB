@@ -62,17 +62,34 @@
         android:text="@string/texto_dig_bag" />
 
     <Button
-        android:id="@+id/buttonCancelarCarreg"
+        android:id="@+id/buttonAtualizarBD"
         style="@style/BotaoAvulso"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/texto_canc_carga" />
+        android:text="@string/texto_atualizar_bd" />
 
-    <Button
-        android:id="@+id/buttonFinalizarCarreg"
-        style="@style/BotaoAvulso"
+    <LinearLayout
+        android:id="@+id/rightRelativeLayoutCarga"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/texto_finalizar_carga" />
+        android:orientation="horizontal" >
+
+        <Button
+            android:id="@+id/buttonCancelarCarreg"
+            style="@style/BotaoAvulso"
+            android:layout_weight="1"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/texto_canc_carga" />
+
+        <Button
+            android:id="@+id/buttonFinalizarCarreg"
+            style="@style/BotaoAvulso"
+            android:layout_weight="1"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/texto_finalizar_carga" />
+
+    </LinearLayout>
 
 </LinearLayout>

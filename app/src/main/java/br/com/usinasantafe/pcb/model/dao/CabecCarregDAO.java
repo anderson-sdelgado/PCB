@@ -140,13 +140,13 @@ public class CabecCarregDAO {
         CabecCarregBean cabecCarregBean = new CabecCarregBean();
         List<CabecCarregBean> cabecCarregList = cabecCarregBean.orderBy("idCabecCarreg", true);
         for (CabecCarregBean cabecCarregBD : cabecCarregList) {
-            dadosArrayList.add(dadosBolMMFert(cabecCarregBD));
+            dadosArrayList.add(dadosCabec(cabecCarregBD));
         }
         cabecCarregList.clear();
         return dadosArrayList;
     }
 
-    private String dadosBolMMFert(CabecCarregBean cabecCarregBean){
+    private String dadosCabec(CabecCarregBean cabecCarregBean){
         Gson gsonCabec = new Gson();
         return gsonCabec.toJsonTree(cabecCarregBean, cabecCarregBean.getClass()).toString();
     }

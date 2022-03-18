@@ -2,12 +2,17 @@ package br.com.usinasantafe.pcb.view;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import br.com.usinasantafe.pcb.PCBContext;
 import br.com.usinasantafe.pcb.R;
@@ -16,11 +21,19 @@ import br.com.usinasantafe.pcb.model.dao.LogProcessoDAO;
 
 public class LeitorFuncActivity extends ActivityGeneric {
 
-    public static final int REQUEST_CODE = 0;
     private PCBContext pcbContext;
     private TextView txtRetColab;
     private ProgressDialog progressBar;
     private FuncBean funcBean;
+
+    private static final String EXTRA_CONTROL = "com.honeywell.aidc.action.ACTION_CONTROL_SCANNER";
+    private static final String EXTRA_SCAN = "com.honeywell.aidc.extra.EXTRA_SCAN";
+    public static final String ACTION_BARCODE_DATA = "com.honeywell.sample.intentapisample.BARCODE";
+    public static final String ACTION_CLAIM_SCANNER = "com.honeywell.aidc.action.ACTION_CLAIM_SCANNER";
+    public static final String ACTION_RELEASE_SCANNER = "com.honeywell.aidc.action.ACTION_RELEASE_SCANNER";
+    public static final String EXTRA_SCANNER = "com.honeywell.aidc.extra.EXTRA_SCANNER";
+    public static final String EXTRA_PROFILE = "com.honeywell.aidc.extra.EXTRA_PROFILE";
+    public static final String EXTRA_PROPERTIES = "com.honeywell.aidc.extra.EXTRA_PROPERTIES";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,12 +42,12 @@ public class LeitorFuncActivity extends ActivityGeneric {
 
         pcbContext = (PCBContext) getApplication();
 
-        txtRetColab = (TextView) findViewById(R.id.txtRetColab);
-        Button buttonOkColab = (Button) findViewById(R.id.buttonOkColab);
-        Button buttonCancColab = (Button) findViewById(R.id.buttonCancColab);
-        Button buttonDigColab = (Button) findViewById(R.id.buttonDigColab);
-        Button buttonAtualPadrao = (Button) findViewById(R.id.buttonAtualPadrao);
-        Button buttonCaptColab = (Button) findViewById(R.id.buttonCaptColab);
+        txtRetColab = findViewById(R.id.txtRetColab);
+        Button buttonOkColab = findViewById(R.id.buttonOkColab);
+        Button buttonCancColab = findViewById(R.id.buttonCancColab);
+        Button buttonDigColab = findViewById(R.id.buttonDigColab);
+        Button buttonAtualPadrao = findViewById(R.id.buttonAtualPadrao);
+        Button buttonCaptColab = findViewById(R.id.buttonCaptColab);
 
         funcBean = new FuncBean();
         funcBean.setMatricFunc(0L);
@@ -53,12 +66,11 @@ public class LeitorFuncActivity extends ActivityGeneric {
 
                 if (funcBean.getMatricFunc() > 0) {
 
-                    pcbContext.getCarregCTR().getCabecCargaDAO().getCabecCargaBean().setIdFuncCabecCarreg(funcBean.getIdFunc());
-
                     LogProcessoDAO.getInstance().insertLogProcesso("                if (funcBean.getMatricFunc() > 0) {\n" +
                             "                    pcbContext.getCargaCTR().getCabecCargaDAO().getCabecCargaBean().setMatricFuncCabecCarga(funcBean.getMatricFunc());\n" +
                             "                    Intent it = new Intent(LeitorFuncActivity.this, ListaOrdemCarregActivity.class);", getLocalClassName());
 
+                    pcbContext.getCarregCTR().getCabecCargaDAO().getCabecCargaBean().setIdFuncCabecCarreg(funcBean.getIdFunc());
                     Intent it = new Intent(LeitorFuncActivity.this, ListaOrdemCarregActivity.class);
                     startActivity(it);
                     finish();
@@ -100,18 +112,20 @@ public class LeitorFuncActivity extends ActivityGeneric {
         });
 
         buttonCaptColab.setOnClickListener(new View.OnClickListener() {
-
             @Override
             public void onClick(View v) {
-                LogProcessoDAO.getInstance().insertLogProcesso("        buttonCaptColab.setOnClickListener(new View.OnClickListener() {\n" +
+                LogProcessoDAO.getInstance().insertLogProcesso("buttonCaptColab.setOnClickListener(new View.OnClickListener() {\n" +
                         "            @Override\n" +
                         "            public void onClick(View v) {\n" +
-                        "                Intent it = new Intent(LeitorFuncActivity.this, br.com.usinasantafe.pcb.zxing.CaptureActivity.class);\n" +
-                        "                startActivityForResult(it, REQUEST_CODE);", getLocalClassName());
-                Intent it = new Intent(LeitorFuncActivity.this, br.com.usinasantafe.pcb.zxing.CaptureActivity.class);
-                startActivityForResult(it, REQUEST_CODE);
+                        "                sendBroadcast(new Intent(EXTRA_CONTROL)\n" +
+                        "                        .setPackage(\"com.intermec.datacollectionservice\")\n" +
+                        "                        .putExtra(EXTRA_SCAN, true)\n" +
+                        "                );", getLocalClassName());
+                sendBroadcast(new Intent(EXTRA_CONTROL)
+                        .setPackage("com.intermec.datacollectionservice")
+                        .putExtra(EXTRA_SCAN, true)
+                );
             }
-
         });
 
         buttonAtualPadrao.setOnClickListener(new View.OnClickListener() {
@@ -196,36 +210,102 @@ public class LeitorFuncActivity extends ActivityGeneric {
 
     }
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+    public void onBackPressed() {
+    }
 
-        if (REQUEST_CODE == requestCode && RESULT_OK == resultCode) {
-            LogProcessoDAO.getInstance().insertLogProcesso("    @Override\n" +
-                    "    public void onActivityResult(int requestCode, int resultCode, Intent data) {\n" +
-                    "        if (REQUEST_CODE == requestCode && RESULT_OK == resultCode) {\n" +
-                    "            String matricula = data.getStringExtra(\"SCAN_RESULT\");", getLocalClassName());
-            String matricula = data.getStringExtra("SCAN_RESULT");
-            if (matricula.length() == 8) {
-                LogProcessoDAO.getInstance().insertLogProcesso("            if (matricula.length() == 8) {\n" +
-                        "                matricula = matricula.substring(0, 7);", getLocalClassName());
-                matricula = matricula.substring(0, 7);
-                if (pcbContext.getCarregCTR().verFunc(Long.parseLong(matricula))) {
-                    LogProcessoDAO.getInstance().insertLogProcesso("if (pcbContext.getCargaCTR().verFunc(Long.parseLong(matricula))) {\n" +
-                            "                    funcBean = pcbContext.getCargaCTR().getFuncMatric(Long.parseLong(matricula));\n" +
-                            "                    txtRetColab.setText(matricula + \"\\n\" + funcBean.getNomeFunc());", getLocalClassName());
-                    funcBean = pcbContext.getCarregCTR().getFuncMatric(Long.parseLong(matricula));
-                    txtRetColab.setText(matricula + "\n" + funcBean.getNomeFunc());
-                } else {
-                    LogProcessoDAO.getInstance().insertLogProcesso("} else {\n" +
-                            "                    txtRetColab.setText(\"Funcionário Inexistente\");", getLocalClassName());
-                    txtRetColab.setText("Funcionário Inexistente");
+    private BroadcastReceiver barcodeDataReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            LogProcessoDAO.getInstance().insertLogProcesso("private BroadcastReceiver barcodeDataReceiver = new BroadcastReceiver() {\n" +
+                    "        @Override\n" +
+                    "        public void onReceive(Context context, Intent intent) {\n" +
+                    "            String action = intent.getAction();", getLocalClassName());
+            String action = intent.getAction();
+            if (ACTION_BARCODE_DATA.equals(action)) {
+                LogProcessoDAO.getInstance().insertLogProcesso("if (ACTION_BARCODE_DATA.equals(action)) {\n" +
+                        "                int version = intent.getIntExtra(\"version\", 0);", getLocalClassName());
+                int version = intent.getIntExtra("version", 0);
+                if (version >= 1) {
+                    LogProcessoDAO.getInstance().insertLogProcesso("if (version >= 1) {\n" +
+                            "                    String matricula = intent.getStringExtra(\"data\");", getLocalClassName());
+                    String matricula = intent.getStringExtra("data");
+                    if (matricula.length() == 8) {
+                        LogProcessoDAO.getInstance().insertLogProcesso("            if (matricula.length() == 8) {\n" +
+                                "                matricula = matricula.substring(0, 7);", getLocalClassName());
+                        matricula = matricula.substring(0, 7);
+                        if (pcbContext.getCarregCTR().verFunc(Long.parseLong(matricula))) {
+                            LogProcessoDAO.getInstance().insertLogProcesso("if (pcbContext.getCargaCTR().verFunc(Long.parseLong(matricula))) {\n" +
+                                    "                    funcBean = pcbContext.getCargaCTR().getFuncMatric(Long.parseLong(matricula));\n" +
+                                    "                    txtRetColab.setText(matricula + \"\\n\" + funcBean.getNomeFunc());", getLocalClassName());
+                            funcBean = pcbContext.getCarregCTR().getFuncMatric(Long.parseLong(matricula));
+                            txtRetColab.setText(matricula + "\n" + funcBean.getNomeFunc());
+                        } else {
+                            LogProcessoDAO.getInstance().insertLogProcesso("} else {\n" +
+                                    "                    txtRetColab.setText(\"Funcionário Inexistente\");", getLocalClassName());
+                            txtRetColab.setText("Funcionário Inexistente");
+                        }
+                    }
                 }
             }
         }
+    };
 
+    @Override
+    protected void onResume() {
+        LogProcessoDAO.getInstance().insertLogProcesso("protected void onResume() {\n" +
+                "        super.onResume();\n" +
+                "        IntentFilter intentFilter = new IntentFilter(ACTION_BARCODE_DATA);\n" +
+                "        registerReceiver(barcodeDataReceiver, intentFilter);\n" +
+                "        claimScanner();", getLocalClassName());
+        super.onResume();
+        IntentFilter intentFilter = new IntentFilter(ACTION_BARCODE_DATA);
+        registerReceiver(barcodeDataReceiver, intentFilter);
+        claimScanner();
     }
 
-    public void onBackPressed() {
+    private void claimScanner() {
+        LogProcessoDAO.getInstance().insertLogProcesso("    private void claimScanner() {\n" +
+                "        Bundle properties = new Bundle();\n" +
+                "        properties.putBoolean(\"DPR_DATA_INTENT\", true);\n" +
+                "        properties.putString(\"DPR_DATA_INTENT_ACTION\", ACTION_BARCODE_DATA);\n" +
+                "        Intent intent = new Intent();\n" +
+                "        intent.setAction(ACTION_CLAIM_SCANNER);\n" +
+                "        intent.setPackage(\"com.intermec.datacollectionservice\");\n" +
+                "        intent.putExtra(EXTRA_SCANNER, \"dcs.scanner.imager\");\n" +
+                "        intent.putExtra(EXTRA_PROFILE, \"MyProfile1\");\n" +
+                "        intent.putExtra(EXTRA_PROPERTIES, properties);\n" +
+                "        sendBroadcast(intent);", getLocalClassName());
+        Bundle properties = new Bundle();
+        properties.putBoolean("DPR_DATA_INTENT", true);
+        properties.putString("DPR_DATA_INTENT_ACTION", ACTION_BARCODE_DATA);
+        Intent intent = new Intent();
+        intent.setAction(ACTION_CLAIM_SCANNER);
+        intent.setPackage("com.intermec.datacollectionservice");
+        intent.putExtra(EXTRA_SCANNER, "dcs.scanner.imager");
+        intent.putExtra(EXTRA_PROFILE, "MyProfile1");
+        intent.putExtra(EXTRA_PROPERTIES, properties);
+        sendBroadcast(intent);
+    }
+
+    @Override
+    protected void onPause() {
+        LogProcessoDAO.getInstance().insertLogProcesso("protected void onPause() {\n" +
+                "        super.onPause();\n" +
+                "        unregisterReceiver(barcodeDataReceiver);\n" +
+                "        releaseScanner();", getLocalClassName());
+        super.onPause();
+        unregisterReceiver(barcodeDataReceiver);
+        releaseScanner();
+    }
+
+    private void releaseScanner() {
+        LogProcessoDAO.getInstance().insertLogProcesso("private void releaseScanner() {\n" +
+                "        Intent intent = new Intent();\n" +
+                "        intent.setAction(ACTION_RELEASE_SCANNER);\n" +
+                "        sendBroadcast(intent);", getLocalClassName());
+        Intent intent = new Intent();
+        intent.setAction(ACTION_RELEASE_SCANNER);
+        sendBroadcast(intent);
     }
 
 }

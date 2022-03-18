@@ -21,7 +21,7 @@ public class BagCarregBean extends Entidade {
     @DatabaseField
     private Long idPeriodProdBag;
     @DatabaseField
-    private Long idEmbProdBag;
+    private Long idProdBag;
 
     public BagCarregBean() {
     }
@@ -66,11 +66,11 @@ public class BagCarregBean extends Entidade {
         this.idPeriodProdBag = idPeriodProdBag;
     }
 
-    public Long getIdEmbProdBag() {
-        return idEmbProdBag;
+    public Long getIdProdBag() {
+        return idProdBag;
     }
 
-    public void setIdEmbProdBag(Long idEmbProdBag) {
-        this.idEmbProdBag = idEmbProdBag;
+    public void setIdProdBag(Long idProdBag) {
+        this.idProdBag = idProdBag;
     }
 }

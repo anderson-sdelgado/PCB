@@ -20,6 +20,7 @@ import br.com.usinasantafe.pcb.model.dao.LogProcessoDAO;
 import br.com.usinasantafe.pcb.model.pst.GenericRecordable;
 import br.com.usinasantafe.pcb.util.connHttp.GetBDGenerico;
 import br.com.usinasantafe.pcb.util.connHttp.UrlsConexaoHttp;
+import br.com.usinasantafe.pcb.view.TelaInicialActivity;
 
 public class AtualDadosServ {
 
@@ -88,6 +89,37 @@ public class AtualDadosServ {
 
 	}
 
+	public void atualTabBDTelaInicial(Context telaAtual, ProgressDialog progressDialog, String activity){
+
+		try {
+
+			this.tipoReceb = 1;
+			this.telaAtual = telaAtual;
+			this.progressDialog = progressDialog;
+			tabAtualArrayList = new ArrayList();
+
+			Class<?> retClasse = Class.forName(urlsConexaoHttp.localUrl);
+
+			for (Field field : retClasse.getDeclaredFields()) {
+				String campo = field.getName();
+				if(campo.contains("Bean")){
+					tabAtualArrayList.add(campo);
+				}
+			}
+
+			classe = (String) tabAtualArrayList.get(contAtualBD);
+			String[] url = {classe, activity};
+			contAtualBD++;
+
+			LogProcessoDAO.getInstance().insertLogProcesso("getBDGenerico.execute('" + classe + "');", activity);
+			GetBDGenerico getBDGenerico = new GetBDGenerico();
+			getBDGenerico.execute(url);
+
+		} catch (Exception e) {
+			LogErroDAO.getInstance().insertLogErro(e);
+		}
+
+	}
 
 	public void atualTodasTabBD(Context telaAtual, ProgressDialog progressDialog, String activity){
 
@@ -252,7 +284,6 @@ public class AtualDadosServ {
 					}
 				});
 				alerta.show();
-
 
 			}
 

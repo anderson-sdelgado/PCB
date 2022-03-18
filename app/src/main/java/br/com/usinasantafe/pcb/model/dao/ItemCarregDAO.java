@@ -58,25 +58,19 @@ public class ItemCarregDAO {
 
     public List<ItemCarregBean> itemEnvioList(ArrayList<Long> idCabecList){
         ItemCarregBean itemCarregBean = new ItemCarregBean();
-        return itemCarregBean.getAndOrderBy("idCabecItemCarreg", idCabecList, "idItemCarreg", true);
+        return itemCarregBean.inAndOrderBy("idCabecItemCarreg", idCabecList, "idItemCarreg", true);
     }
 
     public String dadosEnvioItem(List<ItemCarregBean> itemCarregList){
-
         JsonArray itemJsonArray = new JsonArray();
-
         for (ItemCarregBean itemCarregBean : itemCarregList) {
             Gson itemGson = new Gson();
             itemJsonArray.add(itemGson.toJsonTree(itemCarregBean, itemCarregBean.getClass()));
         }
-
         itemCarregList.clear();
-
         JsonObject itemJsonObj = new JsonObject();
         itemJsonObj.add("item", itemJsonArray);
-
         return itemJsonObj.toString();
-
     }
 
     public ArrayList<Long> idItemArrayList(List<ItemCarregBean> apontMMFertList){
@@ -120,16 +114,12 @@ public class ItemCarregDAO {
     }
 
     public void deleteItemCabec(ArrayList<Long> idItemCabecArrayList){
-
         List<ItemCarregBean> itemCabecList = itemCarregListId(idItemCabecArrayList);
-
         for (ItemCarregBean itemCarregBean : itemCabecList) {
             itemCarregBean.delete();
         }
-
         itemCabecList.clear();
         idItemCabecArrayList.clear();
-
     }
 
 }

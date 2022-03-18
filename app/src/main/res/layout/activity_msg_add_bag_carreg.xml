@@ -26,6 +26,13 @@
         android:layout_weight="1"
         android:text="@string/texto_msg_bag" />
 
+    <Button
+        android:id="@+id/buttonAtualizarBD"
+        style="@style/BotaoAvulso"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/texto_atualizar_bd" />
+
     <LinearLayout
         android:id="@+id/rightRelativeLayout"
         android:layout_width="match_parent"

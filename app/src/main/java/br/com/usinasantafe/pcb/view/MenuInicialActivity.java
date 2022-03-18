@@ -106,12 +106,12 @@ public class MenuInicialActivity extends ActivityGeneric {
                     if (pcbContext.getCarregCTR().hasElemFunc()
                             && pcbContext.getConfigCTR().hasElemConfig()
                             && (VerifDadosServ.status == 3)) {
-                        LogProcessoDAO.getInstance().insertLogProcesso("pmmContext.getMotoMecFertCTR().hasElemFunc()\n" +
-                                "                            && pmmContext.getConfigCTR().hasElemConfig()\n" +
-                                "                            && (VerifDadosServ.status == 3)\n" +
-                                "pmmContext.getConfigCTR().setPosicaoTela(1L);", getLocalClassName());
+                        LogProcessoDAO.getInstance().insertLogProcesso("if (pcbContext.getCarregCTR().hasElemFunc()\n" +
+                                "                            && pcbContext.getConfigCTR().hasElemConfig()\n" +
+                                "                            && (VerifDadosServ.status == 3)) {\n" +
+                                "                        pcbContext.getConfigCTR().setPosicaoTela(1L);\n" +
+                                "                        Intent it = new Intent(MenuInicialActivity.this, LeitorFuncActivity.class);", getLocalClassName());
                         pcbContext.getConfigCTR().setPosicaoTela(1L);
-                        LogProcessoDAO.getInstance().insertLogProcesso("Intent it = new Intent(MenuInicialActivity.this, LeitorFuncActivity.class)", getLocalClassName());
                         Intent it = new Intent(MenuInicialActivity.this, LeitorFuncActivity.class);
                         startActivity(it);
                         finish();

@@ -45,6 +45,14 @@ public class TelaInicialActivity extends ActivityGeneric {
     public void onBackPressed() {
     }
 
+    public void atualizarOrdemCarreg(){
+        LogProcessoDAO.getInstance().insertLogProcesso("public void atualizarOrdemCarreg(){\n" +
+                "customHandler.postDelayed(encerraAtualThread, 10000);\n" +
+                "        pcbContext.getConfigCTR().atualDados(this, getLocalClassName());", getLocalClassName());
+        customHandler.postDelayed(encerraAtualThread, 10000);
+        pcbContext.getConfigCTR().atualDados(this, getLocalClassName());
+    }
+
     public void goMenuInicial(){
 
         LogProcessoDAO.getInstance().insertLogProcesso("customHandler.removeCallbacks(encerraAtualThread);", getLocalClassName());

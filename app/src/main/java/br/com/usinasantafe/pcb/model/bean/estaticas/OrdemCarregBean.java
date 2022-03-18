@@ -27,7 +27,7 @@ public class OrdemCarregBean extends Entidade {
     @DatabaseField
     private Long idPeriodProdOrdemCarreg;
     @DatabaseField
-    private Long idEmbProdOrdemCarreg;
+    private Long idProdOrdemCarreg;
 
     public OrdemCarregBean() {
     }
@@ -96,11 +96,11 @@ public class OrdemCarregBean extends Entidade {
         this.idPeriodProdOrdemCarreg = idPeriodProdOrdemCarreg;
     }
 
-    public Long getIdEmbProdOrdemCarreg() {
-        return idEmbProdOrdemCarreg;
+    public Long getIdProdOrdemCarreg() {
+        return idProdOrdemCarreg;
     }
 
-    public void setIdEmbProdOrdemCarreg(Long idEmbProdOrdemCarreg) {
-        this.idEmbProdOrdemCarreg = idEmbProdOrdemCarreg;
+    public void setIdProdOrdemCarreg(Long idProdOrdemCarreg) {
+        this.idProdOrdemCarreg = idProdOrdemCarreg;
     }
 }

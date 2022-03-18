@@ -82,11 +82,18 @@ public class ConfigCTR {
                 break;
             case "OrdemCarreg":
                 classeArrayList.add("OrdemCarregBean");
+                break;
+            case "BagCarreg":
                 classeArrayList.add("BagCarregBean");
                 break;
         }
         LogProcessoDAO.getInstance().insertLogProcesso("AtualDadosServ.getInstance().atualGenericoBD(telaAtual, telaProx, progressDialog, classeArrayList, tipoReceb, activity);", activity);
         AtualDadosServ.getInstance().atualGenericoBD(telaAtual, telaProx, progressDialog, classeArrayList, tipoReceb, activity);
+    }
+
+    public void atualDados(TelaInicialActivity telaInicialActivity, String activity) {
+        LogProcessoDAO.getInstance().insertLogProcesso("VerifDadosServ.getInstance().atualDados(telaInicialActivity, activity);", activity);
+        VerifDadosServ.getInstance().atualDados(telaInicialActivity, activity);
     }
 
     ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -126,9 +133,6 @@ public class ConfigCTR {
 
     /////////////////////////////////////////// LOG ///////////////////////////////////////////////
 
-
-    /////////////////////////////////////////// LOG ///////////////////////////////////////////////
-
     public List<LogProcessoBean> logProcessoList(){
         LogProcessoDAO logProcessoDAO = new LogProcessoDAO();
         return logProcessoDAO.logProcessoList();
@@ -157,7 +161,5 @@ public class ConfigCTR {
 
     ///////////////////////////////////////////////////////////////////////////////////////////////
 
-
-    ///////////////////////////////////////////////////////////////////////////////////////////////
 
 }

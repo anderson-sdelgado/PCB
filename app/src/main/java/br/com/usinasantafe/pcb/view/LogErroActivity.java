@@ -1,7 +1,5 @@
 package br.com.usinasantafe.pcb.view;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -14,15 +12,14 @@ import br.com.usinasantafe.pcb.model.dao.LogProcessoDAO;
 
 public class LogErroActivity extends ActivityGeneric {
 
-    private PCBContext pmmContext;
+    private PCBContext pcbContext;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_log_erro);
 
-
-        pmmContext = (PCBContext) getApplication();
+        pcbContext = (PCBContext) getApplication();
 
         Button buttonRetLogErro = findViewById(R.id.buttonRetLogErro);
 
@@ -30,7 +27,7 @@ public class LogErroActivity extends ActivityGeneric {
                 "        AdapterListHistorico adapterListHistorico = new AdapterListHistorico(this, pmmContext.getConfigCTR().logProcessoList());\n" +
                 "        listaHistorico.setAdapter(adapterListHistorico);", getLocalClassName());
         ListView listViewLogErro = findViewById(R.id.listViewLogErro);
-        AdapterListErro adapterListErro = new AdapterListErro(this, pmmContext.getConfigCTR().logErroList());
+        AdapterListErro adapterListErro = new AdapterListErro(this, pcbContext.getConfigCTR().logErroList());
         listViewLogErro.setAdapter(adapterListErro);
 
         buttonRetLogErro.setOnClickListener(new View.OnClickListener() {

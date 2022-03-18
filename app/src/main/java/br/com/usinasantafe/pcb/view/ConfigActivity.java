@@ -47,7 +47,6 @@ public class ConfigActivity extends ActivityGeneric {
         buttonAtualizarBD.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 LogProcessoDAO.getInstance().insertLogProcesso("buttonAtualizarBD.setOnClickListener(new View.OnClickListener() {\n" +
                         "            @Override\n" +
                         "            public void onClick(View v) {", getLocalClassName());
