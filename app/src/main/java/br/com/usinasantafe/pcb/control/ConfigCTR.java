@@ -10,13 +10,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.com.usinasantafe.pcb.model.bean.AtualAplicBean;
+import br.com.usinasantafe.pcb.model.bean.estaticas.FuncBean;
 import br.com.usinasantafe.pcb.model.bean.variaveis.ConfigBean;
 import br.com.usinasantafe.pcb.model.bean.variaveis.LogErroBean;
 import br.com.usinasantafe.pcb.model.bean.variaveis.LogProcessoBean;
 import br.com.usinasantafe.pcb.model.dao.AtualAplicDAO;
-import br.com.usinasantafe.pcb.model.dao.CabecCarregDAO;
+import br.com.usinasantafe.pcb.model.dao.CabecCargaDAO;
+import br.com.usinasantafe.pcb.model.dao.CabecTransfDAO;
 import br.com.usinasantafe.pcb.model.dao.ConfigDAO;
-import br.com.usinasantafe.pcb.model.dao.ItemCarregDAO;
+import br.com.usinasantafe.pcb.model.dao.FuncDAO;
+import br.com.usinasantafe.pcb.model.dao.ItemCargaDAO;
+import br.com.usinasantafe.pcb.model.dao.ItemTransfDAO;
 import br.com.usinasantafe.pcb.model.dao.LogErroDAO;
 import br.com.usinasantafe.pcb.model.dao.LogProcessoDAO;
 import br.com.usinasantafe.pcb.util.AtualDadosServ;
@@ -50,9 +54,19 @@ public class ConfigCTR {
         configDAO.setStatusRetVerif(statusRetVerif);
     }
 
+    public void setTipoApont(Long tipoApont) {
+        ConfigDAO configDAO = new ConfigDAO();
+        configDAO.setTipoApont(tipoApont);
+    }
+
     public Long getStatusRetVerif(){
         ConfigBean configBean = getConfig();
         return configBean.getStatusRetVerif();
+    }
+
+    public Long getTipoApont(){
+        ConfigBean configBean = getConfig();
+        return configBean.getTipoApont();
     }
 
     public boolean verSenha(String senha){
@@ -64,6 +78,27 @@ public class ConfigCTR {
         ConfigDAO configDAO = new ConfigDAO();
         configDAO.salvarConfig(nroAparelho, senha);
     }
+
+
+    /////////////////////////////////// FUNCIONARIOS //////////////////////////////////////////////
+
+    public boolean hasElemFunc(){
+        FuncDAO funcDAO = new FuncDAO();
+        return funcDAO.hasElements();
+    }
+
+    public boolean verFunc(Long matricFunc){
+        FuncDAO funcDAO = new FuncDAO();
+        return funcDAO.verFuncMatric(matricFunc);
+    }
+
+    public FuncBean getFuncMatric(Long matricFunc){
+        FuncDAO funcDAO = new FuncDAO();
+        return funcDAO.getFuncMatric(matricFunc);
+    }
+
+    ///////////////////////////////////////////////////////////////////////////////////////////////
+
 
     ////////////////////////////////////// ATUALIZAR DADOS ////////////////////////////////////////
 
@@ -140,10 +175,14 @@ public class ConfigCTR {
 
     public ArrayList<String> logBaseDadoList(){
         ArrayList<String> dadosArrayList = new ArrayList<>();
-        CabecCarregDAO cabecCarregDAO = new CabecCarregDAO();
-        ItemCarregDAO itemCarregDAO = new ItemCarregDAO();
-        dadosArrayList = cabecCarregDAO.cabecAllArrayList(dadosArrayList);
-        dadosArrayList = itemCarregDAO.itemCarregAllArrayList(dadosArrayList);
+        CabecCargaDAO cabecCargaDAO = new CabecCargaDAO();
+        CabecTransfDAO cabecTransfDAO = new CabecTransfDAO();
+        ItemCargaDAO itemCargaDAO = new ItemCargaDAO();
+        ItemTransfDAO itemTransfDAO = new ItemTransfDAO();
+        dadosArrayList = cabecCargaDAO.cabecCargaAllArrayList(dadosArrayList);
+        dadosArrayList = itemCargaDAO.itemCargaAllArrayList(dadosArrayList);
+        dadosArrayList = cabecTransfDAO.cabecTransfAllArrayList(dadosArrayList);
+        dadosArrayList = itemTransfDAO.itemTransfAllArrayList(dadosArrayList);
         return dadosArrayList;
     }
 

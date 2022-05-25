@@ -88,7 +88,7 @@ public class SenhaActivity extends ActivityGeneric {
                 else{
                     LogProcessoDAO.getInstance().insertLogProcesso("}else{\n" +
                             "                        Intent it = new Intent(SenhaActivity.this, ListaBagCarregActivity.class);", getLocalClassName());
-                    Intent it = new Intent(SenhaActivity.this, ListaBagCarregActivity.class);
+                    Intent it = new Intent(SenhaActivity.this, ListaBagCargaActivity.class);
                     startActivity(it);
                     finish();
                 }

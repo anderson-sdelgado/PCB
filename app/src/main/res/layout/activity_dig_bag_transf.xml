@@ -9,7 +9,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context=".view.DigBagCarregActivity">
+    tools:context=".view.DigBagTransfActivity">
 
     <TextView
         android:id="@+id/textViewPadrao"
@@ -22,6 +22,6 @@
 
     <include
         android:id="@+id/layout_novo_botoes"
-        layout="@layout/layout_botoes" />
+        layout="@layout/layout_botoes_s_atual" />
 
 </LinearLayout>

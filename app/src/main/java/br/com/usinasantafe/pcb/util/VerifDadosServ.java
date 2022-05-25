@@ -11,8 +11,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 import br.com.usinasantafe.pcb.control.ConfigCTR;
+import br.com.usinasantafe.pcb.control.TransfCTR;
+import br.com.usinasantafe.pcb.model.dao.BagDAO;
 import br.com.usinasantafe.pcb.model.dao.LogProcessoDAO;
-import br.com.usinasantafe.pcb.model.dao.OrdemCarregDAO;
+import br.com.usinasantafe.pcb.model.dao.OrdemCargaDAO;
 import br.com.usinasantafe.pcb.util.connHttp.PostVerGenerico;
 import br.com.usinasantafe.pcb.util.connHttp.UrlsConexaoHttp;
 import br.com.usinasantafe.pcb.view.TelaInicialActivity;
@@ -28,7 +30,7 @@ public class VerifDadosServ {
     private Class telaProx;
     private ProgressDialog progressDialog;
     private String dados;
-    private String tipo;
+    private String classe;
     private TelaInicialActivity telaInicialActivity;
     private PostVerGenerico postVerGenerico;
     public static int status;
@@ -46,7 +48,7 @@ public class VerifDadosServ {
 
         ConfigCTR configCTR = new ConfigCTR();
         LogProcessoDAO.getInstance().insertLogProcesso("public void manipularDadosHttp(String result) {", activity);
-        if (this.tipo.equals("Atualiza")) {
+        if (this.classe.equals("Atualiza")) {
             LogProcessoDAO.getInstance().insertLogProcesso("if (this.tipo.equals(\"Atualiza\")) {\n" +
                     "            configCTR.recAtual(result.trim());\n" +
                     "            status = 3;\n" +
@@ -54,17 +56,24 @@ public class VerifDadosServ {
             configCTR.recAtual(result.trim());
             status = 3;
             this.telaInicialActivity.atualizarOrdemCarreg();
-        } else if (this.tipo.equals("OrdemCarreg")) {
+        } else if (this.classe.equals("OrdemCarreg")) {
             LogProcessoDAO.getInstance().insertLogProcesso("} else if (this.tipo.equals(\"OrdemCarreg\")) {\n" +
                     "            OrdemCarregDAO ordemCarregDAO = new OrdemCarregDAO();\n" +
                     "            ordemCarregDAO.atualDados(result, activity);\n" +
                     "            status = 3;\n" +
                     "            this.telaInicialActivity.goMenuInicial();", activity);
-            OrdemCarregDAO ordemCarregDAO = new OrdemCarregDAO();
-            ordemCarregDAO.atualDados(result, activity);
+            OrdemCargaDAO ordemCargaDAO = new OrdemCargaDAO();
+            ordemCargaDAO.atualDados(result, activity);
             status = 3;
             this.telaInicialActivity.goMenuInicial();
-
+        } else if (this.classe.equals("Bag")) {
+            LogProcessoDAO.getInstance().insertLogProcesso("} else if (this.tipo.equals(\"OrdemCarreg\")) {\n" +
+                    "            OrdemCarregDAO ordemCarregDAO = new OrdemCarregDAO();\n" +
+                    "            ordemCarregDAO.atualDados(result, activity);\n" +
+                    "            status = 3;", activity);
+            TransfCTR transfCTR = new TransfCTR();
+            transfCTR.receberVerifBag(result);
+            status = 3;
         } else {
             LogProcessoDAO.getInstance().insertLogProcesso("} else {\n" +
                     "            status = 1;", activity);
@@ -87,9 +96,22 @@ public class VerifDadosServ {
     public void verifAtualAplic(String dados, TelaInicialActivity telaInicialActivity, String activity) {
 
         urlsConexaoHttp = new UrlsConexaoHttp();
-        this.tipo = "Atualiza";
+        this.classe = "Atualiza";
         this.dados = dados;
         this.telaInicialActivity = telaInicialActivity;
+
+        envioVerif(activity);
+
+    }
+
+    public void verifDados(String dados, String classe, Context telaAtual, Class telaProx, ProgressDialog progressDialog, String activity) {
+
+        this.urlsConexaoHttp = new UrlsConexaoHttp();
+        this.telaAtual = telaAtual;
+        this.telaProx = telaProx;
+        this.progressDialog = progressDialog;
+        this.classe = classe;
+        this.dados = dados;
 
         envioVerif(activity);
 
@@ -98,7 +120,7 @@ public class VerifDadosServ {
     public void atualDados(TelaInicialActivity telaInicialActivity, String activity) {
 
         this.urlsConexaoHttp = new UrlsConexaoHttp();
-        this.tipo = "OrdemCarreg";
+        this.classe = "OrdemCarreg";
         this.telaInicialActivity = telaInicialActivity;
 
         envioVerif(activity);
@@ -109,11 +131,11 @@ public class VerifDadosServ {
 
         status = 2;
         this.urlsConexaoHttp = new UrlsConexaoHttp();
-        String[] url = {urlsConexaoHttp.urlVerifica(tipo), activity};
+        String[] url = {urlsConexaoHttp.urlVerifica(classe), activity};
         Map<String, Object> parametrosPost = new HashMap<String, Object>();
         parametrosPost.put("dado", this.dados);
 
-        LogProcessoDAO.getInstance().insertLogProcesso("postVerGenerico.execute('" + urlsConexaoHttp.urlVerifica(tipo) + "'); - Dados de Envio = " + this.dados, activity);
+        LogProcessoDAO.getInstance().insertLogProcesso("postVerGenerico.execute('" + urlsConexaoHttp.urlVerifica(classe) + "'); - Dados de Envio = " + this.dados, activity);
         postVerGenerico = new PostVerGenerico();
         postVerGenerico.setParametrosPost(parametrosPost);
         postVerGenerico.execute(url);
@@ -160,27 +182,11 @@ public class VerifDadosServ {
         }
     }
 
-    public void pulaTelaSemBarra(){
-        if(status < 3){
-            status = 3;
-            Intent it = new Intent(telaAtual, telaProx);
-            telaAtual.startActivity(it);
-        }
+    public String getClasse() {
+        return classe;
     }
 
-    public void pulaTelaSemBarra(Class telaProx){
-        if(status < 3){
-            status = 3;
-            Intent it = new Intent(telaAtual, telaProx);
-            telaAtual.startActivity(it);
-        }
-    }
-
-    public String getTipo() {
-        return tipo;
-    }
-
-    public void setTipo(String tipo) {
-        this.tipo = tipo;
+    public void setClasse(String classe) {
+        this.classe = classe;
     }
 }

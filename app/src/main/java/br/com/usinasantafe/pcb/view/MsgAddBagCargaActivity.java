@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -15,12 +16,12 @@ import android.widget.TextView;
 import br.com.usinasantafe.pcb.PCBContext;
 import br.com.usinasantafe.pcb.R;
 import br.com.usinasantafe.pcb.model.dao.LogProcessoDAO;
-import br.com.usinasantafe.pcb.zxing.CaptureActivity;
 
-public class MsgAddBagCarregActivity extends ActivityGeneric {
+public class MsgAddBagCargaActivity extends ActivityGeneric {
 
     private PCBContext pcbContext;
-    private TextView textViewMsgBag;
+    private TextView textViewMsgVerifNumBag;
+    private TextView textViewMsgStatusCarga;
     private ProgressDialog progressBar;
 
     private static final String EXTRA_CONTROL = "com.honeywell.aidc.action.ACTION_CONTROL_SCANNER";
@@ -35,10 +36,11 @@ public class MsgAddBagCarregActivity extends ActivityGeneric {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_msg_add_bag_carreg);
+        setContentView(R.layout.activity_msg_add_bag_carga);
 
         pcbContext = (PCBContext) getApplication();
-        textViewMsgBag = findViewById(R.id.textViewMsgBag);
+        textViewMsgVerifNumBag = findViewById(R.id.textViewMsgVerifNumBag);
+        textViewMsgStatusCarga = findViewById(R.id.textViewMsgStatusCarga);
         Button buttonMsgBagNao = findViewById(R.id.buttonMsgBagNao);
         Button buttonMsgBagSim = findViewById(R.id.buttonMsgBagSim);
         Button buttonAtualizarBD = findViewById(R.id.buttonAtualizarBD);
@@ -57,7 +59,7 @@ public class MsgAddBagCarregActivity extends ActivityGeneric {
                         "AlertDialog.Builder alerta = new AlertDialog.Builder(MsgAddBagCarregActivity.this);\n" +
                         "                alerta.setTitle(\"ATENÇÃO\");\n" +
                         "                alerta.setMessage(\"DESEJA REALMENTE ATUALIZAR BASE DE DADOS?\");", getLocalClassName());
-                AlertDialog.Builder alerta = new AlertDialog.Builder(MsgAddBagCarregActivity.this);
+                AlertDialog.Builder alerta = new AlertDialog.Builder(MsgAddBagCargaActivity.this);
                 alerta.setTitle("ATENÇÃO");
                 alerta.setMessage("DESEJA REALMENTE ATUALIZAR BASE DE DADOS?");
                 alerta.setNegativeButton("SIM", new DialogInterface.OnClickListener() {
@@ -78,7 +80,7 @@ public class MsgAddBagCarregActivity extends ActivityGeneric {
                                     "                            progressBar.setProgress(0);\n" +
                                     "                            progressBar.setMax(100);\n" +
                                     "                            progressBar.show();", getLocalClassName());
-                            progressBar = new ProgressDialog(MsgAddBagCarregActivity.this);
+                            progressBar = new ProgressDialog(MsgAddBagCargaActivity.this);
                             progressBar.setCancelable(true);
                             progressBar.setMessage("ATUALIZANDO ...");
                             progressBar.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
@@ -87,7 +89,7 @@ public class MsgAddBagCarregActivity extends ActivityGeneric {
                             progressBar.show();
 
                             LogProcessoDAO.getInstance().insertLogProcesso("pcbContext.getConfigCTR().atualDados(MsgAddBagCarregActivity.this, MsgAddBagCarregActivity.class, progressBar, \"BagCarreg\", 1, getLocalClassName());", getLocalClassName());
-                            pcbContext.getConfigCTR().atualDados(MsgAddBagCarregActivity.this, MsgAddBagCarregActivity.class, progressBar, "BagCarreg", 1, getLocalClassName());
+                            pcbContext.getConfigCTR().atualDados(MsgAddBagCargaActivity.this, MsgAddBagCargaActivity.class, progressBar, "BagCarreg", 1, getLocalClassName());
 
                         } else {
 
@@ -100,7 +102,7 @@ public class MsgAddBagCarregActivity extends ActivityGeneric {
                                     "                                }\n" +
                                     "                            });\n" +
                                     "                            alerta.show();", getLocalClassName());
-                            AlertDialog.Builder alerta = new AlertDialog.Builder(MsgAddBagCarregActivity.this);
+                            AlertDialog.Builder alerta = new AlertDialog.Builder(MsgAddBagCargaActivity.this);
                             alerta.setTitle("ATENÇÃO");
                             alerta.setMessage("FALHA NA CONEXÃO DE DADOS. O CELULAR ESTA SEM SINAL. POR FAVOR, TENTE NOVAMENTE QUANDO O CELULAR ESTIVE COM SINAL.");
                             alerta.setPositiveButton("OK", new DialogInterface.OnClickListener() {
@@ -138,7 +140,7 @@ public class MsgAddBagCarregActivity extends ActivityGeneric {
                         "            @Override\n" +
                         "            public void onClick(View v) {\n" +
                         "                Intent it = new Intent(MsgAddBagCarregActivity.this, ListaBagCarregActivity.class);", getLocalClassName());
-                Intent it = new Intent(MsgAddBagCarregActivity.this, ListaBagCarregActivity.class);
+                Intent it = new Intent(MsgAddBagCargaActivity.this, ListaBagCargaActivity.class);
                 startActivity(it);
                 finish();
             }
@@ -151,7 +153,7 @@ public class MsgAddBagCarregActivity extends ActivityGeneric {
                 LogProcessoDAO.getInstance().insertLogProcesso("buttonMsgBagSim.setOnClickListener(new View.OnClickListener() {\n" +
                         "            @Override\n" +
                         "            public void onClick(View v) {", getLocalClassName());
-                if(pcbContext.getCarregCTR().qtdeRestItemCarreg() > 0){
+                if(pcbContext.getCargaCTR().qtdeRestItemCarga() > 0){
                     LogProcessoDAO.getInstance().insertLogProcesso("if(pcbContext.getCarregCTR().qtdeRestItemCarreg() > 0){\n" +
                             "                    sendBroadcast(new Intent(EXTRA_CONTROL)\n" +
                             "                            .setPackage(\"com.intermec.datacollectionservice\")\n" +
@@ -173,7 +175,7 @@ public class MsgAddBagCarregActivity extends ActivityGeneric {
                             "                            }\n" +
                             "                        });\n" +
                             "                        alerta.show()", getLocalClassName());
-                    AlertDialog.Builder alerta = new AlertDialog.Builder(MsgAddBagCarregActivity.this);
+                    AlertDialog.Builder alerta = new AlertDialog.Builder(MsgAddBagCargaActivity.this);
                     alerta.setTitle("ATENÇÃO");
                     alerta.setMessage("CARGA COMPLETA! POR FAVOR, FINALIZE A CARREGAMENTO CLICANDO NO BOTÃO 'NÃO'.");
                     alerta.setPositiveButton("OK", new DialogInterface.OnClickListener() {
@@ -192,41 +194,35 @@ public class MsgAddBagCarregActivity extends ActivityGeneric {
 
     public void msgBag(){
 
-        LogProcessoDAO.getInstance().insertLogProcesso("public void msgBag(){\n" +
-                "        String msgBag = \"\";", getLocalClassName());
-        String msgBag = "";
-
-        if(pcbContext.getCarregCTR().verBagCarregCodBarra(pcbContext.getCodBarraBagLido())){
+        if(pcbContext.getCargaCTR().verBagCargaCodBarra(pcbContext.getCodBarraBagLido())){
             LogProcessoDAO.getInstance().insertLogProcesso("if(pcbContext.getCarregCTR().verBagCarregCodBarra(pcbContext.getCodBarraBagLido())){\n" +
                     "            pcbContext.getCarregCTR().inserirItemCarreg(pcbContext.getCodBarraBagLido());\n" +
                     "            msgBag = msgBag + \"NUMERAÇÃO DE BAG \" + pcbContext.getCodBarraBagLido();", getLocalClassName());
-            pcbContext.getCarregCTR().inserirItemCarreg(pcbContext.getCodBarraBagLido(), getLocalClassName());
-            msgBag = msgBag + "NUMERAÇÃO DE EMBALAGEM " + pcbContext.getCodBarraBagLido();
+            pcbContext.getCargaCTR().inserirItemCarga(pcbContext.getCodBarraBagLido(), getLocalClassName());
+            textViewMsgVerifNumBag.setText("NUMERAÇÃO DE EMBALAGEM " + pcbContext.getCodBarraBagLido());
+            textViewMsgVerifNumBag.setTextColor(Color.BLUE);
         }
         else{
             LogProcessoDAO.getInstance().insertLogProcesso("else{\n" +
                     "            msgBag = msgBag + \"NUMERAÇÃO \" + pcbContext.getCodBarraBagLido() + \" DE EMBALAGEM INVÁLIDA!\";", getLocalClassName());
-            msgBag = msgBag + "NUMERAÇÃO " + pcbContext.getCodBarraBagLido() + " DE EMBALAGEM INVÁLIDA!";
+            textViewMsgVerifNumBag.setText("NUMERAÇÃO " + pcbContext.getCodBarraBagLido() + " DE EMBALAGEM INVÁLIDA!");
+            textViewMsgVerifNumBag.setTextColor(Color.RED);
         }
 
-
-        if(pcbContext.getCarregCTR().qtdeRestItemCarreg() == 0){
+        if(pcbContext.getCargaCTR().qtdeRestItemCarga() == 0){
             LogProcessoDAO.getInstance().insertLogProcesso("if(pcbContext.getCarregCTR().qtdeRestItemCarreg() == 0){\n" +
                     "            msgBag = msgBag + \"\\nCARGA COMPLETA!\" +\n" +
                     "                    \"\\nPOR FAVOR, RETORNE A TELA DE LISTAGEM DE BAG CLICANDO NO BOTÃO 'NÃO'.\";", getLocalClassName());
-            msgBag = msgBag + "\nCARGA COMPLETA!" +
-                    "\nPOR FAVOR, RETORNE A TELA DE LISTAGEM DE BAG CLICANDO NO BOTÃO 'NÃO'.";
+            textViewMsgStatusCarga.setText("CARGA COMPLETA!" +
+                    "\nPOR FAVOR, RETORNE A TELA DE LISTAGEM DE BAG CLICANDO NO BOTÃO 'NÃO'.");
         }
         else{
             LogProcessoDAO.getInstance().insertLogProcesso("else{\n" +
                     "            msgBag = msgBag + \"\\nQUANTIDADE DE EMBALAGENS A SEREM RELACIONADAS: \" + pcbContext.getCarregCTR().qtdeRestItemCarreg() +\n" +
                     "                    \"\\nDESEJA REALIZAR UMA NOVA LEITURA?\"", getLocalClassName());
-            msgBag = msgBag + "\nQUANTIDADE DE EMBALAGENS A SEREM RELACIONADAS: " + pcbContext.getCarregCTR().qtdeRestItemCarreg() +
-                    "\nDESEJA REALIZAR UMA NOVA LEITURA?";
+            textViewMsgStatusCarga.setText("QUANTIDADE DE EMBALAGENS A SEREM RELACIONADAS: " + pcbContext.getCargaCTR().qtdeRestItemCarga() +
+                    "\nDESEJA REALIZAR UMA NOVA LEITURA?");
         }
-
-        LogProcessoDAO.getInstance().insertLogProcesso("textViewMsgBag.setText(msgBag);", getLocalClassName());
-        textViewMsgBag.setText(msgBag);
 
     }
 

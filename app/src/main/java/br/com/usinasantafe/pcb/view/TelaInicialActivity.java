@@ -54,25 +54,30 @@ public class TelaInicialActivity extends ActivityGeneric {
     }
 
     public void goMenuInicial(){
-
-        LogProcessoDAO.getInstance().insertLogProcesso("customHandler.removeCallbacks(encerraAtualThread);", getLocalClassName());
+        LogProcessoDAO.getInstance().insertLogProcesso("public void goMenuInicial(){\n" +
+                "        customHandler.removeCallbacks(encerraAtualThread);", getLocalClassName());
         customHandler.removeCallbacks(encerraAtualThread);
-        LogProcessoDAO.getInstance().insertLogProcesso("}\n" +
-                "        else{\n" +
-                "Intent it = new Intent(TelaInicialActivity.this, MenuInicialActivity.class);", getLocalClassName());
-        if(pcbContext.getCarregCTR().verCabecAberto()){
+        if(pcbContext.getCargaCTR().verCabecCargaAberto()){
             LogProcessoDAO.getInstance().insertLogProcesso("if(pcbContext.getCarregCTR().verCabecAberto()){\n" +
                     "            Intent it = new Intent(TelaInicialActivity.this, ListaBagCarregActivity.class);", getLocalClassName());
-            Intent it = new Intent(TelaInicialActivity.this, ListaBagCarregActivity.class);
+            Intent it = new Intent(TelaInicialActivity.this, ListaBagCargaActivity.class);
             startActivity(it);
             finish();
-        }
-        else{
-            LogProcessoDAO.getInstance().insertLogProcesso("else{\n" +
-                    "            Intent it = new Intent(TelaInicialActivity.this, MenuInicialActivity.class);", getLocalClassName());
-            Intent it = new Intent(TelaInicialActivity.this, MenuInicialActivity.class);
-            startActivity(it);
-            finish();
+        } else {
+            LogProcessoDAO.getInstance().insertLogProcesso("} else {", getLocalClassName());
+            if(pcbContext.getTransfCTR().verCabecTransfAberto()){
+                LogProcessoDAO.getInstance().insertLogProcesso("if(pcbContext.getTransfCTR().verCabecTransfAberto()){\n" +
+                        "                Intent it = new Intent(TelaInicialActivity.this, ListaBagTransfActivity.class);", getLocalClassName());
+                Intent it = new Intent(TelaInicialActivity.this, ListaBagTransfActivity.class);
+                startActivity(it);
+                finish();
+            } else {
+                LogProcessoDAO.getInstance().insertLogProcesso("} else {\n" +
+                        "            Intent it = new Intent(TelaInicialActivity.this, MenuInicialActivity.class);", getLocalClassName());
+                Intent it = new Intent(TelaInicialActivity.this, MenuInicialActivity.class);
+                startActivity(it);
+                finish();
+            }
         }
 
     }
@@ -88,7 +93,7 @@ public class TelaInicialActivity extends ActivityGeneric {
                             "                customHandler.postDelayed(updateTimerThread, 10000);\n" +
                             "pmmContext.getConfigCTR().verAtualAplic(pmmContext.versaoAplic, this, getLocalClassName());", getLocalClassName());
                     customHandler.postDelayed(encerraAtualThread, 10000);
-                    pcbContext.getConfigCTR().verAtualAplic(pcbContext.versaoAplic, this, getLocalClassName());
+                    pcbContext.getConfigCTR().verAtualAplic(pcbContext.versaoAPP, this, getLocalClassName());
                 }
                 else{
                     LogProcessoDAO.getInstance().insertLogProcesso("else{\n" +
@@ -117,7 +122,8 @@ public class TelaInicialActivity extends ActivityGeneric {
     public void clearBD() {
         LogProcessoDAO.getInstance().insertLogProcesso("pmmContext.getConfigCTR().deleteLogs();", getLocalClassName());
         pcbContext.getConfigCTR().deleteLogs();
-        pcbContext.getCarregCTR().deleteCabecEnviados();
+        pcbContext.getCargaCTR().deleteCabecCargaEnviados();
+        pcbContext.getTransfCTR().deleteCabecTransfEnviados();
     }
 
     private Runnable encerraAtualThread = new Runnable() {

@@ -59,13 +59,18 @@ public class LogProcessoActivity extends ActivityGeneric {
                     Intent it = new Intent(LogProcessoActivity.this, TelaInicialActivity.class);
                     startActivity(it);
                     finish();
-                }
-                else {
-                    LogProcessoDAO.getInstance().insertLogProcesso("} else {\n" +
+                } else if (pcbContext.getConfigCTR().getConfig().getPosicaoTela() == 4L){
+                    LogProcessoDAO.getInstance().insertLogProcesso("} else if (pcbContext.getConfigCTR().getConfig().getPosicaoTela() == 4L){\n" +
                             "Intent it = new Intent(LogProcessoActivity.this, MenuPrincPMMActivity.class);", getLocalClassName());
-                    Intent it = new Intent(LogProcessoActivity.this, ListaBagCarregActivity.class);
+                    Intent it = new Intent(LogProcessoActivity.this, ListaBagCargaActivity.class);
                     startActivity(it);
                     finish();
+                } else {
+                        LogProcessoDAO.getInstance().insertLogProcesso("} else {\n" +
+                                "Intent it = new Intent(LogProcessoActivity.this, MenuPrincPMMActivity.class);", getLocalClassName());
+                        Intent it = new Intent(LogProcessoActivity.this, ListaBagTransfActivity.class);
+                        startActivity(it);
+                        finish();
                 }
             }
 

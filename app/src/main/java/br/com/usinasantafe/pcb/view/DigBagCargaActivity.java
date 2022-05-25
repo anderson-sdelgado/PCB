@@ -7,13 +7,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
 
 import br.com.usinasantafe.pcb.PCBContext;
 import br.com.usinasantafe.pcb.R;
 import br.com.usinasantafe.pcb.model.dao.LogProcessoDAO;
 
-public class DigBagCarregActivity extends ActivityGeneric {
+public class DigBagCargaActivity extends ActivityGeneric {
 
     private PCBContext pcbContext;
     private ProgressDialog progressBar;
@@ -21,7 +20,7 @@ public class DigBagCarregActivity extends ActivityGeneric {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_dig_bag_carreg);
+        setContentView(R.layout.activity_dig_bag_carga);
 
         pcbContext = (PCBContext) getApplication();
 
@@ -39,7 +38,7 @@ public class DigBagCarregActivity extends ActivityGeneric {
                         "AlertDialog.Builder alerta = new AlertDialog.Builder(DigBagCarregActivity.this);\n" +
                         "                alerta.setTitle(\"ATENÇÃO\");\n" +
                         "                alerta.setMessage(\"DESEJA REALMENTE ATUALIZAR BASE DE DADOS?\");", getLocalClassName());
-                AlertDialog.Builder alerta = new AlertDialog.Builder(DigBagCarregActivity.this);
+                AlertDialog.Builder alerta = new AlertDialog.Builder(DigBagCargaActivity.this);
                 alerta.setTitle("ATENÇÃO");
                 alerta.setMessage("DESEJA REALMENTE ATUALIZAR BASE DE DADOS?");
                 alerta.setNegativeButton("SIM", new DialogInterface.OnClickListener() {
@@ -60,7 +59,7 @@ public class DigBagCarregActivity extends ActivityGeneric {
                                     "                            progressBar.setProgress(0);\n" +
                                     "                            progressBar.setMax(100);\n" +
                                     "                            progressBar.show();", getLocalClassName());
-                            progressBar = new ProgressDialog(DigBagCarregActivity.this);
+                            progressBar = new ProgressDialog(DigBagCargaActivity.this);
                             progressBar.setCancelable(true);
                             progressBar.setMessage("ATUALIZANDO ...");
                             progressBar.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
@@ -69,7 +68,7 @@ public class DigBagCarregActivity extends ActivityGeneric {
                             progressBar.show();
 
                             LogProcessoDAO.getInstance().insertLogProcesso("pcbContext.getConfigCTR().atualDados(DigBagCarregActivity.this, DigFuncActivity.class, progressBar, \"Func\", 1, getLocalClassName());", getLocalClassName());
-                            pcbContext.getConfigCTR().atualDados(DigBagCarregActivity.this, DigFuncActivity.class, progressBar, "Func", 1, getLocalClassName());
+                            pcbContext.getConfigCTR().atualDados(DigBagCargaActivity.this, DigFuncActivity.class, progressBar, "Func", 1, getLocalClassName());
 
                         } else {
 
@@ -82,7 +81,7 @@ public class DigBagCarregActivity extends ActivityGeneric {
                                     "                                }\n" +
                                     "                            });\n" +
                                     "                            alerta.show();", getLocalClassName());
-                            AlertDialog.Builder alerta = new AlertDialog.Builder(DigBagCarregActivity.this);
+                            AlertDialog.Builder alerta = new AlertDialog.Builder(DigBagCargaActivity.this);
                             alerta.setTitle("ATENÇÃO");
                             alerta.setMessage("FALHA NA CONEXÃO DE DADOS. O CELULAR ESTA SEM SINAL. POR FAVOR, TENTE NOVAMENTE QUANDO O CELULAR ESTIVE COM SINAL.");
                             alerta.setPositiveButton("OK", new DialogInterface.OnClickListener() {
@@ -124,15 +123,13 @@ public class DigBagCarregActivity extends ActivityGeneric {
                 if (!editTextPadrao.getText().toString().equals("")) {
 
                     LogProcessoDAO.getInstance().insertLogProcesso("if (!editTextPadrao.getText().toString().equals(\"\")) {", getLocalClassName());
-                    if(pcbContext.getCarregCTR().verBagCarregCodBarra(editTextPadrao.getText().toString())){
+                    if(pcbContext.getCargaCTR().verBagCargaCodBarra(editTextPadrao.getText().toString())){
 
-                        LogProcessoDAO.getInstance().insertLogProcesso("if (pmmContext.getMotoMecFertCTR().verFunc(Long.parseLong(editTextPadrao.getText().toString()))) {\n" +
-                                "pmmContext.getMotoMecFertCTR().getBoletimMMFertDAO().setBoletimMMBean();\n" +
-                                "                        pmmContext.getMotoMecFertCTR().getBoletimMMFertDAO().getBoletimMMFertBean().setMatricFuncBolMMFert(Long.parseLong(editTextPadrao.getText().toString()));", getLocalClassName());
-                        pcbContext.getCarregCTR().inserirItemCarreg(editTextPadrao.getText().toString(), getLocalClassName());
-
-                        LogProcessoDAO.getInstance().insertLogProcesso("Intent it = new Intent(OperadorActivity.this, EquipActivity.class);", getLocalClassName());
-                        Intent it = new Intent(DigBagCarregActivity.this, ListaBagCarregActivity.class);
+                        LogProcessoDAO.getInstance().insertLogProcesso("if(pcbContext.getCargaCTR().verBagCargaCodBarra(editTextPadrao.getText().toString())){\n" +
+                                "                        pcbContext.getCargaCTR().inserirItemCarga(editTextPadrao.getText().toString(), getLocalClassName());\n" +
+                                "                        Intent it = new Intent(DigBagCargaActivity.this, ListaBagCargaActivity.class);", getLocalClassName());
+                        pcbContext.getCargaCTR().inserirItemCarga(editTextPadrao.getText().toString(), getLocalClassName());
+                        Intent it = new Intent(DigBagCargaActivity.this, ListaBagCargaActivity.class);
                         startActivity(it);
                         finish();
 
@@ -148,7 +145,7 @@ public class DigBagCarregActivity extends ActivityGeneric {
                                 "                            }\n" +
                                 "                        });\n" +
                                 "                        alerta.show();", getLocalClassName());
-                        AlertDialog.Builder alerta = new AlertDialog.Builder(DigBagCarregActivity.this);
+                        AlertDialog.Builder alerta = new AlertDialog.Builder(DigBagCargaActivity.this);
                         alerta.setTitle("ATENÇÃO");
                         alerta.setMessage("NUMERAÇÃO DO BAG INEXISTENTE! FAVOR VERIFICA A MESMA.");
                         alerta.setPositiveButton("OK", new DialogInterface.OnClickListener() {
@@ -187,7 +184,7 @@ public class DigBagCarregActivity extends ActivityGeneric {
     public void onBackPressed() {
         LogProcessoDAO.getInstance().insertLogProcesso("public void onBackPressed() {\n" +
                 "Intent it = new Intent(DigBagCarregActivity.this, ListaBagCarregActivity.class);", getLocalClassName());
-        Intent it = new Intent(DigBagCarregActivity.this, ListaBagCarregActivity.class);
+        Intent it = new Intent(DigBagCargaActivity.this, ListaBagCargaActivity.class);
         startActivity(it);
         finish();
     }

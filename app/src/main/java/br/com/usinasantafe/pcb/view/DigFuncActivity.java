@@ -123,18 +123,14 @@ public class DigFuncActivity extends ActivityGeneric {
                 if (!editTextPadrao.getText().toString().equals("")) {
 
                     LogProcessoDAO.getInstance().insertLogProcesso("if (!editTextPadrao.getText().toString().equals(\"\")) {", getLocalClassName());
-                    if (pcbContext.getCarregCTR().verFunc(Long.parseLong(editTextPadrao.getText().toString()))) {
-
-                        LogProcessoDAO.getInstance().insertLogProcesso("if (pmmContext.getMotoMecFertCTR().verFunc(Long.parseLong(editTextPadrao.getText().toString()))) {\n" +
-                                "pmmContext.getMotoMecFertCTR().getBoletimMMFertDAO().setBoletimMMBean();\n" +
-                                "                        pmmContext.getMotoMecFertCTR().getBoletimMMFertDAO().getBoletimMMFertBean().setMatricFuncBolMMFert(Long.parseLong(editTextPadrao.getText().toString()));", getLocalClassName());
-                        pcbContext.getCarregCTR().getCabecCargaDAO().getCabecCargaBean().setIdFuncCabecCarreg(pcbContext.getCarregCTR().getFuncMatric(Long.parseLong(editTextPadrao.getText().toString())).getIdFunc());
-
-                        LogProcessoDAO.getInstance().insertLogProcesso("Intent it = new Intent(OperadorActivity.this, EquipActivity.class);", getLocalClassName());
-                        Intent it = new Intent(DigFuncActivity.this, ListaOrdemCarregActivity.class);
+                    if (pcbContext.getConfigCTR().verFunc(Long.parseLong(editTextPadrao.getText().toString()))) {
+                        LogProcessoDAO.getInstance().insertLogProcesso("if (pcbContext.getConfigCTR().verFunc(Long.parseLong(editTextPadrao.getText().toString()))) {\n" +
+                                "                        pcbContext.setMatricFunc(Long.parseLong(editTextPadrao.getText().toString()));\n" +
+                                "                        Intent it = new Intent(DigFuncActivity.this, ListaTipoApontActivity.class);", getLocalClassName());
+                        pcbContext.setMatricFunc(Long.parseLong(editTextPadrao.getText().toString()));
+                        Intent it = new Intent(DigFuncActivity.this, ListaTipoApontActivity.class);
                         startActivity(it);
                         finish();
-
                     } else {
 
                         LogProcessoDAO.getInstance().insertLogProcesso("} else {\n" +

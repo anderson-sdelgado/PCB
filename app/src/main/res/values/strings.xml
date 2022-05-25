@@ -157,14 +157,17 @@
     <string name="texto_padrao_retornar">RETORNAR</string>
     <string name="texto_nro_ordem_carga">CAR0001</string>
     <string name="texto_total_bag_carreg">TOTAL BAG DO CARREGAMENTO: 20</string>
-    <string name="texto_qtde_bag_carreg">QTDE BAG ADD: 20</string>
+    <string name="texto_total_bag_transf">TOTAL BAG: 20</string>
+    <string name="texto_qtde_bag_carga">QTDE BAG ADD: 20</string>
     <string name="texto_dthr_inicial">DTHR: 24/11/2021 12:00</string>
-    <string name="texto_titulo_lista_bag">ORDEM CARGA: CAR0001</string>
+    <string name="texto_titulo_lista_bag_carga">ORDEM CARGA: CAR0001</string>
+    <string name="texto_titulo_lista_bag_transf">TRANSFERÊNCIA</string>
     <string name="texto_leitura_bag">CAPTURA CÓDIGO DE BARRA</string>
     <string name="texto_dig_bag">INSERE NUM DO BAG</string>
     <string name="texto_finalizar_carga">FINALIZAR CARGA</string>
     <string name="texto_titulo_msg_bag">CAPTURA COD. DE BARRA</string>
-    <string name="texto_msg_bag">FALTA 30 BAG PARA FECHA A CARGA. DESEJA ADICIONAR MAIS UM BAG NA CARGA?</string>
+    <string name="texto_msg_bag">FALTA 30 BAG PARA FECHA A CARGA.</string>
+    <string name="texto_msg_bag_fixo">DESEJA ADICIONAR MAIS UM BAG NA CARGA?</string>
     <string name="texto_padrao_sim">SIM</string>
     <string name="texto_padrao_nao">NÃO</string>
     <string name="texto_num_linha_config">NUM. LINHA:</string>
@@ -182,4 +185,7 @@
     <string name="texto_hist_impl_transb">TRANSBORDO: 1001</string>
     <string name="texto_log">LOG</string>
     <string name="texto_canc_carga">CANCELAR CARGA</string>
+    <string name="texto_tipo_apont">TIPO DE APONTAMENTO</string>
+    <string name="texto_canc_transf">CANCELAR TRANSFERÊNCIA</string>
+    <string name="texto_finalizar_transf">FINALIZAR TRANSFERÊNCIA</string>
 </resources>

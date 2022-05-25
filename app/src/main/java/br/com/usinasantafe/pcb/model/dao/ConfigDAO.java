@@ -51,6 +51,7 @@ public class ConfigDAO {
         configBean.deleteAll();
         configBean.setNroAparelhoConfig(nroAparelho);
         configBean.setSenhaConfig(senha);
+        configBean.setTipoApont(0L);
         configBean.insert();
         configBean.commit();
     }
@@ -76,6 +77,12 @@ public class ConfigDAO {
             configBean.insert();
             configBean.commit();
         }
+    }
+
+    public void setTipoApont(Long tipoApont) {
+        ConfigBean configBean = getConfig();
+        configBean.setTipoApont(tipoApont);
+        configBean.update();
     }
 
     public void setStatusRetVerif(Long statusRetVerif){

@@ -2,8 +2,9 @@ package br.com.usinasantafe.pcb;
 
 import android.app.Application;
 
-import br.com.usinasantafe.pcb.control.CarregCTR;
+import br.com.usinasantafe.pcb.control.CargaCTR;
 import br.com.usinasantafe.pcb.control.ConfigCTR;
+import br.com.usinasantafe.pcb.control.TransfCTR;
 import br.com.usinasantafe.pcb.model.dao.LogErroDAO;
 
 public class PCBContext extends Application {
@@ -11,10 +12,13 @@ public class PCBContext extends Application {
     private Thread.UncaughtExceptionHandler mDefaultExceptionHandler;
 
     private ConfigCTR configCTR;
-    private CarregCTR carregCTR;
+    private CargaCTR cargaCTR;
+    private TransfCTR transfCTR;
     private String codBarraBagLido;
+    private Long matricFunc;
 
-    public static String versaoAplic = "1.00";
+    public static String versaoAPP = "1.00";
+    public static String versaoWS = "1.00";
 
     @Override
     public void onCreate() {
@@ -29,10 +33,16 @@ public class PCBContext extends Application {
         return configCTR;
     }
 
-    public CarregCTR getCarregCTR(){
-        if (carregCTR == null)
-            carregCTR = new CarregCTR();
-        return carregCTR;
+    public CargaCTR getCargaCTR(){
+        if (cargaCTR == null)
+            cargaCTR = new CargaCTR();
+        return cargaCTR;
+    }
+
+    public TransfCTR getTransfCTR(){
+        if (transfCTR == null)
+            transfCTR = new TransfCTR();
+        return transfCTR;
     }
 
     public String getCodBarraBagLido() {
@@ -41,6 +51,14 @@ public class PCBContext extends Application {
 
     public void setCodBarraBagLido(String codBarraBagLido) {
         this.codBarraBagLido = codBarraBagLido;
+    }
+
+    public Long getMatricFunc() {
+        return matricFunc;
+    }
+
+    public void setMatricFunc(Long matricFunc) {
+        this.matricFunc = matricFunc;
     }
 
     private Thread.UncaughtExceptionHandler handler = new Thread.UncaughtExceptionHandler() {

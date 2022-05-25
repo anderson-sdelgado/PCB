@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context=".view.ListaBagCargaActivity">
+
+    <TextView
+        android:id="@+id/textViewTotalBagCarga"
+        style="@style/TextViewMenuNegrito"
+        android:paddingLeft="3dp"
+        android:paddingTop="3dp"
+        android:text="@string/texto_total_bag_carreg" />
+
+    <TextView
+        android:id="@+id/textViewQtdeBagAddCarga"
+        style="@style/TextViewMenuNegrito"
+        android:paddingLeft="3dp"
+        android:text="@string/texto_qtde_bag_carga" />
+
+    <TextView
+        android:id="@+id/textViewDthrCarga"
+        style="@style/TextViewMenuNormal"
+        android:paddingLeft="3dp"
+        android:paddingBottom="3dp"
+        android:text="@string/texto_dthr_inicial" />
+
+    <TextView
+        android:id="@+id/textViewTituloListaBagCarga"
+        style="@style/TextViewTituloLista"
+        android:text="@string/texto_titulo_lista_bag_carga" />
+
+    <ListView
+        android:id="@+id/bagCargaListView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+    <TextView
+        android:id="@+id/textViewProcesso"
+        style="@style/TextViewItemList"
+        android:text="@string/texto_item_list" />
+
+    <Button
+        android:id="@+id/buttonLeituraBagCarga"
+        style="@style/BotaoAvulso"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/texto_leitura_bag" />
+
+    <Button
+        android:id="@+id/buttonDigBagCarga"
+        style="@style/BotaoAvulso"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/texto_dig_bag" />
+
+    <Button
+        android:id="@+id/buttonAtualizarBD"
+        style="@style/BotaoAvulso"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/texto_atualizar_bd" />
+
+    <LinearLayout
+        android:id="@+id/rightRelativeLayoutCarga"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+
+        <Button
+            android:id="@+id/buttonCancelarCarga"
+            style="@style/BotaoAvulso"
+            android:layout_weight="1"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/texto_canc_carga" />
+
+        <Button
+            android:id="@+id/buttonFinalizarCarga"
+            style="@style/BotaoAvulso"
+            android:layout_weight="1"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/texto_finalizar_carga" />
+
+    </LinearLayout>
+
+</LinearLayout>

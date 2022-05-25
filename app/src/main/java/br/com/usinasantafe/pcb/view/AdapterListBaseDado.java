@@ -46,8 +46,8 @@ public class AdapterListBaseDado extends BaseAdapter {
         convertView = layoutInflater.inflate(R.layout.activity_item_lista, null);
         TextView textView = convertView.findViewById(R.id.textViewItemList);
         textView.setText(itens.get(position));
-        if(itens.get(position).equals("CABEÇALHO")
-                || itens.get(position).equals("ITEM")){
+        if(itens.get(position).equals("CABEÇALHO CARGA")
+                || itens.get(position).equals("ITEM CARGA")){
             textView.setTypeface(null, Typeface.BOLD);
         }
         return convertView;

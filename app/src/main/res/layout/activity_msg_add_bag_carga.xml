@@ -9,7 +9,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context=".view.MsgAddBagCarregActivity">
+    tools:context=".view.MsgAddBagCargaActivity">
 
     <TextView
         android:id="@+id/textViewTituloMsgBag"
@@ -19,19 +19,24 @@
         android:text="@string/texto_titulo_msg_bag" />
 
     <TextView
-        android:id="@+id/textViewMsgBag"
-        style="@style/TextViewMsgDescr"
+        android:id="@+id/textViewMsgVerifNumBag"
+        android:gravity="center"
+        android:textSize="@dimen/fonte_titulo_lista"
+        android:textColor="#000000"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
         android:text="@string/texto_msg_bag" />
 
-    <Button
-        android:id="@+id/buttonAtualizarBD"
-        style="@style/BotaoAvulso"
+    <TextView
+        android:id="@+id/textViewMsgStatusCarga"
+        android:textAlignment="center"
+        android:textSize="@dimen/fonte_titulo_lista"
+        android:textColor="#000000"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/texto_atualizar_bd" />
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:text="@string/texto_msg_bag_fixo" />
 
     <LinearLayout
         android:id="@+id/rightRelativeLayout"
@@ -56,5 +61,12 @@
             android:text="@string/texto_padrao_sim" />
 
     </LinearLayout>
+
+    <Button
+        android:id="@+id/buttonAtualizarBD"
+        style="@style/BotaoAvulso"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/texto_atualizar_bd" />
 
 </LinearLayout>

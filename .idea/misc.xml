@@ -7,6 +7,7 @@
         <entry key="..\:/Users/anderson/Documents/Android/PCB/app/src/main/res/layout/activity_detalhe_ordem_carga.xml" value="0.259963768115942" />
         <entry key="..\:/Users/anderson/Documents/Android/PCB/app/src/main/res/layout/activity_detalhe_ordem_carreg.xml" value="0.17889492753623187" />
         <entry key="..\:/Users/anderson/Documents/Android/PCB/app/src/main/res/layout/activity_dig_bag_carreg.xml" value="0.1" />
+        <entry key="..\:/Users/anderson/Documents/Android/PCB/app/src/main/res/layout/activity_dig_bag_transf.xml" value="0.25885416666666666" />
         <entry key="..\:/Users/anderson/Documents/Android/PCB/app/src/main/res/layout/activity_dig_func.xml" value="0.16847826086956522" />
         <entry key="..\:/Users/anderson/Documents/Android/PCB/app/src/main/res/layout/activity_func.xml" value="0.192481884057971" />
         <entry key="..\:/Users/anderson/Documents/Android/PCB/app/src/main/res/layout/activity_item_historico.xml" value="0.13272543059777103" />
@@ -18,8 +19,11 @@
         <entry key="..\:/Users/anderson/Documents/Android/PCB/app/src/main/res/layout/activity_leitor_ordem_carga.xml" value="0.192481884057971" />
         <entry key="..\:/Users/anderson/Documents/Android/PCB/app/src/main/res/layout/activity_leitor_ordem_carreg.xml" value="0.15" />
         <entry key="..\:/Users/anderson/Documents/Android/PCB/app/src/main/res/layout/activity_lista_bag.xml" value="0.2418478260869565" />
+        <entry key="..\:/Users/anderson/Documents/Android/PCB/app/src/main/res/layout/activity_lista_bag_carga.xml" value="0.5" />
         <entry key="..\:/Users/anderson/Documents/Android/PCB/app/src/main/res/layout/activity_lista_bag_carreg.xml" value="0.17889492753623187" />
+        <entry key="..\:/Users/anderson/Documents/Android/PCB/app/src/main/res/layout/activity_lista_bag_transf.xml" value="0.27291666666666664" />
         <entry key="..\:/Users/anderson/Documents/Android/PCB/app/src/main/res/layout/activity_lista_ordem_carreg.xml" value="0.192481884057971" />
+        <entry key="..\:/Users/anderson/Documents/Android/PCB/app/src/main/res/layout/activity_lista_tipo_apont.xml" value="0.27291666666666664" />
         <entry key="..\:/Users/anderson/Documents/Android/PCB/app/src/main/res/layout/activity_log_base_dado.xml" value="0.13272543059777103" />
         <entry key="..\:/Users/anderson/Documents/Android/PCB/app/src/main/res/layout/activity_log_erro.xml" value="0.13272543059777103" />
         <entry key="..\:/Users/anderson/Documents/Android/PCB/app/src/main/res/layout/activity_log_processo.xml" value="0.27291666666666664" />
@@ -32,6 +36,7 @@
         <entry key="..\:/Users/anderson/Documents/Android/PCB/app/src/main/res/layout/encode.xml" value="0.14270833333333333" />
         <entry key="..\:/Users/anderson/Documents/Android/PCB/app/src/main/res/layout/history_list_item.xml" value="0.14270833333333333" />
         <entry key="..\:/Users/anderson/Documents/Android/PCB/app/src/main/res/layout/layout_botoes.xml" value="0.14270833333333333" />
+        <entry key="..\:/Users/anderson/Documents/Android/PCB/app/src/main/res/layout/layout_botoes_s_atual.xml" value="0.15260416666666668" />
         <entry key="..\:/Users/anderson/Documents/Android/PCB/app/src/main/res/layout/layout_botoes_virgula.xml" value="0.14270833333333333" />
         <entry key="..\:/Users/anderson/Documents/Android/PCB/app/src/main/res/layout/share.xml" value="0.14270833333333333" />
         <entry key="..\:/Users/anderson/Documents/Android/PCB/app/src/main/res/menu/encode.xml" value="0.14270833333333333" />

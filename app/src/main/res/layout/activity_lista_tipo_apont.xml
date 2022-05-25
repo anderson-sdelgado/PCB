@@ -9,37 +9,23 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context=".view.ListaOrdemCarregActivity">
+    tools:context=".view.ListaTipoApontActivity">
 
     <TextView
-        android:id="@+id/textViewTituloOrdemCarreg"
+        android:id="@+id/textViewTituloTipoApont"
         style="@style/TextViewTituloLista"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/texto_ordem_carga" />
+        android:text="@string/texto_tipo_apont" />
 
     <ListView
-        android:id="@+id/listOrdemCarreg"
+        android:id="@+id/listTipoApont"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1" />
 
     <Button
-        android:id="@+id/buttonCapturaOrdemCarreg"
-        style="@style/BotaoAvulso"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/texto_captura_ticket" />
-
-    <Button
-        android:id="@+id/buttonAtualOrdemCarreg"
-        style="@style/BotaoAvulso"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/texto_atualizar_bd" />
-
-    <Button
-        android:id="@+id/buttonRetOrdemCarreg"
+        android:id="@+id/buttonRetTipoApont"
         style="@style/BotaoAvulso"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

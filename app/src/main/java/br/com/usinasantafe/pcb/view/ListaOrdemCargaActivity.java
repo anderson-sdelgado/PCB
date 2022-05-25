@@ -17,16 +17,15 @@ import java.util.List;
 
 import br.com.usinasantafe.pcb.PCBContext;
 import br.com.usinasantafe.pcb.R;
-import br.com.usinasantafe.pcb.model.bean.estaticas.OrdemCarregBean;
+import br.com.usinasantafe.pcb.model.bean.estaticas.OrdemCargaBean;
 import br.com.usinasantafe.pcb.model.dao.LogProcessoDAO;
-import br.com.usinasantafe.pcb.zxing.CaptureActivity;
 
-public class ListaOrdemCarregActivity extends ActivityGeneric {
+public class ListaOrdemCargaActivity extends ActivityGeneric {
 
     public static final int REQUEST_CODE = 0;
     private PCBContext pcbContext;
     private ProgressDialog progressBar;
-    private List<OrdemCarregBean> ordemCarregList;
+    private List<OrdemCargaBean> ordemCarregList;
 
     private static final String EXTRA_CONTROL = "com.honeywell.aidc.action.ACTION_CONTROL_SCANNER";
     private static final String EXTRA_SCAN = "com.honeywell.aidc.extra.EXTRA_SCAN";
@@ -40,7 +39,7 @@ public class ListaOrdemCarregActivity extends ActivityGeneric {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_lista_ordem_carreg);
+        setContentView(R.layout.activity_lista_ordem_carga);
 
         Button buttonCapturaOrdemCarreg = findViewById(R.id.buttonCapturaOrdemCarreg);
         Button buttonAtualOrdemCarreg = findViewById(R.id.buttonAtualOrdemCarreg);
@@ -53,10 +52,10 @@ public class ListaOrdemCarregActivity extends ActivityGeneric {
                 "        AdapterListOrdemCarreg adapterListOrdemCarreg = new AdapterListOrdemCarreg(this, ordemCarregList);\n" +
                 "        listOrdemCarreg.setAdapter(adapterListOrdemCarreg);", getLocalClassName());
 
-        ordemCarregList = pcbContext.getCarregCTR().ordemCargaList();
+        ordemCarregList = pcbContext.getCargaCTR().ordemCargaList();
 
         ListView ordemCarregListView = findViewById(R.id.listOrdemCarreg);
-        AdapterListOrdemCarreg adapterListOrdemCarreg = new AdapterListOrdemCarreg(this, ordemCarregList);
+        AdapterListOrdemCarga adapterListOrdemCarreg = new AdapterListOrdemCarga(this, ordemCarregList);
         ordemCarregListView.setAdapter(adapterListOrdemCarreg);
 
         ordemCarregListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -74,12 +73,12 @@ public class ListaOrdemCarregActivity extends ActivityGeneric {
                         "                pcbContext.getCarregCTR().getCabecCargaDAO().getCabecCargaBean().setIdOrdemCabecCarreg(ordemCarregBean.getIdOrdemCarreg());\n" +
                         "                Intent it = new Intent(ListaOrdemCarregActivity.this, DetalheOrdemCarregActivity.class);", getLocalClassName());
 
-                OrdemCarregBean ordemCarregBean = ordemCarregList.get(position);
+                OrdemCargaBean ordemCargaBean = ordemCarregList.get(position);
                 ordemCarregList.clear();
 
-                pcbContext.getCarregCTR().getCabecCargaDAO().getCabecCargaBean().setIdOrdemCabecCarreg(ordemCarregBean.getIdOrdemCarreg());
+                pcbContext.getCargaCTR().getCabecCargaDAO().getCabecCargaBean().setIdOrdemCabecCarga(ordemCargaBean.getIdOrdemCarga());
 
-                Intent it = new Intent(ListaOrdemCarregActivity.this, DetalhesOrdemCarregActivity.class);
+                Intent it = new Intent(ListaOrdemCargaActivity.this, DetalhesOrdemCarregActivity.class);
                 startActivity(it);
                 finish();
 
@@ -114,7 +113,7 @@ public class ListaOrdemCarregActivity extends ActivityGeneric {
                         "AlertDialog.Builder alerta = new AlertDialog.Builder(ListaOrdemCarregActivity.this);\n" +
                         "                alerta.setTitle(\"ATENÇÃO\");\n" +
                         "                alerta.setMessage(\"DESEJA REALMENTE ATUALIZAR BASE DE DADOS?\");", getLocalClassName());
-                AlertDialog.Builder alerta = new AlertDialog.Builder(ListaOrdemCarregActivity.this);
+                AlertDialog.Builder alerta = new AlertDialog.Builder(ListaOrdemCargaActivity.this);
                 alerta.setTitle("ATENÇÃO");
                 alerta.setMessage("DESEJA REALMENTE ATUALIZAR BASE DE DADOS?");
                 alerta.setNegativeButton("SIM", new DialogInterface.OnClickListener() {
@@ -135,7 +134,7 @@ public class ListaOrdemCarregActivity extends ActivityGeneric {
                                     "                            progressBar.setProgress(0);\n" +
                                     "                            progressBar.setMax(100);\n" +
                                     "                            progressBar.show();", getLocalClassName());
-                            progressBar = new ProgressDialog(ListaOrdemCarregActivity.this);
+                            progressBar = new ProgressDialog(ListaOrdemCargaActivity.this);
                             progressBar.setCancelable(true);
                             progressBar.setMessage("ATUALIZANDO ...");
                             progressBar.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
@@ -144,7 +143,7 @@ public class ListaOrdemCarregActivity extends ActivityGeneric {
                             progressBar.show();
 
                             LogProcessoDAO.getInstance().insertLogProcesso("pcbContext.getConfigCTR().atualDados(ListaOrdemCarregActivity.this, ListaOrdemCarregActivity.class, progressBar, \"OrdemCarreg\", 1, getLocalClassName());", getLocalClassName());
-                            pcbContext.getConfigCTR().atualDados(ListaOrdemCarregActivity.this, ListaOrdemCarregActivity.class, progressBar, "OrdemCarreg", 1, getLocalClassName());
+                            pcbContext.getConfigCTR().atualDados(ListaOrdemCargaActivity.this, ListaOrdemCargaActivity.class, progressBar, "OrdemCarreg", 1, getLocalClassName());
 
                         } else {
 
@@ -157,7 +156,7 @@ public class ListaOrdemCarregActivity extends ActivityGeneric {
                                     "                                }\n" +
                                     "                            });\n" +
                                     "                            alerta.show();", getLocalClassName());
-                            AlertDialog.Builder alerta = new AlertDialog.Builder(ListaOrdemCarregActivity.this);
+                            AlertDialog.Builder alerta = new AlertDialog.Builder(ListaOrdemCargaActivity.this);
                             alerta.setTitle("ATENÇÃO");
                             alerta.setMessage("FALHA NA CONEXÃO DE DADOS. O CELULAR ESTA SEM SINAL. POR FAVOR, TENTE NOVAMENTE QUANDO O CELULAR ESTIVE COM SINAL.");
                             alerta.setPositiveButton("OK", new DialogInterface.OnClickListener() {
@@ -195,7 +194,7 @@ public class ListaOrdemCarregActivity extends ActivityGeneric {
                         "            @Override\n" +
                         "            public void onClick(View v) {\n" +
                         "                Intent it = new Intent(ListaOrdemCarregActivity.this, LeitorFuncActivity.class);", getLocalClassName());
-                Intent it = new Intent(ListaOrdemCarregActivity.this, LeitorFuncActivity.class);
+                Intent it = new Intent(ListaOrdemCargaActivity.this, LeitorFuncActivity.class);
                 startActivity(it);
                 finish();
             }
@@ -213,12 +212,12 @@ public class ListaOrdemCarregActivity extends ActivityGeneric {
             String ticketOrdemCarreg = data.getStringExtra("SCAN_RESULT");
             if (ticketOrdemCarreg.length() == 7) {
                 LogProcessoDAO.getInstance().insertLogProcesso("if (nroOrdemCarga.length() == 7) {", getLocalClassName());
-                if (pcbContext.getCarregCTR().verOrdemCarregTicket(ticketOrdemCarreg)) {
+                if (pcbContext.getCargaCTR().verOrdemCargaTicket(ticketOrdemCarreg)) {
                     LogProcessoDAO.getInstance().insertLogProcesso("if (pcbContext.getCarregCTR().verOrdemCarregTicket(codBarraBag)) {\n" +
                             "pcbContext.getCarregCTR().getCabecCargaDAO().getCabecCargaBean().setIdOrdemCabecCarreg(pcbContext.getCarregCTR().getOrdemCarregTicket(codBarraBag).getIdOrdemCarreg());\n" +
                             "                    Intent it = new Intent(ListaOrdemCarregActivity.this, DetalhesOrdemCarregActivity.class);", getLocalClassName());
-                    pcbContext.getCarregCTR().getCabecCargaDAO().getCabecCargaBean().setIdOrdemCabecCarreg(pcbContext.getCarregCTR().getOrdemCarregTicket(ticketOrdemCarreg).getIdOrdemCarreg());
-                    Intent it = new Intent(ListaOrdemCarregActivity.this, DetalhesOrdemCarregActivity.class);
+                    pcbContext.getCargaCTR().getCabecCargaDAO().getCabecCargaBean().setIdOrdemCabecCarga(pcbContext.getCargaCTR().getOrdemCargaTicket(ticketOrdemCarreg).getIdOrdemCarga());
+                    Intent it = new Intent(ListaOrdemCargaActivity.this, DetalhesOrdemCarregActivity.class);
                     startActivity(it);
                     finish();
                 } else {
@@ -232,7 +231,7 @@ public class ListaOrdemCarregActivity extends ActivityGeneric {
                             "                        }\n" +
                             "                    });\n" +
                             "                    alerta.show();", getLocalClassName());
-                    AlertDialog.Builder alerta = new AlertDialog.Builder( ListaOrdemCarregActivity.this);
+                    AlertDialog.Builder alerta = new AlertDialog.Builder( ListaOrdemCargaActivity.this);
                     alerta.setTitle("ATENÇÃO");
                     alerta.setMessage("FALHA NA LEITURA DO TICKET!");
                     alerta.setPositiveButton("OK", new DialogInterface.OnClickListener() {
@@ -253,7 +252,7 @@ public class ListaOrdemCarregActivity extends ActivityGeneric {
                         "                        }\n" +
                         "                    });\n" +
                         "                    alerta.show();", getLocalClassName());
-                AlertDialog.Builder alerta = new AlertDialog.Builder( ListaOrdemCarregActivity.this);
+                AlertDialog.Builder alerta = new AlertDialog.Builder( ListaOrdemCargaActivity.this);
                 alerta.setTitle("ATENÇÃO");
                 alerta.setMessage("FALHA NA LEITURA DO TICKET!");
                 alerta.setPositiveButton("OK", new DialogInterface.OnClickListener() {
@@ -287,12 +286,12 @@ public class ListaOrdemCarregActivity extends ActivityGeneric {
                     String ticketOrdemCarreg = intent.getStringExtra("data");
                     if (ticketOrdemCarreg.length() == 7) {
                         LogProcessoDAO.getInstance().insertLogProcesso("if (ticketOrdemCarreg.length() == 7) {", getLocalClassName());
-                        if (pcbContext.getCarregCTR().verOrdemCarregTicket(ticketOrdemCarreg)) {
+                        if (pcbContext.getCargaCTR().verOrdemCargaTicket(ticketOrdemCarreg)) {
                             LogProcessoDAO.getInstance().insertLogProcesso("if (pcbContext.getCarregCTR().verOrdemCarregTicket(ticketOrdemCarreg)) {\n" +
                                     "pcbContext.getCarregCTR().getCabecCargaDAO().getCabecCargaBean().setIdOrdemCabecCarreg(pcbContext.getCarregCTR().getOrdemCarregTicket(ticketOrdemCarreg).getIdOrdemCarreg());\n" +
                                     "                    Intent it = new Intent(ListaOrdemCarregActivity.this, DetalhesOrdemCarregActivity.class);", getLocalClassName());
-                            pcbContext.getCarregCTR().getCabecCargaDAO().getCabecCargaBean().setIdOrdemCabecCarreg(pcbContext.getCarregCTR().getOrdemCarregTicket(ticketOrdemCarreg).getIdOrdemCarreg());
-                            Intent it = new Intent(ListaOrdemCarregActivity.this, DetalhesOrdemCarregActivity.class);
+                            pcbContext.getCargaCTR().getCabecCargaDAO().getCabecCargaBean().setIdOrdemCabecCarga(pcbContext.getCargaCTR().getOrdemCargaTicket(ticketOrdemCarreg).getIdOrdemCarga());
+                            Intent it = new Intent(ListaOrdemCargaActivity.this, DetalhesOrdemCarregActivity.class);
                             startActivity(it);
                             finish();
                         } else {
@@ -306,7 +305,7 @@ public class ListaOrdemCarregActivity extends ActivityGeneric {
                                     "                        }\n" +
                                     "                    });\n" +
                                     "                    alerta.show();", getLocalClassName());
-                            AlertDialog.Builder alerta = new AlertDialog.Builder( ListaOrdemCarregActivity.this);
+                            AlertDialog.Builder alerta = new AlertDialog.Builder( ListaOrdemCargaActivity.this);
                             alerta.setTitle("ATENÇÃO");
                             alerta.setMessage("FALHA NA LEITURA DO TICKET!");
                             alerta.setPositiveButton("OK", new DialogInterface.OnClickListener() {
@@ -327,7 +326,7 @@ public class ListaOrdemCarregActivity extends ActivityGeneric {
                                 "                        }\n" +
                                 "                    });\n" +
                                 "                    alerta.show();", getLocalClassName());
-                        AlertDialog.Builder alerta = new AlertDialog.Builder( ListaOrdemCarregActivity.this);
+                        AlertDialog.Builder alerta = new AlertDialog.Builder( ListaOrdemCargaActivity.this);
                         alerta.setTitle("ATENÇÃO");
                         alerta.setMessage("FALHA NA LEITURA DO TICKET!");
                         alerta.setPositiveButton("OK", new DialogInterface.OnClickListener() {

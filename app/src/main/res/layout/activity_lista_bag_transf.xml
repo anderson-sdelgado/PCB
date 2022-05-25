@@ -9,35 +9,29 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context=".view.ListaBagCarregActivity">
+    tools:context=".view.ListaBagTransfActivity">
 
     <TextView
-        android:id="@+id/textViewTotalBagCarreg"
+        android:id="@+id/textViewTotalBagTransf"
         style="@style/TextViewMenuNegrito"
         android:paddingLeft="3dp"
         android:paddingTop="3dp"
-        android:text="@string/texto_total_bag_carreg" />
+        android:text="@string/texto_total_bag_transf" />
 
     <TextView
-        android:id="@+id/textViewQtdeBagAdd"
-        style="@style/TextViewMenuNegrito"
-        android:paddingLeft="3dp"
-        android:text="@string/texto_qtde_bag_carreg" />
-
-    <TextView
-        android:id="@+id/textViewDthr"
+        android:id="@+id/textViewDthrTransf"
         style="@style/TextViewMenuNormal"
         android:paddingLeft="3dp"
         android:paddingBottom="3dp"
         android:text="@string/texto_dthr_inicial" />
 
     <TextView
-        android:id="@+id/textViewTituloListaBag"
+        android:id="@+id/textViewTituloListaBagTransf"
         style="@style/TextViewTituloLista"
-        android:text="@string/texto_titulo_lista_bag" />
+        android:text="@string/texto_titulo_lista_bag_transf" />
 
     <ListView
-        android:id="@+id/bagListView"
+        android:id="@+id/bagTransfListView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1" />
@@ -48,47 +42,40 @@
         android:text="@string/texto_item_list" />
 
     <Button
-        android:id="@+id/buttonLeituraBagCarreg"
+        android:id="@+id/buttonLeituraBagTransf"
         style="@style/BotaoAvulso"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/texto_leitura_bag" />
 
     <Button
-        android:id="@+id/buttonDigBagCarreg"
+        android:id="@+id/buttonDigBagTransf"
         style="@style/BotaoAvulso"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/texto_dig_bag" />
 
-    <Button
-        android:id="@+id/buttonAtualizarBD"
-        style="@style/BotaoAvulso"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/texto_atualizar_bd" />
-
     <LinearLayout
-        android:id="@+id/rightRelativeLayoutCarga"
+        android:id="@+id/rightRelativeLayoutTransf"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal" >
 
         <Button
-            android:id="@+id/buttonCancelarCarreg"
+            android:id="@+id/buttonCancelarTransf"
             style="@style/BotaoAvulso"
             android:layout_weight="1"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:text="@string/texto_canc_carga" />
+            android:text="@string/texto_canc_transf" />
 
         <Button
-            android:id="@+id/buttonFinalizarCarreg"
+            android:id="@+id/buttonFinalizarTransf"
             style="@style/BotaoAvulso"
             android:layout_weight="1"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:text="@string/texto_finalizar_carga" />
+            android:text="@string/texto_finalizar_transf" />
 
     </LinearLayout>
 

@@ -21,11 +21,14 @@ public class ConfigBean extends Entidade {
     @DatabaseField
     private Long statusRetVerif; // 0 - Não Verificando; 1 - Verificando
     @DatabaseField
+    private Long tipoApont; // 1 - Ordem Carga; 2 - Transferencia
+    @DatabaseField
     private Long posicaoTela;
     // 1 - Inicio do Boletim;
     // 2 - Configuracao;
     // 3 - Log Menu Inicial;
     // 4 - Log Lista de Bag;
+    // 5 - Log Lista de Transf;
 
     public ConfigBean() {
     }
@@ -54,6 +57,14 @@ public class ConfigBean extends Entidade {
         this.senhaConfig = senhaConfig;
     }
 
+    public String getDthrServConfig() {
+        return dthrServConfig;
+    }
+
+    public void setDthrServConfig(String dthrServConfig) {
+        this.dthrServConfig = dthrServConfig;
+    }
+
     public Long getStatusRetVerif() {
         return statusRetVerif;
     }
@@ -62,12 +73,12 @@ public class ConfigBean extends Entidade {
         this.statusRetVerif = statusRetVerif;
     }
 
-    public String getDthrServConfig() {
-        return dthrServConfig;
+    public Long getTipoApont() {
+        return tipoApont;
     }
 
-    public void setDthrServConfig(String dthrServConfig) {
-        this.dthrServConfig = dthrServConfig;
+    public void setTipoApont(Long tipoApont) {
+        this.tipoApont = tipoApont;
     }
 
     public Long getPosicaoTela() {

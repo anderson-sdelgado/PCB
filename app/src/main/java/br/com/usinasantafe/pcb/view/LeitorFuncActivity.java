@@ -8,11 +8,9 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
-import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import br.com.usinasantafe.pcb.PCBContext;
 import br.com.usinasantafe.pcb.R;
@@ -65,13 +63,11 @@ public class LeitorFuncActivity extends ActivityGeneric {
                         "            public void onClick(View v) {", getLocalClassName());
 
                 if (funcBean.getMatricFunc() > 0) {
-
-                    LogProcessoDAO.getInstance().insertLogProcesso("                if (funcBean.getMatricFunc() > 0) {\n" +
-                            "                    pcbContext.getCargaCTR().getCabecCargaDAO().getCabecCargaBean().setMatricFuncCabecCarga(funcBean.getMatricFunc());\n" +
-                            "                    Intent it = new Intent(LeitorFuncActivity.this, ListaOrdemCarregActivity.class);", getLocalClassName());
-
-                    pcbContext.getCarregCTR().getCabecCargaDAO().getCabecCargaBean().setIdFuncCabecCarreg(funcBean.getIdFunc());
-                    Intent it = new Intent(LeitorFuncActivity.this, ListaOrdemCarregActivity.class);
+                    LogProcessoDAO.getInstance().insertLogProcesso("if (funcBean.getMatricFunc() > 0) {\n" +
+                            "                    pcbContext.setMatricFunc(funcBean.getMatricFunc());\n" +
+                            "                    Intent it = new Intent(LeitorFuncActivity.this, ListaTipoApontActivity.class);", getLocalClassName());
+                    pcbContext.setMatricFunc(funcBean.getMatricFunc());
+                    Intent it = new Intent(LeitorFuncActivity.this, ListaTipoApontActivity.class);
                     startActivity(it);
                     finish();
                 }
@@ -233,11 +229,11 @@ public class LeitorFuncActivity extends ActivityGeneric {
                         LogProcessoDAO.getInstance().insertLogProcesso("            if (matricula.length() == 8) {\n" +
                                 "                matricula = matricula.substring(0, 7);", getLocalClassName());
                         matricula = matricula.substring(0, 7);
-                        if (pcbContext.getCarregCTR().verFunc(Long.parseLong(matricula))) {
+                        if (pcbContext.getConfigCTR().verFunc(Long.parseLong(matricula))) {
                             LogProcessoDAO.getInstance().insertLogProcesso("if (pcbContext.getCargaCTR().verFunc(Long.parseLong(matricula))) {\n" +
                                     "                    funcBean = pcbContext.getCargaCTR().getFuncMatric(Long.parseLong(matricula));\n" +
                                     "                    txtRetColab.setText(matricula + \"\\n\" + funcBean.getNomeFunc());", getLocalClassName());
-                            funcBean = pcbContext.getCarregCTR().getFuncMatric(Long.parseLong(matricula));
+                            funcBean = pcbContext.getConfigCTR().getFuncMatric(Long.parseLong(matricula));
                             txtRetColab.setText(matricula + "\n" + funcBean.getNomeFunc());
                         } else {
                             LogProcessoDAO.getInstance().insertLogProcesso("} else {\n" +

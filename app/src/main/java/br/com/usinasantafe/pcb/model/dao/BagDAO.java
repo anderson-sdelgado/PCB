@@ -1,31 +1,41 @@
 package br.com.usinasantafe.pcb.model.dao;
 
+import android.app.ProgressDialog;
+import android.content.Context;
+
+import com.google.gson.Gson;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.List;
 
-import br.com.usinasantafe.pcb.model.bean.estaticas.BagCarregBean;
+import br.com.usinasantafe.pcb.model.bean.estaticas.BagBean;
 import br.com.usinasantafe.pcb.model.pst.EspecificaPesquisa;
+import br.com.usinasantafe.pcb.util.VerifDadosServ;
 
-public class BagCarregDAO {
+public class BagDAO {
 
-    public BagCarregDAO() {
+    public BagDAO() {
     }
 
     public boolean verBagCarregCodBarra(String codBarra, Long idEmprUsu, Long idPeriodProd, Long idEmbProd){
-        List<BagCarregBean> bagCarregList = bagCarregCodBarraList(codBarra, idEmprUsu, idPeriodProd, idEmbProd);
+        List<BagBean> bagCarregList = bagCarregCodBarraList(codBarra, idEmprUsu, idPeriodProd, idEmbProd);
         boolean ret = bagCarregList.size() > 0;
         bagCarregList.clear();
         return ret;
     }
 
-    public BagCarregBean getBagCarregCodBarra(String codBarra, Long idEmprUsu, Long idPeriodProd, Long idProd){
-        List<BagCarregBean> bagCarregList = bagCarregCodBarraList(codBarra, idEmprUsu, idPeriodProd, idProd);
-        BagCarregBean bagCarregBean =  bagCarregList.get(0);
+    public BagBean getBagCarregCodBarra(String codBarra, Long idEmprUsu, Long idPeriodProd, Long idProd){
+        List<BagBean> bagCarregList = bagCarregCodBarraList(codBarra, idEmprUsu, idPeriodProd, idProd);
+        BagBean bagBean =  bagCarregList.get(0);
         bagCarregList.clear();
-        return bagCarregBean;
+        return bagBean;
     }
 
-    private List<BagCarregBean> bagCarregCodBarraList(String codBarraBag, Long idEmprUsu, Long idPeriodProd, Long idProd){
+    private List<BagBean> bagCarregCodBarraList(String codBarraBag, Long idEmprUsu, Long idPeriodProd, Long idProd){
 
         ArrayList pesqArrayList = new ArrayList();
         pesqArrayList.add(getPesqCodBarra(codBarraBag));
@@ -33,9 +43,24 @@ public class BagCarregDAO {
         pesqArrayList.add(getPesqIdPeriodProd(idPeriodProd));
         pesqArrayList.add(getPesqIdProd(idProd));
 
-        BagCarregBean bagCarregBean = new BagCarregBean();
-        return bagCarregBean.get(pesqArrayList);
+        BagBean bagBean = new BagBean();
+        return bagBean.get(pesqArrayList);
 
+    }
+
+    public void verBag(String dado, Context telaAtual, Class telaProx, ProgressDialog progressDialog, String activity){
+        VerifDadosServ.getInstance().verifDados(dado, "Bag", telaAtual, telaProx, progressDialog, activity);
+    }
+
+    public BagBean recDadosBag(JSONArray jsonArray) throws JSONException {
+
+        BagBean bagBean = new BagBean();
+        for (int i = 0; i < jsonArray.length(); i++) {
+            JSONObject objeto = jsonArray.getJSONObject(i);
+            Gson gson = new Gson();
+            bagBean =  gson.fromJson(objeto.toString(), BagBean.class);
+        }
+        return bagBean;
     }
 
     private EspecificaPesquisa getPesqCodBarra(String codBarraBag){

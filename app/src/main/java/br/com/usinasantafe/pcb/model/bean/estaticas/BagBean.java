@@ -6,7 +6,7 @@ import com.j256.ormlite.table.DatabaseTable;
 import br.com.usinasantafe.pcb.model.pst.Entidade;
 
 @DatabaseTable(tableName="tbbagcarregest")
-public class BagCarregBean extends Entidade {
+public class BagBean extends Entidade {
 
     private static final long serialVersionUID = 1L;
 
@@ -23,7 +23,7 @@ public class BagCarregBean extends Entidade {
     @DatabaseField
     private Long idProdBag;
 
-    public BagCarregBean() {
+    public BagBean() {
     }
 
     public Long getIdRegMedPesBag() {

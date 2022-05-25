@@ -103,7 +103,7 @@ public class MenuInicialActivity extends ActivityGeneric {
 
                 if (text.equals("APONTAMENTO")) {
                     LogProcessoDAO.getInstance().insertLogProcesso("if text.equals(\"APONTAMENTO\")) {", getLocalClassName());
-                    if (pcbContext.getCarregCTR().hasElemFunc()
+                    if (pcbContext.getConfigCTR().hasElemFunc()
                             && pcbContext.getConfigCTR().hasElemConfig()
                             && (VerifDadosServ.status == 3)) {
                         LogProcessoDAO.getInstance().insertLogProcesso("if (pcbContext.getCarregCTR().hasElemFunc()\n" +
