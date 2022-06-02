@@ -1,7 +1,5 @@
 package br.com.usinasantafe.pcb.view;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
@@ -52,7 +50,7 @@ public class DigBagTransfActivity extends ActivityGeneric {
                         progressBar.setCancelable(true);
                         progressBar.setMessage("PESQUISANDO BAG...");
                         progressBar.show();
-                        pcbContext.getTransfCTR().verBag(editTextPadrao.getText().toString(), DigBagTransfActivity.this, ListaBagTransfActivity.class, progressBar, getLocalClassName());
+                        pcbContext.getTransfCTR().verBagTransf(editTextPadrao.getText().toString(), DigBagTransfActivity.this, ListaBagTransfActivity.class, progressBar, getLocalClassName());
 
                     }
                     else{

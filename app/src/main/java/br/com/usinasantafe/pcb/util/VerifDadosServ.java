@@ -10,6 +10,7 @@ import android.os.AsyncTask;
 import java.util.HashMap;
 import java.util.Map;
 
+import br.com.usinasantafe.pcb.control.CargaCTR;
 import br.com.usinasantafe.pcb.control.ConfigCTR;
 import br.com.usinasantafe.pcb.control.TransfCTR;
 import br.com.usinasantafe.pcb.model.dao.BagDAO;
@@ -66,13 +67,21 @@ public class VerifDadosServ {
             ordemCargaDAO.atualDados(result, activity);
             status = 3;
             this.telaInicialActivity.goMenuInicial();
-        } else if (this.classe.equals("Bag")) {
+        } else if (this.classe.equals("BagTransf")) {
             LogProcessoDAO.getInstance().insertLogProcesso("} else if (this.tipo.equals(\"OrdemCarreg\")) {\n" +
                     "            OrdemCarregDAO ordemCarregDAO = new OrdemCarregDAO();\n" +
                     "            ordemCarregDAO.atualDados(result, activity);\n" +
                     "            status = 3;", activity);
             TransfCTR transfCTR = new TransfCTR();
             transfCTR.receberVerifBag(result);
+            status = 3;
+        } else if (this.classe.equals("BagCarga")) {
+            LogProcessoDAO.getInstance().insertLogProcesso("} else if (this.tipo.equals(\"OrdemCarreg\")) {\n" +
+                    "            OrdemCarregDAO ordemCarregDAO = new OrdemCarregDAO();\n" +
+                    "            ordemCarregDAO.atualDados(result, activity);\n" +
+                    "            status = 3;", activity);
+            CargaCTR cargaCTR = new CargaCTR();
+            cargaCTR.receberVerifBag(result);
             status = 3;
         } else {
             LogProcessoDAO.getInstance().insertLogProcesso("} else {\n" +

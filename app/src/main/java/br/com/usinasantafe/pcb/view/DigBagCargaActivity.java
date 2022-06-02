@@ -123,22 +123,29 @@ public class DigBagCargaActivity extends ActivityGeneric {
                 if (!editTextPadrao.getText().toString().equals("")) {
 
                     LogProcessoDAO.getInstance().insertLogProcesso("if (!editTextPadrao.getText().toString().equals(\"\")) {", getLocalClassName());
-                    if(pcbContext.getCargaCTR().verBagCargaCodBarra(editTextPadrao.getText().toString())){
+                    if(pcbContext.getCargaCTR().verBagRepetidoCarga(Long.valueOf(editTextPadrao.getText().toString()))) {
 
-                        LogProcessoDAO.getInstance().insertLogProcesso("if(pcbContext.getCargaCTR().verBagCargaCodBarra(editTextPadrao.getText().toString())){\n" +
-                                "                        pcbContext.getCargaCTR().inserirItemCarga(editTextPadrao.getText().toString(), getLocalClassName());\n" +
-                                "                        Intent it = new Intent(DigBagCargaActivity.this, ListaBagCargaActivity.class);", getLocalClassName());
-                        pcbContext.getCargaCTR().inserirItemCarga(editTextPadrao.getText().toString(), getLocalClassName());
-                        Intent it = new Intent(DigBagCargaActivity.this, ListaBagCargaActivity.class);
-                        startActivity(it);
-                        finish();
+                        LogProcessoDAO.getInstance().insertLogProcesso("if(pcbContext.getCargaCTR().verBagRepetidoCarga(Long.valueOf(editTextPadrao.getText().toString()))) {\n" +
+                                "                        progressBar = new ProgressDialog(DigBagCargaActivity.this);\n" +
+                                "                        progressBar.setCancelable(true);\n" +
+                                "                        progressBar.setMessage(\"PESQUISANDO BAG...\");\n" +
+                                "                        progressBar.show();\n" +
+                                "                    pcbContext.getCargaCTR().verBagCarga(" + editTextPadrao.getText().toString() + ", ListaBagTransfActivity.this, ListaBagTransfActivity.class, progressBar, getLocalClassName());", getLocalClassName());
 
-                    } else {
+                        progressBar = new ProgressDialog(DigBagCargaActivity.this);
+                        progressBar.setCancelable(true);
+                        progressBar.setMessage("PESQUISANDO BAG...");
+                        progressBar.show();
 
-                        LogProcessoDAO.getInstance().insertLogProcesso("} else {\n" +
-                                "AlertDialog.Builder alerta = new AlertDialog.Builder(OperadorActivity.this);\n" +
+                        pcbContext.getCargaCTR().verBagCarga(editTextPadrao.getText().toString(), DigBagCargaActivity.this, ListaBagCargaActivity.class, progressBar, getLocalClassName());
+
+                    }
+                    else{
+
+                        LogProcessoDAO.getInstance().insertLogProcesso("} else {" +
+                                "AlertDialog.Builder alerta = new AlertDialog.Builder(DigBagCargaActivity.this);\n" +
                                 "                        alerta.setTitle(\"ATENÇÃO\");\n" +
-                                "                        alerta.setMessage(\"NUMERAÇÃO DO OPERADOR INEXISTENTE! FAVOR VERIFICA A MESMA.\");\n" +
+                                "                        alerta.setMessage(\"BAG REPETIDO! POR FAVOR VERIFIQUE A NUMERAÇÃO DO BAG O LIDO.\");\n" +
                                 "                        alerta.setPositiveButton(\"OK\", new DialogInterface.OnClickListener() {\n" +
                                 "                            @Override\n" +
                                 "                            public void onClick(DialogInterface dialog, int which) {\n" +
@@ -147,7 +154,7 @@ public class DigBagCargaActivity extends ActivityGeneric {
                                 "                        alerta.show();", getLocalClassName());
                         AlertDialog.Builder alerta = new AlertDialog.Builder(DigBagCargaActivity.this);
                         alerta.setTitle("ATENÇÃO");
-                        alerta.setMessage("NUMERAÇÃO DO BAG INEXISTENTE! FAVOR VERIFICA A MESMA.");
+                        alerta.setMessage("BAG REPETIDO! POR FAVOR VERIFIQUE A NUMERAÇÃO DO BAG O LIDO.");
                         alerta.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {

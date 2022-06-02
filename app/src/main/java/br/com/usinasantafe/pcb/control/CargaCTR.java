@@ -1,5 +1,10 @@
 package br.com.usinasantafe.pcb.control;
 
+import android.app.ProgressDialog;
+import android.content.Context;
+
+import org.json.JSONArray;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,9 +15,12 @@ import br.com.usinasantafe.pcb.model.bean.variaveis.ItemCargaBean;
 import br.com.usinasantafe.pcb.model.dao.BagDAO;
 import br.com.usinasantafe.pcb.model.dao.CabecCargaDAO;
 import br.com.usinasantafe.pcb.model.dao.ItemCargaDAO;
+import br.com.usinasantafe.pcb.model.dao.ItemTransfDAO;
 import br.com.usinasantafe.pcb.model.dao.LogErroDAO;
 import br.com.usinasantafe.pcb.model.dao.OrdemCargaDAO;
 import br.com.usinasantafe.pcb.util.EnvioDadosServ;
+import br.com.usinasantafe.pcb.util.Json;
+import br.com.usinasantafe.pcb.util.VerifDadosServ;
 
 public class CargaCTR {
 
@@ -54,11 +62,6 @@ public class CargaCTR {
     ///////////////////////////////////////////////////////////////////////////////////////////////
 
     /////////////////////////////////// ITEM CARREG //////////////////////////////////////////////
-
-    public void inserirItemCarga(String codBarraBag, String activity){
-        ItemCargaDAO itemCargaDAO = new ItemCargaDAO();
-        itemCargaDAO.inserirItemCarga(getCabecCargaAberto().getIdCabecCarga(), getBagCargaCodBarra(codBarraBag).getIdRegMedPesBag());
-    }
 
     public int qtdeRestItemCarga(){
         CabecCargaDAO cabecCargaDAO = new CabecCargaDAO();
@@ -122,34 +125,69 @@ public class CargaCTR {
 
     /////////////////////////////////// BAG CARREG ////////////////////////////////////////////////
 
-    public boolean verBagCargaCodBarra(String codBarra){
+    public void verBagCarga(String dado, Context telaAtual, Class telaProx, ProgressDialog progressDialog, String activity){
         BagDAO bagDAO = new BagDAO();
-        OrdemCargaBean ordemCargaBean = getOrdemCargaId(getCabecCargaAberto().getIdOrdemCabecCarga());
-        if(codBarra.matches("[+-]?\\d*(\\.\\d+)?")){
-            if(bagDAO.verBagCarregCodBarra(codBarra, ordemCargaBean.getIdEmprUsuOrdemCarga(), ordemCargaBean.getIdPeriodProdOrdemCarga(), ordemCargaBean.getIdProdOrdemCarga())){
-                BagBean bagBean = bagDAO.getBagCarregCodBarra(codBarra, ordemCargaBean.getIdEmprUsuOrdemCarga(), ordemCargaBean.getIdPeriodProdOrdemCarga(), ordemCargaBean.getIdProdOrdemCarga());
-                ItemCargaDAO itemCargaDAO = new ItemCargaDAO();
-                CabecCargaDAO cabecCargaDAO = new CabecCargaDAO();
-                if(itemCargaDAO.verBagRepetidoCarga(cabecCargaDAO.getCabecCargaAberto().getIdCabecCarga(), bagBean.getIdRegMedPesBag())){
-                    return true;
-                }
-                else{
-                    return false;
-                }
-            }
-            else{
-                return false;
-            }
-        }
-        else{
-            return false;
-        }
+        bagDAO.verBagCarga(dado, telaAtual, telaProx, progressDialog, activity);
     }
+
+    public boolean verBagRepetidoCarga(Long codBarra){
+        ItemCargaDAO itemCargaDAO = new ItemCargaDAO();
+        CabecCargaDAO cabecCargaDAO = new CabecCargaDAO();
+        return itemCargaDAO.verBagRepetidoCarga(cabecCargaDAO.getCabecCargaAberto().getIdCabecCarga(), codBarra);
+    }
+
+//    public boolean verBagCargaCodBarra(String codBarra){
+//        BagDAO bagDAO = new BagDAO();
+//        OrdemCargaBean ordemCargaBean = getOrdemCargaId(getCabecCargaAberto().getIdOrdemCabecCarga());
+//        if(codBarra.matches("[+-]?\\d*(\\.\\d+)?")){
+//            if(bagDAO.verBagCarregCodBarra(codBarra, ordemCargaBean.getIdEmprUsuOrdemCarga(), ordemCargaBean.getIdPeriodProdOrdemCarga(), ordemCargaBean.getIdProdOrdemCarga())){
+//                BagBean bagBean = bagDAO.getBagCarregCodBarra(codBarra, ordemCargaBean.getIdEmprUsuOrdemCarga(), ordemCargaBean.getIdPeriodProdOrdemCarga(), ordemCargaBean.getIdProdOrdemCarga());
+//
+
+//            }
+//            else{
+//                return false;
+//            }
+//        }
+//        else{
+//            return false;
+//        }
+//    }
 
     public BagBean getBagCargaCodBarra(String codBarra){
         BagDAO bagDAO = new BagDAO();
         OrdemCargaBean ordemCargaBean = getOrdemCargaId(getCabecCargaAberto().getIdOrdemCabecCarga());
         return bagDAO.getBagCarregCodBarra(codBarra, ordemCargaBean.getIdEmprUsuOrdemCarga(), ordemCargaBean.getIdPeriodProdOrdemCarga(), ordemCargaBean.getIdProdOrdemCarga());
+    }
+
+    public void receberVerifBag(String result){
+
+        try {
+            if (!result.contains("exceeded")) {
+
+                Json json = new Json();
+                JSONArray jsonArray = json.jsonArray(result);
+
+                if (jsonArray.length() > 0) {
+
+                    BagDAO bagDAO = new BagDAO();
+                    ItemCargaDAO itemCargaDAO = new ItemCargaDAO();
+                    itemCargaDAO.inserirItemCarga(getCabecCargaAberto().getIdCabecCarga(), bagDAO.recDadosBag(jsonArray));
+                    VerifDadosServ.getInstance().pulaTela();
+
+                } else {
+                    VerifDadosServ.getInstance().msg("BAG INEXISTENTE NA BASE DE DADOS! FAVOR VERIFICA A NUMERAÇÃO.");
+                }
+
+            }
+            else{
+                VerifDadosServ.getInstance().msg("EXCEDEU TEMPO LIMITE DE PESQUISA! POR FAVOR, PROCURE UM PONTO MELHOR DE CONEXÃO DOS DADOS.");
+            }
+
+        } catch (Exception e) {
+            LogErroDAO.getInstance().insertLogErro(e);
+            VerifDadosServ.getInstance().msg("FALHA DE PESQUISA DE BAG! POR FAVOR, TENTAR NOVAMENTE COM UM SINAL MELHOR.");
+        }
     }
 
     ///////////////////////////////////////////////////////////////////////////////////////////////

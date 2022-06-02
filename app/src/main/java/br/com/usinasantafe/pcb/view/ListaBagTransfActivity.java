@@ -279,29 +279,32 @@ public class ListaBagTransfActivity extends ActivityGeneric {
                 int version = intent.getIntExtra("version", 0);
                 if (version >= 1) {
 
+                    LogProcessoDAO.getInstance().insertLogProcesso("if (version >= 1) {\n" +
+                            "                    String codBarraBag = intent.getStringExtra(\"data\");", getLocalClassName());
                     String codBarraBag = intent.getStringExtra("data");
                     if(pcbContext.getTransfCTR().verBagRepetidoTransf(Long.valueOf(codBarraBag))) {
+
+                        LogProcessoDAO.getInstance().insertLogProcesso("if(pcbContext.getTransfCTR().verBagRepetidoTransf(Long.valueOf(codBarraBag))) {\n" +
+                                "                        progressBar = new ProgressDialog(ListaBagTransfActivity.this);\n" +
+                                "                        progressBar.setCancelable(true);\n" +
+                                "                        progressBar.setMessage(\"PESQUISANDO BAG...\");\n" +
+                                "                        progressBar.show();\n" +
+                                "                    pcbContext.getTransfCTR().verBagTransf(" + codBarraBag + ", ListaBagTransfActivity.this, ListaBagTransfActivity.class, progressBar, getLocalClassName());", getLocalClassName());
 
                         progressBar = new ProgressDialog(ListaBagTransfActivity.this);
                         progressBar.setCancelable(true);
                         progressBar.setMessage("PESQUISANDO BAG...");
                         progressBar.show();
 
-                        LogProcessoDAO.getInstance().insertLogProcesso("progressBar = new ProgressDialog(ListaBagTransfActivity.this);\n" +
-                                "                    progressBar.setCancelable(true);\n" +
-                                "                    progressBar.setMessage(\"PESQUISANDO BAG...\");\n" +
-                                "                    progressBar.show();\n" +
-                                "                    String codBarraBag = intent.getStringExtra(\"data\");\n" +
-                                "                    pcbContext.getTransfCTR().verBag(" + codBarraBag + ", ListaBagTransfActivity.this, ListaBagTransfActivity.class, progressBar, getLocalClassName());", getLocalClassName());
-                        pcbContext.getTransfCTR().verBag(codBarraBag, ListaBagTransfActivity.this, ListaBagTransfActivity.class, progressBar, getLocalClassName());
+                        pcbContext.getTransfCTR().verBagTransf(codBarraBag, ListaBagTransfActivity.this, ListaBagTransfActivity.class, progressBar, getLocalClassName());
 
                     }
                     else{
 
                         LogProcessoDAO.getInstance().insertLogProcesso("} else {" +
-                                "AlertDialog.Builder alerta = new AlertDialog.Builder(MenuInicialActivity.this);\n" +
+                                "AlertDialog.Builder alerta = new AlertDialog.Builder(ListaBagTransfActivity.this);\n" +
                                 "                        alerta.setTitle(\"ATENÇÃO\");\n" +
-                                "alerta.setMessage(\"FINALIZAÇÃO CANCELADA! POR FAVOR, INSIRA PELO MENOS UM BAG PARA REALIZAR A FINALIZAÇÃO DA TRANSFÊRENCIA.\");\n" +
+                                "                        alerta.setMessage(\"BAG REPETIDO! POR FAVOR VERIFIQUE A NUMERAÇÃO DO BAG O LIDO.\");\n" +
                                 "                        alerta.setPositiveButton(\"OK\", new DialogInterface.OnClickListener() {\n" +
                                 "                            @Override\n" +
                                 "                            public void onClick(DialogInterface dialog, int which) {\n" +

@@ -8,15 +8,10 @@ import org.json.JSONArray;
 import java.util.ArrayList;
 import java.util.List;
 
-import br.com.usinasantafe.pcb.model.bean.estaticas.BagBean;
-import br.com.usinasantafe.pcb.model.bean.variaveis.CabecCargaBean;
 import br.com.usinasantafe.pcb.model.bean.variaveis.CabecTransfBean;
-import br.com.usinasantafe.pcb.model.bean.variaveis.ItemCargaBean;
 import br.com.usinasantafe.pcb.model.bean.variaveis.ItemTransfBean;
 import br.com.usinasantafe.pcb.model.dao.BagDAO;
-import br.com.usinasantafe.pcb.model.dao.CabecCargaDAO;
 import br.com.usinasantafe.pcb.model.dao.CabecTransfDAO;
-import br.com.usinasantafe.pcb.model.dao.ItemCargaDAO;
 import br.com.usinasantafe.pcb.model.dao.ItemTransfDAO;
 import br.com.usinasantafe.pcb.model.dao.LogErroDAO;
 import br.com.usinasantafe.pcb.util.EnvioDadosServ;
@@ -130,9 +125,9 @@ public class TransfCTR {
         return cabecTransfDAO.verCabecTransfFechado();
     }
 
-    public void verBag(String dado, Context telaAtual, Class telaProx, ProgressDialog progressDialog, String activity){
+    public void verBagTransf(String dado, Context telaAtual, Class telaProx, ProgressDialog progressDialog, String activity){
         BagDAO bagDAO = new BagDAO();
-        bagDAO.verBag(dado, telaAtual, telaProx, progressDialog, activity);
+        bagDAO.verBagTransf(dado, telaAtual, telaProx, progressDialog, activity);
     }
 
     public String dadosEnvioCabecTransfFechado(){

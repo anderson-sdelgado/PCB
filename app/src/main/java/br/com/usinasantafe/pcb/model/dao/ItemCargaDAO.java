@@ -7,6 +7,7 @@ import com.google.gson.JsonObject;
 import java.util.ArrayList;
 import java.util.List;
 
+import br.com.usinasantafe.pcb.model.bean.estaticas.BagBean;
 import br.com.usinasantafe.pcb.model.bean.variaveis.ItemCargaBean;
 import br.com.usinasantafe.pcb.model.pst.EspecificaPesquisa;
 
@@ -15,10 +16,12 @@ public class ItemCargaDAO {
     public ItemCargaDAO() {
     }
 
-    public void inserirItemCarga(Long idCabec, Long idRegMedPesBag){
+    public void inserirItemCarga(Long idCabec, BagBean bagBean){
         ItemCargaBean itemCargaBean = new ItemCargaBean();
         itemCargaBean.setIdCabecCarga(idCabec);
-        itemCargaBean.setIdRegMedPesBagCarga(idRegMedPesBag);
+        itemCargaBean.setIdRegMedPesBagCarga(bagBean.getIdRegMedPesBag());
+        itemCargaBean.setNroBag(bagBean.getNroBag());
+        itemCargaBean.setCodBarraBag(bagBean.getCodBarraBag());
         itemCargaBean.insert();
     }
 
@@ -29,11 +32,11 @@ public class ItemCargaDAO {
         return qtde;
     }
 
-    public boolean verBagRepetidoCarga(Long idCabecCarga, Long idRegMedPesBagCarga){
+    public boolean verBagRepetidoCarga(Long idCabecCarga, Long codBarraBag){
 
         ArrayList pesqArrayList = new ArrayList();
         pesqArrayList.add(getPesqIdCabecCarga(idCabecCarga));
-        pesqArrayList.add(getPesqIdRegCarga(idRegMedPesBagCarga));
+        pesqArrayList.add(getPesqCodBarraBagCarga(codBarraBag));
 
         ItemCargaBean itemCargaBean = new ItemCargaBean();
         List<ItemCargaBean> itemCarregList = itemCargaBean.get(pesqArrayList);
@@ -86,10 +89,10 @@ public class ItemCargaDAO {
         return pesquisa;
     }
 
-    private EspecificaPesquisa getPesqIdRegCarga(Long idRegMedPesBagCarreg){
+    private EspecificaPesquisa getPesqCodBarraBagCarga(Long codBarraBag){
         EspecificaPesquisa pesquisa = new EspecificaPesquisa();
-        pesquisa.setCampo("idRegMedPesBagCarga");
-        pesquisa.setValor(idRegMedPesBagCarreg);
+        pesquisa.setCampo("codBarraBag");
+        pesquisa.setValor(codBarraBag);
         pesquisa.setTipo(1);
         return pesquisa;
     }

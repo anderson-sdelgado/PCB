@@ -438,15 +438,47 @@ public class ListaBagCargaActivity extends ActivityGeneric {
                         "                int version = intent.getIntExtra(\"version\", 0);", getLocalClassName());
                 int version = intent.getIntExtra("version", 0);
                 if (version >= 1) {
+
                     String codBarraBag = intent.getStringExtra("data");
-                    pcbContext.setCodBarraBagLido(codBarraBag);
-                    LogProcessoDAO.getInstance().insertLogProcesso("if (version >= 1) {\n" +
-                            "                    String codBarraBag = intent.getStringExtra(\"data\");\n" +
-                            "                    pcbContext.setCodBarraBagLido(codBarraBag);\n" +
-                            "                    Intent it = new Intent(ListaBagCarregActivity.this, MsgAddBagCarregActivity.class);", getLocalClassName());
-                    Intent it = new Intent(ListaBagCargaActivity.this, MsgAddBagCargaActivity.class);
-                    startActivity(it);
-                    finish();
+                    if(pcbContext.getCargaCTR().verBagRepetidoCarga(Long.valueOf(codBarraBag))) {
+
+                        progressBar = new ProgressDialog(ListaBagCargaActivity.this);
+                        progressBar.setCancelable(true);
+                        progressBar.setMessage("PESQUISANDO BAG...");
+                        progressBar.show();
+
+                        LogProcessoDAO.getInstance().insertLogProcesso("progressBar = new ProgressDialog(ListaBagTransfActivity.this);\n" +
+                                "                    progressBar.setCancelable(true);\n" +
+                                "                    progressBar.setMessage(\"PESQUISANDO BAG...\");\n" +
+                                "                    progressBar.show();\n" +
+                                "                    String codBarraBag = intent.getStringExtra(\"data\");\n" +
+                                "                    pcbContext.getTransfCTR().verBag(" + codBarraBag + ", ListaBagTransfActivity.this, ListaBagTransfActivity.class, progressBar, getLocalClassName());", getLocalClassName());
+                        pcbContext.getCargaCTR().verBagCarga(codBarraBag, ListaBagCargaActivity.this, ListaBagCargaActivity.class, progressBar, getLocalClassName());
+
+                    }
+                    else{
+
+                        LogProcessoDAO.getInstance().insertLogProcesso("} else {" +
+                                "AlertDialog.Builder alerta = new AlertDialog.Builder(MenuInicialActivity.this);\n" +
+                                "                        alerta.setTitle(\"ATENÇÃO\");\n" +
+                                "alerta.setMessage(\"FINALIZAÇÃO CANCELADA! POR FAVOR, INSIRA PELO MENOS UM BAG PARA REALIZAR A FINALIZAÇÃO DA TRANSFÊRENCIA.\");\n" +
+                                "                        alerta.setPositiveButton(\"OK\", new DialogInterface.OnClickListener() {\n" +
+                                "                            @Override\n" +
+                                "                            public void onClick(DialogInterface dialog, int which) {\n" +
+                                "                            }\n" +
+                                "                        });\n" +
+                                "                        alerta.show();", getLocalClassName());
+                        AlertDialog.Builder alerta = new AlertDialog.Builder(ListaBagCargaActivity.this);
+                        alerta.setTitle("ATENÇÃO");
+                        alerta.setMessage("BAG REPETIDO! POR FAVOR VERIFIQUE A NUMERAÇÃO DO BAG O LIDO.");
+                        alerta.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                            }
+                        });
+                        alerta.show();
+
+                    }
                 }
             }
         }

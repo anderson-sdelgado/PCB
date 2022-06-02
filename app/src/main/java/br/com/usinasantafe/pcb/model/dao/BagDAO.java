@@ -48,8 +48,12 @@ public class BagDAO {
 
     }
 
-    public void verBag(String dado, Context telaAtual, Class telaProx, ProgressDialog progressDialog, String activity){
-        VerifDadosServ.getInstance().verifDados(dado, "Bag", telaAtual, telaProx, progressDialog, activity);
+    public void verBagTransf(String dado, Context telaAtual, Class telaProx, ProgressDialog progressDialog, String activity){
+        VerifDadosServ.getInstance().verifDados(dado, "BagTransf", telaAtual, telaProx, progressDialog, activity);
+    }
+
+    public void verBagCarga(String dado, Context telaAtual, Class telaProx, ProgressDialog progressDialog, String activity){
+        VerifDadosServ.getInstance().verifDados(dado, "BagCarga", telaAtual, telaProx, progressDialog, activity);
     }
 
     public BagBean recDadosBag(JSONArray jsonArray) throws JSONException {

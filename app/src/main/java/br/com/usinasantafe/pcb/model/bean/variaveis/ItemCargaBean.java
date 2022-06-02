@@ -16,6 +16,10 @@ public class ItemCargaBean extends Entidade {
     private Long idCabecCarga;
     @DatabaseField
     private Long idRegMedPesBagCarga;
+    @DatabaseField
+    private Long nroBag;
+    @DatabaseField
+    private Long codBarraBag;
 
     public ItemCargaBean() {
     }
@@ -44,4 +48,19 @@ public class ItemCargaBean extends Entidade {
         this.idRegMedPesBagCarga = idRegMedPesBagCarga;
     }
 
+    public Long getNroBag() {
+        return nroBag;
+    }
+
+    public void setNroBag(Long nroBag) {
+        this.nroBag = nroBag;
+    }
+
+    public Long getCodBarraBag() {
+        return codBarraBag;
+    }
+
+    public void setCodBarraBag(Long codBarraBag) {
+        this.codBarraBag = codBarraBag;
+    }
 }
