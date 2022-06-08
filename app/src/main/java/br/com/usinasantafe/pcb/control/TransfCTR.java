@@ -12,6 +12,7 @@ import br.com.usinasantafe.pcb.model.bean.variaveis.CabecTransfBean;
 import br.com.usinasantafe.pcb.model.bean.variaveis.ItemTransfBean;
 import br.com.usinasantafe.pcb.model.dao.BagDAO;
 import br.com.usinasantafe.pcb.model.dao.CabecTransfDAO;
+import br.com.usinasantafe.pcb.model.dao.ConfigDAO;
 import br.com.usinasantafe.pcb.model.dao.ItemTransfDAO;
 import br.com.usinasantafe.pcb.model.dao.LogErroDAO;
 import br.com.usinasantafe.pcb.util.EnvioDadosServ;
@@ -127,7 +128,8 @@ public class TransfCTR {
 
     public void verBagTransf(String dado, Context telaAtual, Class telaProx, ProgressDialog progressDialog, String activity){
         BagDAO bagDAO = new BagDAO();
-        bagDAO.verBagTransf(dado, telaAtual, telaProx, progressDialog, activity);
+        ConfigDAO configDAO = new ConfigDAO();
+        bagDAO.verBagTransf(dado + "_" + configDAO.getConfig().getIdSafra() , telaAtual, telaProx, progressDialog, activity);
     }
 
     public String dadosEnvioCabecTransfFechado(){

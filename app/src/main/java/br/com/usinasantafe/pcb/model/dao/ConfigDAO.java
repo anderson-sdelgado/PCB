@@ -91,6 +91,12 @@ public class ConfigDAO {
         configBean.update();
     }
 
+    public void setIdSafra(Long idSafra){
+        ConfigBean configBean = getConfig();
+        configBean.setIdSafra(idSafra);
+        configBean.update();
+    }
+
     public AtualAplicBean recAtual(JSONArray jsonArray) throws JSONException {
 
         JSONObject objeto = jsonArray.getJSONObject(0);

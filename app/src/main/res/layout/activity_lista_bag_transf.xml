@@ -26,6 +26,13 @@
         android:text="@string/texto_dthr_inicial" />
 
     <TextView
+        android:id="@+id/textViewSafra"
+        style="@style/TextViewMenuNormal"
+        android:paddingLeft="3dp"
+        android:paddingBottom="3dp"
+        android:text="@string/texto_safra" />
+
+    <TextView
         android:id="@+id/textViewTituloListaBagTransf"
         style="@style/TextViewTituloLista"
         android:text="@string/texto_titulo_lista_bag_transf" />
@@ -54,6 +61,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/texto_dig_bag" />
+
+    <Button
+        android:id="@+id/buttonSafra"
+        style="@style/BotaoAvulso"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/texto_alterar_safra" />
 
     <LinearLayout
         android:id="@+id/rightRelativeLayoutTransf"

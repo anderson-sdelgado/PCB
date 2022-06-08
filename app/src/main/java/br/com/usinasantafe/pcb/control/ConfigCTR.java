@@ -11,6 +11,7 @@ import java.util.List;
 
 import br.com.usinasantafe.pcb.model.bean.AtualAplicBean;
 import br.com.usinasantafe.pcb.model.bean.estaticas.FuncBean;
+import br.com.usinasantafe.pcb.model.bean.estaticas.SafraBean;
 import br.com.usinasantafe.pcb.model.bean.variaveis.ConfigBean;
 import br.com.usinasantafe.pcb.model.bean.variaveis.LogErroBean;
 import br.com.usinasantafe.pcb.model.bean.variaveis.LogProcessoBean;
@@ -23,6 +24,7 @@ import br.com.usinasantafe.pcb.model.dao.ItemCargaDAO;
 import br.com.usinasantafe.pcb.model.dao.ItemTransfDAO;
 import br.com.usinasantafe.pcb.model.dao.LogErroDAO;
 import br.com.usinasantafe.pcb.model.dao.LogProcessoDAO;
+import br.com.usinasantafe.pcb.model.dao.SafraDAO;
 import br.com.usinasantafe.pcb.util.AtualDadosServ;
 import br.com.usinasantafe.pcb.util.VerifDadosServ;
 import br.com.usinasantafe.pcb.view.TelaInicialActivity;
@@ -64,11 +66,6 @@ public class ConfigCTR {
         return configBean.getStatusRetVerif();
     }
 
-    public Long getTipoApont(){
-        ConfigBean configBean = getConfig();
-        return configBean.getTipoApont();
-    }
-
     public boolean verSenha(String senha){
         ConfigDAO configDAO = new ConfigDAO();
         return configDAO.verSenha(senha);
@@ -79,6 +76,26 @@ public class ConfigCTR {
         configDAO.salvarConfig(nroAparelho, senha);
     }
 
+    public void setIdSafra(){
+        ConfigDAO configDAO = new ConfigDAO();
+        SafraDAO safraDAO = new SafraDAO();
+        configDAO.setIdSafra(safraDAO.idSafraAtual());
+    }
+
+    public void setIdSafra(Long idSafra){
+        ConfigDAO configDAO = new ConfigDAO();
+        configDAO.setIdSafra(idSafra);
+    }
+
+    public SafraBean getSafraBean(){
+        SafraDAO safraDAO = new SafraDAO();
+        return safraDAO.getSafraBean(getConfig().getIdSafra());
+    }
+
+    public List<SafraBean> safraList(){
+        SafraDAO safraDAO = new SafraDAO();
+        return safraDAO.safraList();
+    }
 
     /////////////////////////////////// FUNCIONARIOS //////////////////////////////////////////////
 
@@ -120,6 +137,9 @@ public class ConfigCTR {
                 break;
             case "BagCarreg":
                 classeArrayList.add("BagCarregBean");
+                break;
+            case "Safra":
+                classeArrayList.add("SafraBean");
                 break;
         }
         LogProcessoDAO.getInstance().insertLogProcesso("AtualDadosServ.getInstance().atualGenericoBD(telaAtual, telaProx, progressDialog, classeArrayList, tipoReceb, activity);", activity);

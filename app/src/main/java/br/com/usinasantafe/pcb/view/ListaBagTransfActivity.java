@@ -45,10 +45,12 @@ public class ListaBagTransfActivity extends ActivityGeneric {
 
         TextView textViewTotalBagTransf = findViewById(R.id.textViewTotalBagTransf);
         TextView textViewDthr = findViewById(R.id.textViewDthrTransf);
+        TextView textViewSafra = findViewById(R.id.textViewSafra);
         Button buttonLeituraBagTransf = findViewById(R.id.buttonLeituraBagTransf);
         Button buttonDigBagTransf = findViewById(R.id.buttonDigBagTransf);
         Button buttonCancelarTransf = findViewById(R.id.buttonCancelarTransf);
         Button buttonFinalizarTransf = findViewById(R.id.buttonFinalizarTransf);
+        Button buttonSafra = findViewById(R.id.buttonSafra);
         textViewProcesso = findViewById(R.id.textViewProcesso);
 
         LogProcessoDAO.getInstance().insertLogProcesso("pcbContext.setCodBarraBagLido(\"\");\n" +
@@ -64,6 +66,7 @@ public class ListaBagTransfActivity extends ActivityGeneric {
 
         textViewTotalBagTransf.setText("TOTAL DE EMBALAGENS LIDAS: " + pcbContext.getTransfCTR().qtdeItemTransf());
         textViewDthr.setText("DATA HORA: " + pcbContext.getTransfCTR().getCabecTransfAberto().getDthrCabecTransf());
+        textViewSafra.setText(pcbContext.getConfigCTR().getSafraBean().getDescrSafra());
 
         ListView bagListView = findViewById(R.id.bagTransfListView);
         AdapterList adapterList = new AdapterList(this, pcbContext.getTransfCTR().bagItemTransfArrayList());
@@ -93,6 +96,20 @@ public class ListaBagTransfActivity extends ActivityGeneric {
                         "            public void onClick(View v) {\n" +
                         "                Intent it = new Intent(ListaBagTransfActivity.this, DigBagTransfActivity.class);", getLocalClassName());
                 Intent it = new Intent(ListaBagTransfActivity.this, DigBagTransfActivity.class);
+                startActivity(it);
+                finish();
+            }
+
+        });
+
+        buttonSafra.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                LogProcessoDAO.getInstance().insertLogProcesso("buttonDigBagTransf.setOnClickListener(new View.OnClickListener() {\n" +
+                        "            @Override\n" +
+                        "            public void onClick(View v) {\n" +
+                        "                Intent it = new Intent(ListaBagTransfActivity.this, ListaSafraActivity.class);", getLocalClassName());
+                Intent it = new Intent(ListaBagTransfActivity.this, ListaSafraActivity.class);
                 startActivity(it);
                 finish();
             }
@@ -153,7 +170,7 @@ public class ListaBagTransfActivity extends ActivityGeneric {
 
                     AlertDialog.Builder alerta = new AlertDialog.Builder(ListaBagTransfActivity.this);
                     alerta.setTitle("ATENÇÃO");
-                    alerta.setMessage("DESEJA FINALIZAR A TRANSFERÊNCIA?");
+                    alerta.setMessage("Deseja finalizar as leituras?");
                     alerta.setNegativeButton("SIM", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
@@ -304,7 +321,7 @@ public class ListaBagTransfActivity extends ActivityGeneric {
                         LogProcessoDAO.getInstance().insertLogProcesso("} else {" +
                                 "AlertDialog.Builder alerta = new AlertDialog.Builder(ListaBagTransfActivity.this);\n" +
                                 "                        alerta.setTitle(\"ATENÇÃO\");\n" +
-                                "                        alerta.setMessage(\"BAG REPETIDO! POR FAVOR VERIFIQUE A NUMERAÇÃO DO BAG O LIDO.\");\n" +
+                                "                        alerta.setMessage(\"Embalagem duplicada! Por favor realize novamente a leitura ou verifique a etiqueta e tente novamente.\");\n" +
                                 "                        alerta.setPositiveButton(\"OK\", new DialogInterface.OnClickListener() {\n" +
                                 "                            @Override\n" +
                                 "                            public void onClick(DialogInterface dialog, int which) {\n" +
@@ -313,7 +330,7 @@ public class ListaBagTransfActivity extends ActivityGeneric {
                                 "                        alerta.show();", getLocalClassName());
                         AlertDialog.Builder alerta = new AlertDialog.Builder(ListaBagTransfActivity.this);
                         alerta.setTitle("ATENÇÃO");
-                        alerta.setMessage("BAG REPETIDO! POR FAVOR VERIFIQUE A NUMERAÇÃO DO BAG O LIDO.");
+                        alerta.setMessage("Embalagem duplicada! Por favor realize novamente a leitura ou verifique a etiqueta e tente novamente.");
                         alerta.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {

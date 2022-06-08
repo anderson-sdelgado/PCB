@@ -11,6 +11,7 @@ import com.j256.ormlite.table.TableUtils;
 import br.com.usinasantafe.pcb.model.bean.estaticas.BagBean;
 import br.com.usinasantafe.pcb.model.bean.estaticas.FuncBean;
 import br.com.usinasantafe.pcb.model.bean.estaticas.OrdemCargaBean;
+import br.com.usinasantafe.pcb.model.bean.estaticas.SafraBean;
 import br.com.usinasantafe.pcb.model.bean.variaveis.CabecCargaBean;
 import br.com.usinasantafe.pcb.model.bean.variaveis.CabecTransfBean;
 import br.com.usinasantafe.pcb.model.bean.variaveis.ConfigBean;
@@ -53,6 +54,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 			TableUtils.createTable(cs, BagBean.class);
 			TableUtils.createTable(cs, FuncBean.class);
 			TableUtils.createTable(cs, OrdemCargaBean.class);
+			TableUtils.createTable(cs, SafraBean.class);
 
 			TableUtils.createTable(cs, CabecCargaBean.class);
 			TableUtils.createTable(cs, CabecTransfBean.class);
@@ -93,6 +95,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 				TableUtils.createTable(cs, BagBean.class);
 				TableUtils.createTable(cs, FuncBean.class);
 				TableUtils.createTable(cs, OrdemCargaBean.class);
+				TableUtils.createTable(cs, SafraBean.class);
 
 				TableUtils.createTable(cs, CabecCargaBean.class);
 				TableUtils.createTable(cs, CabecTransfBean.class);

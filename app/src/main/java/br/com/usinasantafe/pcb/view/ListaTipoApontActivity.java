@@ -1,7 +1,5 @@
 package br.com.usinasantafe.pcb.view;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -15,7 +13,6 @@ import java.util.ArrayList;
 import br.com.usinasantafe.pcb.PCBContext;
 import br.com.usinasantafe.pcb.R;
 import br.com.usinasantafe.pcb.model.dao.LogProcessoDAO;
-import br.com.usinasantafe.pcb.util.VerifDadosServ;
 
 public class ListaTipoApontActivity extends ActivityGeneric {
 
@@ -77,6 +74,7 @@ public class ListaTipoApontActivity extends ActivityGeneric {
                             "                    pcbContext.getTransfCTR().salvarCabecTransfAberto(pcbContext.getConfigCTR().getFuncMatric(Long.parseLong(editTextPadrao.getText().toString())).getIdFunc());\n" +
                             "                    Intent it = new Intent(ListaTipoApontActivity.this, ListaBagCargaActivity.class);", getLocalClassName());
                     pcbContext.getConfigCTR().setTipoApont(2L);
+                    pcbContext.getConfigCTR().setIdSafra();
                     pcbContext.getTransfCTR().salvarCabecTransfAberto(pcbContext.getConfigCTR().getFuncMatric(pcbContext.getMatricFunc()).getIdFunc());
                     Intent it = new Intent(ListaTipoApontActivity.this, ListaBagTransfActivity.class);
                     startActivity(it);

@@ -10,7 +10,6 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-import br.com.usinasantafe.pcb.model.bean.variaveis.CabecCargaBean;
 import br.com.usinasantafe.pcb.model.bean.variaveis.CabecTransfBean;
 import br.com.usinasantafe.pcb.util.Tempo;
 
@@ -20,10 +19,10 @@ public class CabecTransfDAO {
     }
 
     public void salvarCabecTransfAberto(Long idFunc){
-        Long dthrLong = Tempo.getInstance().dthr();
+        Long dthrLong = Tempo.getInstance().dthrAtualLong();
         CabecTransfBean cabecTransfBean = new CabecTransfBean();
         cabecTransfBean.setIdFuncCabecTransf(idFunc);
-        cabecTransfBean.setDthrCabecTransf(Tempo.getInstance().dthr(dthrLong));
+        cabecTransfBean.setDthrCabecTransf(Tempo.getInstance().dthrLongToString(dthrLong));
         cabecTransfBean.setDthrLongCabecTransf(dthrLong);
         cabecTransfBean.setStatusCabecTransf(1L);
         cabecTransfBean.insert();
@@ -166,7 +165,7 @@ public class CabecTransfDAO {
 
         ArrayList<CabecTransfBean> cabecTransfArrayList = new ArrayList<>();
         for (CabecTransfBean cabecTransfBeanBD : cabecTransfList) {
-            if(cabecTransfBeanBD.getDthrLongCabecTransf() < Tempo.getInstance().dthrLongDia1Menos()) {
+            if(cabecTransfBeanBD.getDthrLongCabecTransf() < Tempo.getInstance().dthrLongDiaMenos(3)) {
                 cabecTransfArrayList.add(cabecTransfBeanBD);
             }
         }

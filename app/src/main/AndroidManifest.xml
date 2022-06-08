@@ -29,6 +29,11 @@
         android:theme="@style/Theme.PCB"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".view.ListaSafraActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity" />
+        <activity
             android:name=".view.DigBagTransfActivity"
             android:exported="false"
             android:screenOrientation="portrait"

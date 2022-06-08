@@ -124,7 +124,7 @@
     <string name="wifi_changing_network">Requesting connection to network</string>
     <string name="wifi_ssid_label">Network Name</string>
     <string name="wifi_type_label">Type</string>
-    <string name="app_name">PCB</string>
+    <string name="app_name">PCB-QA</string>
     <string name="texto_menu_principal">PRINCIPAL - V 1.00</string>
     <string name="texto_item_list">TESTE</string>
     <string name="texto_num1">1</string>
@@ -186,6 +186,8 @@
     <string name="texto_log">LOG</string>
     <string name="texto_canc_carga">CANCELAR CARGA</string>
     <string name="texto_tipo_apont">TIPO DE APONTAMENTO</string>
-    <string name="texto_canc_transf">CANCELAR TRANSFERÊNCIA</string>
-    <string name="texto_finalizar_transf">FINALIZAR TRANSFERÊNCIA</string>
+    <string name="texto_canc_transf">CANCELAR</string>
+    <string name="texto_finalizar_transf">FINALIZAR</string>
+    <string name="texto_safra">SAFRA</string>
+    <string name="texto_alterar_safra">ALTERAR SAFRA</string>
 </resources>

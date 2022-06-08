@@ -145,7 +145,7 @@ public class DigBagCargaActivity extends ActivityGeneric {
                         LogProcessoDAO.getInstance().insertLogProcesso("} else {" +
                                 "AlertDialog.Builder alerta = new AlertDialog.Builder(DigBagCargaActivity.this);\n" +
                                 "                        alerta.setTitle(\"ATENÇÃO\");\n" +
-                                "                        alerta.setMessage(\"BAG REPETIDO! POR FAVOR VERIFIQUE A NUMERAÇÃO DO BAG O LIDO.\");\n" +
+                                "                        alerta.setMessage(\"Embalagem duplicada! Por favor realize novamente a leitura ou verifique a etiqueta e tente novamente.\");\n" +
                                 "                        alerta.setPositiveButton(\"OK\", new DialogInterface.OnClickListener() {\n" +
                                 "                            @Override\n" +
                                 "                            public void onClick(DialogInterface dialog, int which) {\n" +
@@ -154,7 +154,7 @@ public class DigBagCargaActivity extends ActivityGeneric {
                                 "                        alerta.show();", getLocalClassName());
                         AlertDialog.Builder alerta = new AlertDialog.Builder(DigBagCargaActivity.this);
                         alerta.setTitle("ATENÇÃO");
-                        alerta.setMessage("BAG REPETIDO! POR FAVOR VERIFIQUE A NUMERAÇÃO DO BAG O LIDO.");
+                        alerta.setMessage("Embalagem duplicada! Por favor realize novamente a leitura ou verifique a etiqueta e tente novamente.");
                         alerta.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {

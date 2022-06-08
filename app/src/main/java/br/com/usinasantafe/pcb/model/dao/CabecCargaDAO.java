@@ -24,8 +24,8 @@ public class CabecCargaDAO {
     }
 
     public void salvarCabecCargaAberto(){
-        Long dthrLong = Tempo.getInstance().dthr();
-        cabecCargaBean.setDthrCabecCarga(Tempo.getInstance().dthr(dthrLong));
+        Long dthrLong = Tempo.getInstance().dthrAtualLong();
+        cabecCargaBean.setDthrCabecCarga(Tempo.getInstance().dthrLongToString(dthrLong));
         cabecCargaBean.setDthrLongCabecCarga(dthrLong);
         cabecCargaBean.setStatusCabecCarga(1L);
         cabecCargaBean.insert();
@@ -161,7 +161,7 @@ public class CabecCargaDAO {
 
         ArrayList<CabecCargaBean> cabecCargaArrayList = new ArrayList<>();
         for (CabecCargaBean cabecCargaBeanBD : cabecCargaList) {
-            if(cabecCargaBeanBD.getDthrLongCabecCarga() < Tempo.getInstance().dthrLongDia1Menos()) {
+            if(cabecCargaBeanBD.getDthrLongCabecCarga() < Tempo.getInstance().dthrLongDiaMenos(3)) {
                 cabecCargaArrayList.add(cabecCargaBeanBD);
             }
         }

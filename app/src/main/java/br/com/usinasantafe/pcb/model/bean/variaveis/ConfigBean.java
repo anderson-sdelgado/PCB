@@ -19,6 +19,8 @@ public class ConfigBean extends Entidade {
     @DatabaseField
     private String dthrServConfig;
     @DatabaseField
+    private Long idSafra;
+    @DatabaseField
     private Long statusRetVerif; // 0 - Não Verificando; 1 - Verificando
     @DatabaseField
     private Long tipoApont; // 1 - Ordem Carga; 2 - Transferencia
@@ -87,5 +89,13 @@ public class ConfigBean extends Entidade {
 
     public void setPosicaoTela(Long posicaoTela) {
         this.posicaoTela = posicaoTela;
+    }
+
+    public Long getIdSafra() {
+        return idSafra;
+    }
+
+    public void setIdSafra(Long idSafra) {
+        this.idSafra = idSafra;
     }
 }
