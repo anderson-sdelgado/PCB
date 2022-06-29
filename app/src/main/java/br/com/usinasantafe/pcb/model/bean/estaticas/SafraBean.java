@@ -15,7 +15,7 @@ public class SafraBean extends Entidade {
     @DatabaseField
     private String descrSafra;
     @DatabaseField
-    private String dataInicioSafra;
+    private Long atualSafra;
 
     public SafraBean() {
     }
@@ -36,11 +36,11 @@ public class SafraBean extends Entidade {
         this.descrSafra = descrSafra;
     }
 
-    public String getDataInicioSafra() {
-        return dataInicioSafra;
+    public Long getAtualSafra() {
+        return atualSafra;
     }
 
-    public void setDataInicioSafra(String dataInicioSafra) {
-        this.dataInicioSafra = dataInicioSafra;
+    public void setAtualSafra(Long atualSafra) {
+        this.atualSafra = atualSafra;
     }
 }

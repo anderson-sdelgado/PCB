@@ -30,17 +30,17 @@ public class UrlsConexaoHttp {
 
     public String urlVerifica(String classe) {
         String retorno = "";
-        if (classe.equals("OrdemCarreg")) {
+        if(classe.equals("OrdemCarreg")) {
             retorno = url + "ordemcarreg.php";
-        } else if (classe.equals("Atualiza")) {
+        } else if(classe.equals("Atualiza")) {
             retorno = url + "atualaplic.php";
-        } else if (classe.equals("BagTransfCod")) {
+        } else if(classe.equals("BagTransfCod")) {
             retorno = url + "pesqbagtransfcod.php";
-        } else if (classe.equals("BagCargaCod")) {
+        } else if(classe.equals("BagCargaCod")) {
             retorno = url + "pesqbagcargacod.php";
-        } else if (classe.equals("BagTransfNro")) {
+        } else if(classe.equals("BagTransfNro")) {
             retorno = url + "pesqbagtransfnro.php";
-        } else if (classe.equals("BagCargaNro")) {
+        } else if(classe.equals("BagCargaNro")) {
             retorno = url + "pesqbagcarganro.php";
         }
         return retorno;

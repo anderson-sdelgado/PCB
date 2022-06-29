@@ -23,7 +23,7 @@ import br.com.usinasantafe.pcb.model.bean.variaveis.LogProcessoBean;
 public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 
 	public static final String FORCA_DB_NAME = "pcb_db";
-	public static final int FORCA_BD_VERSION = 2;
+	public static final int FORCA_BD_VERSION = 3;
 
 	private static DatabaseHelper instance;
 	
@@ -55,7 +55,6 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 			TableUtils.createTable(cs, FuncBean.class);
 			TableUtils.createTable(cs, OrdemCargaBean.class);
 			TableUtils.createTable(cs, SafraBean.class);
-
 			TableUtils.createTable(cs, CabecCargaBean.class);
 			TableUtils.createTable(cs, CabecTransfBean.class);
 			TableUtils.createTable(cs, ConfigBean.class);
@@ -97,6 +96,33 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 				TableUtils.createTable(cs, OrdemCargaBean.class);
 				TableUtils.createTable(cs, SafraBean.class);
 
+				TableUtils.createTable(cs, CabecCargaBean.class);
+				TableUtils.createTable(cs, CabecTransfBean.class);
+				TableUtils.createTable(cs, ConfigBean.class);
+				TableUtils.createTable(cs, ItemCargaBean.class);
+				TableUtils.createTable(cs, ItemTransfBean.class);
+				TableUtils.createTable(cs, LogErroBean.class);
+				TableUtils.createTable(cs, LogProcessoBean.class);
+
+			}
+			else if(oldVersion == 2 && newVersion == 3){
+
+				TableUtils.dropTable(cs, BagBean.class, true);
+				TableUtils.dropTable(cs, FuncBean.class, true);
+				TableUtils.dropTable(cs, OrdemCargaBean.class, true);
+				TableUtils.dropTable(cs, SafraBean.class, true);
+				TableUtils.dropTable(cs, CabecCargaBean.class, true);
+				TableUtils.dropTable(cs, CabecTransfBean.class, true);
+				TableUtils.dropTable(cs, ConfigBean.class, true);
+				TableUtils.dropTable(cs, ItemCargaBean.class, true);
+				TableUtils.dropTable(cs, ItemTransfBean.class, true);
+				TableUtils.dropTable(cs, LogErroBean.class, true);
+				TableUtils.dropTable(cs, LogProcessoBean.class, true);
+
+				TableUtils.createTable(cs, BagBean.class);
+				TableUtils.createTable(cs, FuncBean.class);
+				TableUtils.createTable(cs, OrdemCargaBean.class);
+				TableUtils.createTable(cs, SafraBean.class);
 				TableUtils.createTable(cs, CabecCargaBean.class);
 				TableUtils.createTable(cs, CabecTransfBean.class);
 				TableUtils.createTable(cs, ConfigBean.class);

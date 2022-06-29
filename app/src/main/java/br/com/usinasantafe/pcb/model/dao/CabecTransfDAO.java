@@ -102,13 +102,6 @@ public class CabecTransfDAO {
         return cabecTransfBean;
     }
 
-    public CabecTransfBean getCabecTransfFechado() {
-        List<CabecTransfBean> cabecTransfList = cabecTransfFechadoList();
-        CabecTransfBean cabecTransfBean = cabecTransfList.get(0);
-        cabecTransfList.clear();
-        return cabecTransfBean;
-    }
-
     public ArrayList<Long> idCabecTransfArrayList(List<CabecTransfBean> cabecList){
         ArrayList<Long> idCabecList = new ArrayList<Long>();
         for (CabecTransfBean cabecTransfBean : cabecList) {

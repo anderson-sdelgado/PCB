@@ -17,15 +17,11 @@ public class SafraDAO {
     }
 
     public Long idSafraAtual(){
-        Long idSafra = 0L;
         SafraBean safraBean = new SafraBean();
-        List<SafraBean> safraBeanList = safraBean.orderBy("idSafra", true);
-        Long dthrAtual = Tempo.getInstance().dthrAtualLong();
-        for (SafraBean safraBeanBD : safraBeanList){
-            if(Tempo.getInstance().dtStringToLong(safraBeanBD.getDataInicioSafra()) <= dthrAtual){
-                idSafra = safraBeanBD.getIdSafra();
-            }
-        }
+        List<SafraBean> safraBeanList = safraBean.get("atualSafra", 1L);
+        safraBean = safraBeanList.get(0);
+        Long idSafra = safraBean.getIdSafra();
+        safraBeanList.clear();
         return idSafra;
     }
 

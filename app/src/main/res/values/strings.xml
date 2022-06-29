@@ -124,8 +124,8 @@
     <string name="wifi_changing_network">Requesting connection to network</string>
     <string name="wifi_ssid_label">Network Name</string>
     <string name="wifi_type_label">Type</string>
-    <string name="app_name">PCB-QA</string>
-    <string name="texto_menu_principal">PRINCIPAL - V 1.01</string>
+    <string name="app_name">PCB</string>
+    <string name="texto_menu_principal">PRINCIPAL - V 1.02</string>
     <string name="texto_item_list">TESTE</string>
     <string name="texto_num1">1</string>
     <string name="texto_num2">2</string>
