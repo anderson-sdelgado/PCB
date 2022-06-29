@@ -368,7 +368,7 @@ public class ListaBagCargaActivity extends ActivityGeneric {
                                 "                    progressBar.show();\n" +
                                 "                    String codBarraBag = intent.getStringExtra(\"data\");\n" +
                                 "                    pcbContext.getTransfCTR().verBag(" + codBarraBag + ", ListaBagTransfActivity.this, ListaBagTransfActivity.class, progressBar, getLocalClassName());", getLocalClassName());
-                        pcbContext.getCargaCTR().verBagCarga(codBarraBag, ListaBagCargaActivity.this, ListaBagCargaActivity.class, progressBar, getLocalClassName());
+                        pcbContext.getCargaCTR().verBagCargaCod(codBarraBag, ListaBagCargaActivity.this, ListaBagCargaActivity.class, progressBar, getLocalClassName());
 
                     }
                     else{

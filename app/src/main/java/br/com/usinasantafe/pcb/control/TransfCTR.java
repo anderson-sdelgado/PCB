@@ -45,7 +45,7 @@ public class TransfCTR {
         List<ItemTransfBean> itemTransfList = itemTransfDAO.itemTransfListIdCabec(getCabecTransfAberto().getIdCabecTransf());
         for (int i = 0; i < itemTransfList.size(); i++) {
             ItemTransfBean itemTransfBean = itemTransfList.get(i);
-            itens.add(String.valueOf(itemTransfBean.getIdRegMedPesBagTransf()));
+            itens.add(String.valueOf(itemTransfBean.getNroBag()));
         }
         return itens;
     }
@@ -126,10 +126,16 @@ public class TransfCTR {
         return cabecTransfDAO.verCabecTransfFechado();
     }
 
-    public void verBagTransf(String dado, Context telaAtual, Class telaProx, ProgressDialog progressDialog, String activity){
+    public void verBagTransfCod(String dado, Context telaAtual, Class telaProx, ProgressDialog progressDialog, String activity){
         BagDAO bagDAO = new BagDAO();
         ConfigDAO configDAO = new ConfigDAO();
-        bagDAO.verBagTransf(dado + "_" + configDAO.getConfig().getIdSafra() , telaAtual, telaProx, progressDialog, activity);
+        bagDAO.verBagTransfCod(dado + "_" + configDAO.getConfig().getIdSafra() , telaAtual, telaProx, progressDialog, activity);
+    }
+
+    public void verBagTransfNro(String dado, Context telaAtual, Class telaProx, ProgressDialog progressDialog, String activity){
+        BagDAO bagDAO = new BagDAO();
+        ConfigDAO configDAO = new ConfigDAO();
+        bagDAO.verBagTransfNro(dado + "_" + configDAO.getConfig().getIdSafra() , telaAtual, telaProx, progressDialog, activity);
     }
 
     public String dadosEnvioCabecTransfFechado(){
@@ -159,7 +165,8 @@ public class TransfCTR {
                     VerifDadosServ.getInstance().pulaTela();
 
                 } else {
-                    VerifDadosServ.getInstance().msg("BAG INEXISTENTE NA BASE DE DADOS! FAVOR VERIFICA A NUMERAÇÃO.");
+
+                    VerifDadosServ.getInstance().msg("Embalagem não encontrada! Por favor verifique e realize uma nova leitura.");
                 }
 
             }

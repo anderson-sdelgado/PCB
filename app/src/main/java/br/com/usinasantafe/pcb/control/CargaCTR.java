@@ -8,14 +8,12 @@ import org.json.JSONArray;
 import java.util.ArrayList;
 import java.util.List;
 
-import br.com.usinasantafe.pcb.model.bean.estaticas.BagBean;
 import br.com.usinasantafe.pcb.model.bean.estaticas.OrdemCargaBean;
 import br.com.usinasantafe.pcb.model.bean.variaveis.CabecCargaBean;
 import br.com.usinasantafe.pcb.model.bean.variaveis.ItemCargaBean;
 import br.com.usinasantafe.pcb.model.dao.BagDAO;
 import br.com.usinasantafe.pcb.model.dao.CabecCargaDAO;
 import br.com.usinasantafe.pcb.model.dao.ItemCargaDAO;
-import br.com.usinasantafe.pcb.model.dao.ItemTransfDAO;
 import br.com.usinasantafe.pcb.model.dao.LogErroDAO;
 import br.com.usinasantafe.pcb.model.dao.OrdemCargaDAO;
 import br.com.usinasantafe.pcb.util.EnvioDadosServ;
@@ -84,7 +82,7 @@ public class CargaCTR {
         List<ItemCargaBean> itemCarregList = itemCargaDAO.itemCargaListIdCabec(getCabecCargaAberto().getIdCabecCarga());
         for (int i = 0; i < itemCarregList.size(); i++) {
             ItemCargaBean itemCargaBean = itemCarregList.get(i);
-            itens.add(String.valueOf(itemCargaBean.getIdRegMedPesBagCarga()));
+            itens.add(String.valueOf(itemCargaBean.getNroBag()));
         }
         return itens;
     }
@@ -125,39 +123,20 @@ public class CargaCTR {
 
     /////////////////////////////////// BAG CARREG ////////////////////////////////////////////////
 
-    public void verBagCarga(String dado, Context telaAtual, Class telaProx, ProgressDialog progressDialog, String activity){
+    public void verBagCargaCod(String dado, Context telaAtual, Class telaProx, ProgressDialog progressDialog, String activity){
         BagDAO bagDAO = new BagDAO();
-        bagDAO.verBagCarga(dado, telaAtual, telaProx, progressDialog, activity);
+        bagDAO.verBagCargaCod(dado, telaAtual, telaProx, progressDialog, activity);
+    }
+
+    public void verBagCargaNro(String dado, Context telaAtual, Class telaProx, ProgressDialog progressDialog, String activity){
+        BagDAO bagDAO = new BagDAO();
+        bagDAO.verBagCargaNro(dado, telaAtual, telaProx, progressDialog, activity);
     }
 
     public boolean verBagRepetidoCarga(Long codBarra){
         ItemCargaDAO itemCargaDAO = new ItemCargaDAO();
         CabecCargaDAO cabecCargaDAO = new CabecCargaDAO();
         return itemCargaDAO.verBagRepetidoCarga(cabecCargaDAO.getCabecCargaAberto().getIdCabecCarga(), codBarra);
-    }
-
-//    public boolean verBagCargaCodBarra(String codBarra){
-//        BagDAO bagDAO = new BagDAO();
-//        OrdemCargaBean ordemCargaBean = getOrdemCargaId(getCabecCargaAberto().getIdOrdemCabecCarga());
-//        if(codBarra.matches("[+-]?\\d*(\\.\\d+)?")){
-//            if(bagDAO.verBagCarregCodBarra(codBarra, ordemCargaBean.getIdEmprUsuOrdemCarga(), ordemCargaBean.getIdPeriodProdOrdemCarga(), ordemCargaBean.getIdProdOrdemCarga())){
-//                BagBean bagBean = bagDAO.getBagCarregCodBarra(codBarra, ordemCargaBean.getIdEmprUsuOrdemCarga(), ordemCargaBean.getIdPeriodProdOrdemCarga(), ordemCargaBean.getIdProdOrdemCarga());
-//
-
-//            }
-//            else{
-//                return false;
-//            }
-//        }
-//        else{
-//            return false;
-//        }
-//    }
-
-    public BagBean getBagCargaCodBarra(String codBarra){
-        BagDAO bagDAO = new BagDAO();
-        OrdemCargaBean ordemCargaBean = getOrdemCargaId(getCabecCargaAberto().getIdOrdemCabecCarga());
-        return bagDAO.getBagCarregCodBarra(codBarra, ordemCargaBean.getIdEmprUsuOrdemCarga(), ordemCargaBean.getIdPeriodProdOrdemCarga(), ordemCargaBean.getIdProdOrdemCarga());
     }
 
     public void receberVerifBag(String result){
@@ -176,7 +155,7 @@ public class CargaCTR {
                     VerifDadosServ.getInstance().pulaTela();
 
                 } else {
-                    VerifDadosServ.getInstance().msg("BAG INEXISTENTE NA BASE DE DADOS! FAVOR VERIFICA A NUMERAÇÃO.");
+                    VerifDadosServ.getInstance().msg("Embalagem não encontrada! Por favor verifique e realize uma nova leitura.");
                 }
 
             }

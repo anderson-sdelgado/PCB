@@ -42,13 +42,18 @@ public class MenuInicialActivity extends ActivityGeneric {
         pcbContext = (PCBContext) getApplication();
         textViewProcesso = findViewById(R.id.textViewProcesso);
 
-        if (!checkPermission(Manifest.permission.CAMERA)) {
-            String[] PERMISSIONS = {Manifest.permission.CAMERA};
+        if (!checkPermission(Manifest.permission.INTERNET)) {
+            String[] PERMISSIONS = {android.Manifest.permission.INTERNET};
             ActivityCompat.requestPermissions(this, PERMISSIONS, 112);
         }
 
         if (!checkPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
             String[] PERMISSIONS = {android.Manifest.permission.WRITE_EXTERNAL_STORAGE};
+            ActivityCompat.requestPermissions(this, PERMISSIONS, 112);
+        }
+
+        if (!checkPermission(Manifest.permission.CAMERA)) {
+            String[] PERMISSIONS = {Manifest.permission.CAMERA};
             ActivityCompat.requestPermissions(this, PERMISSIONS, 112);
         }
 

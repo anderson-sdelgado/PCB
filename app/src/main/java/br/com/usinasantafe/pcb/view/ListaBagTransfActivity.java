@@ -313,7 +313,7 @@ public class ListaBagTransfActivity extends ActivityGeneric {
                         progressBar.setMessage("PESQUISANDO BAG...");
                         progressBar.show();
 
-                        pcbContext.getTransfCTR().verBagTransf(codBarraBag, ListaBagTransfActivity.this, ListaBagTransfActivity.class, progressBar, getLocalClassName());
+                        pcbContext.getTransfCTR().verBagTransfCod(codBarraBag, ListaBagTransfActivity.this, ListaBagTransfActivity.class, progressBar, getLocalClassName());
 
                     }
                     else{

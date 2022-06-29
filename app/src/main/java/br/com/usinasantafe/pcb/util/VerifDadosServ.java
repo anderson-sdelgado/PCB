@@ -5,12 +5,14 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.os.AsyncTask;
 import android.util.Log;
 
 import java.util.HashMap;
 import java.util.Map;
 
+import br.com.usinasantafe.pcb.R;
 import br.com.usinasantafe.pcb.control.CargaCTR;
 import br.com.usinasantafe.pcb.control.ConfigCTR;
 import br.com.usinasantafe.pcb.control.TransfCTR;
@@ -36,6 +38,7 @@ public class VerifDadosServ {
     private TelaInicialActivity telaInicialActivity;
     private PostVerGenerico postVerGenerico;
     public static int status;
+    private MediaPlayer mp;
 
     public VerifDadosServ() {
     }
@@ -68,7 +71,7 @@ public class VerifDadosServ {
             ordemCargaDAO.atualDados(result, activity);
             status = 3;
             this.telaInicialActivity.goMenuInicial();
-        } else if (this.classe.equals("BagTransf")) {
+        } else if (this.classe.equals("BagTransfCod") || this.classe.equals("BagTransfNro")) {
             LogProcessoDAO.getInstance().insertLogProcesso("} else if (this.tipo.equals(\"OrdemCarreg\")) {\n" +
                     "            OrdemCarregDAO ordemCarregDAO = new OrdemCarregDAO();\n" +
                     "            ordemCarregDAO.atualDados(result, activity);\n" +
@@ -76,7 +79,7 @@ public class VerifDadosServ {
             TransfCTR transfCTR = new TransfCTR();
             transfCTR.receberVerifBag(result);
             status = 3;
-        } else if (this.classe.equals("BagCarga")) {
+        } else if (this.classe.equals("BagCargaCod") || this.classe.equals("BagCargaNro")) {
             LogProcessoDAO.getInstance().insertLogProcesso("} else if (this.tipo.equals(\"OrdemCarreg\")) {\n" +
                     "            OrdemCarregDAO ordemCarregDAO = new OrdemCarregDAO();\n" +
                     "            ordemCarregDAO.atualDados(result, activity);\n" +
@@ -172,6 +175,18 @@ public class VerifDadosServ {
         if(status < 3){
             status = 3;
             this.progressDialog.dismiss();
+            if(this.classe.equals("BagTransf") || this.classe.equals("BagCarga")){
+                mp = MediaPlayer.create(telaAtual, R.raw.beep);
+                mp.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                    @Override
+                    public void onCompletion(MediaPlayer mp) {
+                        if(mp != null) {
+                            mp.release();
+                        }
+                    }
+                });
+                mp.start();
+            }
             Intent it = new Intent(telaAtual, telaProx);
             telaAtual.startActivity(it);
         }

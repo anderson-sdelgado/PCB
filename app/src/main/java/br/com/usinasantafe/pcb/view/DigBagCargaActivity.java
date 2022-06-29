@@ -137,7 +137,7 @@ public class DigBagCargaActivity extends ActivityGeneric {
                         progressBar.setMessage("PESQUISANDO BAG...");
                         progressBar.show();
 
-                        pcbContext.getCargaCTR().verBagCarga(editTextPadrao.getText().toString(), DigBagCargaActivity.this, ListaBagCargaActivity.class, progressBar, getLocalClassName());
+                        pcbContext.getCargaCTR().verBagCargaNro(editTextPadrao.getText().toString(), DigBagCargaActivity.this, ListaBagCargaActivity.class, progressBar, getLocalClassName());
 
                     }
                     else{

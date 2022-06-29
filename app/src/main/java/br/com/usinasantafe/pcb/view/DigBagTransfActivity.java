@@ -50,7 +50,7 @@ public class DigBagTransfActivity extends ActivityGeneric {
                         progressBar.setCancelable(true);
                         progressBar.setMessage("PESQUISANDO BAG...");
                         progressBar.show();
-                        pcbContext.getTransfCTR().verBagTransf(editTextPadrao.getText().toString(), DigBagTransfActivity.this, ListaBagTransfActivity.class, progressBar, getLocalClassName());
+                        pcbContext.getTransfCTR().verBagTransfNro(editTextPadrao.getText().toString(), DigBagTransfActivity.this, ListaBagTransfActivity.class, progressBar, getLocalClassName());
 
                     }
                     else{

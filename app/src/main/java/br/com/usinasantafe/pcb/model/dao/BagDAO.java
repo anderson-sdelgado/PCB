@@ -21,39 +21,20 @@ public class BagDAO {
     public BagDAO() {
     }
 
-    public boolean verBagCarregCodBarra(String codBarra, Long idEmprUsu, Long idPeriodProd, Long idEmbProd){
-        List<BagBean> bagCarregList = bagCarregCodBarraList(codBarra, idEmprUsu, idPeriodProd, idEmbProd);
-        boolean ret = bagCarregList.size() > 0;
-        bagCarregList.clear();
-        return ret;
+    public void verBagTransfCod(String dado, Context telaAtual, Class telaProx, ProgressDialog progressDialog, String activity){
+        VerifDadosServ.getInstance().verifDados(dado, "BagTransfCod", telaAtual, telaProx, progressDialog, activity);
     }
 
-    public BagBean getBagCarregCodBarra(String codBarra, Long idEmprUsu, Long idPeriodProd, Long idProd){
-        List<BagBean> bagCarregList = bagCarregCodBarraList(codBarra, idEmprUsu, idPeriodProd, idProd);
-        BagBean bagBean =  bagCarregList.get(0);
-        bagCarregList.clear();
-        return bagBean;
+    public void verBagCargaCod(String dado, Context telaAtual, Class telaProx, ProgressDialog progressDialog, String activity){
+        VerifDadosServ.getInstance().verifDados(dado, "BagCargaCod", telaAtual, telaProx, progressDialog, activity);
     }
 
-    private List<BagBean> bagCarregCodBarraList(String codBarraBag, Long idEmprUsu, Long idPeriodProd, Long idProd){
-
-        ArrayList pesqArrayList = new ArrayList();
-        pesqArrayList.add(getPesqCodBarra(codBarraBag));
-        pesqArrayList.add(getPesqIdEmprUsu(idEmprUsu));
-        pesqArrayList.add(getPesqIdPeriodProd(idPeriodProd));
-        pesqArrayList.add(getPesqIdProd(idProd));
-
-        BagBean bagBean = new BagBean();
-        return bagBean.get(pesqArrayList);
-
+    public void verBagTransfNro(String dado, Context telaAtual, Class telaProx, ProgressDialog progressDialog, String activity){
+        VerifDadosServ.getInstance().verifDados(dado, "BagTransfNro", telaAtual, telaProx, progressDialog, activity);
     }
 
-    public void verBagTransf(String dado, Context telaAtual, Class telaProx, ProgressDialog progressDialog, String activity){
-        VerifDadosServ.getInstance().verifDados(dado, "BagTransf", telaAtual, telaProx, progressDialog, activity);
-    }
-
-    public void verBagCarga(String dado, Context telaAtual, Class telaProx, ProgressDialog progressDialog, String activity){
-        VerifDadosServ.getInstance().verifDados(dado, "BagCarga", telaAtual, telaProx, progressDialog, activity);
+    public void verBagCargaNro(String dado, Context telaAtual, Class telaProx, ProgressDialog progressDialog, String activity){
+        VerifDadosServ.getInstance().verifDados(dado, "BagCargaNro", telaAtual, telaProx, progressDialog, activity);
     }
 
     public BagBean recDadosBag(JSONArray jsonArray) throws JSONException {
