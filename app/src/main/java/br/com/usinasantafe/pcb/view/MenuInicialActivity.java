@@ -19,6 +19,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
+import br.com.usinasantafe.pcb.BuildConfig;
 import br.com.usinasantafe.pcb.PCBContext;
 import br.com.usinasantafe.pcb.R;
 import br.com.usinasantafe.pcb.model.dao.LogProcessoDAO;
@@ -32,6 +33,7 @@ public class MenuInicialActivity extends ActivityGeneric {
     private ProgressDialog progressBar;
 
     private TextView textViewProcesso;
+    private TextView textViewPrincipal;
     private Handler customHandler = new Handler();
 
     @Override
@@ -41,6 +43,9 @@ public class MenuInicialActivity extends ActivityGeneric {
 
         pcbContext = (PCBContext) getApplication();
         textViewProcesso = findViewById(R.id.textViewProcesso);
+        textViewPrincipal = findViewById(R.id.textViewPrincipal);
+
+        textViewPrincipal.setText("PRINCIPAL - V " + BuildConfig.VERSION_NAME);
 
         if (!checkPermission(Manifest.permission.INTERNET)) {
             String[] PERMISSIONS = {android.Manifest.permission.INTERNET};

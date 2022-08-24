@@ -72,17 +72,23 @@ public class VerifDadosServ {
             status = 3;
             this.telaInicialActivity.goMenuInicial();
         } else if (this.classe.equals("BagTransfCod") || this.classe.equals("BagTransfNro")) {
-            LogProcessoDAO.getInstance().insertLogProcesso("} else if (this.tipo.equals(\"OrdemCarreg\")) {\n" +
-                    "            OrdemCarregDAO ordemCarregDAO = new OrdemCarregDAO();\n" +
-                    "            ordemCarregDAO.atualDados(result, activity);\n" +
+            LogProcessoDAO.getInstance().insertLogProcesso("} else if (this.classe.equals(\"BagTransfCod\") || this.classe.equals(\"BagTransfNro\")) {\n" +
+                    "            TransfCTR transfCTR = new TransfCTR();\n" +
+                    "            transfCTR.receberVerifBag(result);\n" +
                     "            status = 3;", activity);
             TransfCTR transfCTR = new TransfCTR();
             transfCTR.receberVerifBag(result);
             status = 3;
-        } else if (this.classe.equals("BagCargaCod") || this.classe.equals("BagCargaNro")) {
-            LogProcessoDAO.getInstance().insertLogProcesso("} else if (this.tipo.equals(\"OrdemCarreg\")) {\n" +
-                    "            OrdemCarregDAO ordemCarregDAO = new OrdemCarregDAO();\n" +
-                    "            ordemCarregDAO.atualDados(result, activity);\n" +
+        } else if (this.classe.equals("BagCargaEstoqueCod")
+                    || this.classe.equals("BagCargaEstoqueNro")
+                    || this.classe.equals("BagCargaProducaoCod")
+                    || this.classe.equals("BagCargaProducaoNro")) {
+            LogProcessoDAO.getInstance().insertLogProcesso("} else if (this.classe.equals(\"BagCargaEstoqueCod\")\n" +
+                    "                    || this.classe.equals(\"BagCargaEstoqueNro\")\n" +
+                    "                    || this.classe.equals(\"BagCargaProducaoCod\")\n" +
+                    "                    || this.classe.equals(\"BagCargaProducaoNro\")) {\n" +
+                    "            CargaCTR cargaCTR = new CargaCTR();\n" +
+                    "            cargaCTR.receberVerifBag(result);\n" +
                     "            status = 3;", activity);
             CargaCTR cargaCTR = new CargaCTR();
             cargaCTR.receberVerifBag(result);

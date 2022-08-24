@@ -125,7 +125,7 @@
     <string name="wifi_ssid_label">Network Name</string>
     <string name="wifi_type_label">Type</string>
     <string name="app_name">PCB</string>
-    <string name="texto_menu_principal">PRINCIPAL - V 1.02</string>
+    <string name="texto_menu_principal">PRINCIPAL</string>
     <string name="texto_item_list">TESTE</string>
     <string name="texto_num1">1</string>
     <string name="texto_num2">2</string>
@@ -190,4 +190,5 @@
     <string name="texto_finalizar_transf">FINALIZAR</string>
     <string name="texto_safra">SAFRA</string>
     <string name="texto_alterar_safra">ALTERAR SAFRA</string>
+    <string name="texto_atual_ordem_carga">Atualizando Ordem de Carga</string>
 </resources>

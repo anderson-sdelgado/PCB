@@ -92,10 +92,9 @@ public class ItemTransfDAO {
         return itemJsonObj.toString();
     }
 
-    public boolean verBagRepetidoTransf(Long idCabecTransf, Long codBarraBag){
+    public boolean verBagRepetidoTransf(Long codBarraBag){
 
         ArrayList pesqArrayList = new ArrayList();
-        pesqArrayList.add(getPesqIdCabecTransf(idCabecTransf));
         pesqArrayList.add(getPesqCodBarraBagTransf(codBarraBag));
 
         ItemTransfBean itemTransfBean = new ItemTransfBean();

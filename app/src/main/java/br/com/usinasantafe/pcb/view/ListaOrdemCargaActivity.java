@@ -69,18 +69,45 @@ public class ListaOrdemCargaActivity extends ActivityGeneric {
                         "            public void onItemClick(AdapterView<?> l, View v, int position,\n" +
                         "                                    long id) {\n" +
                         "                OrdemCarregBean ordemCarregBean = ordemCarregList.get(position);\n" +
-                        "                ordemCarregList.clear();\n" +
-                        "                pcbContext.getCarregCTR().getCabecCargaDAO().getCabecCargaBean().setIdOrdemCabecCarreg(ordemCarregBean.getIdOrdemCarreg());\n" +
-                        "                Intent it = new Intent(ListaOrdemCarregActivity.this, DetalheOrdemCarregActivity.class);", getLocalClassName());
+                        "                ordemCarregList.clear();", getLocalClassName());
 
                 OrdemCargaBean ordemCargaBean = ordemCarregList.get(position);
                 ordemCarregList.clear();
 
-                pcbContext.getCargaCTR().getCabecCargaDAO().getCabecCargaBean().setIdOrdemCabecCarga(ordemCargaBean.getIdOrdemCarga());
+                if(!pcbContext.getCargaCTR().verCabecCargaOrdemCarga(ordemCargaBean.getIdOrdemCarga())){
+                    LogProcessoDAO.getInstance().insertLogProcesso("if(!pcbContext.getCargaCTR().verCabecCargaOrdemCarga(ordemCargaBean.getIdOrdemCarga())){\n" +
+                            "                    pcbContext.getCargaCTR().getCabecCargaDAO().getCabecCargaBean().setIdOrdemCabecCarga(ordemCargaBean.getIdOrdemCarga());\n" +
+                            "                    Intent it = new Intent(ListaOrdemCargaActivity.this, DetalhesOrdemCarregActivity.class);", getLocalClassName());
+                    pcbContext.getCargaCTR().getCabecCargaDAO().getCabecCargaBean().setIdOrdemCabecCarga(ordemCargaBean.getIdOrdemCarga());
+                    Intent it = new Intent(ListaOrdemCargaActivity.this, DetalhesOrdemCarregActivity.class);
+                    startActivity(it);
+                    finish();
 
-                Intent it = new Intent(ListaOrdemCargaActivity.this, DetalhesOrdemCarregActivity.class);
-                startActivity(it);
-                finish();
+                } else {
+
+                    LogProcessoDAO.getInstance().insertLogProcesso("} else {\n" +
+                            " AlertDialog.Builder alerta = new AlertDialog.Builder(ListaOrdemCargaActivity.this);\n" +
+                            "                    alerta.setTitle(\"ATENÇÃO\");\n" +
+                            "                    alerta.setMessage(\"ORDEM DE CARGA JÁ INSERIDA. VALOR ESCOLHE OUTRA ORDEM DE CARGA\");\n" +
+                            "                    alerta.setPositiveButton(\"OK\", new DialogInterface.OnClickListener() {\n" +
+                            "                        @Override\n" +
+                            "                        public void onClick(DialogInterface dialog, int which) {\n" +
+                            "                        }\n" +
+                            "                    });\n" +
+                            "                    alerta.show();", getLocalClassName());
+                    AlertDialog.Builder alerta = new AlertDialog.Builder(ListaOrdemCargaActivity.this);
+                    alerta.setTitle("ATENÇÃO");
+                    alerta.setMessage("ORDEM DE CARGA JÁ INSERIDA. POR FAVOR, ESCOLHE OUTRA ORDEM DE CARGA.");
+                    alerta.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                        }
+                    });
+                    alerta.show();
+
+                }
+
+
 
             }
 
@@ -142,8 +169,8 @@ public class ListaOrdemCargaActivity extends ActivityGeneric {
                             progressBar.setMax(100);
                             progressBar.show();
 
-                            LogProcessoDAO.getInstance().insertLogProcesso("pcbContext.getConfigCTR().atualDados(ListaOrdemCarregActivity.this, ListaOrdemCarregActivity.class, progressBar, \"OrdemCarreg\", 1, getLocalClassName());", getLocalClassName());
-                            pcbContext.getConfigCTR().atualDados(ListaOrdemCargaActivity.this, ListaOrdemCargaActivity.class, progressBar, "OrdemCarreg", 1, getLocalClassName());
+                            LogProcessoDAO.getInstance().insertLogProcesso("pcbContext.getConfigCTR().atualDados(ListaOrdemCarregActivity.this, ListaOrdemCarregActivity.class, progressBar, \"OrdemCarreg\", 2, getLocalClassName());", getLocalClassName());
+                            pcbContext.getConfigCTR().atualDados(ListaOrdemCargaActivity.this, ListaOrdemCargaActivity.class, progressBar, "OrdemCarga", 2, getLocalClassName());
 
                         } else {
 

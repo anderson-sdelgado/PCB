@@ -32,10 +32,9 @@ public class ItemCargaDAO {
         return qtde;
     }
 
-    public boolean verBagRepetidoCarga(Long idCabecCarga, Long codBarraBag){
+    public boolean verBagRepetidoCarga(Long codBarraBag){
 
         ArrayList pesqArrayList = new ArrayList();
-        pesqArrayList.add(getPesqIdCabecCarga(idCabecCarga));
         pesqArrayList.add(getPesqCodBarraBagCarga(codBarraBag));
 
         ItemCargaBean itemCargaBean = new ItemCargaBean();
@@ -44,6 +43,29 @@ public class ItemCargaDAO {
         itemCarregList.clear();
         pesqArrayList.clear();
         return ret;
+    }
+
+    public void deleteBagRepetidoCarga(Long idCabecCarga){
+        List<ItemCargaBean> itemCargaBeanList = itemCargaListIdCabec(idCabecCarga);
+        for(ItemCargaBean itemCargaBean : itemCargaBeanList){
+            deleteBagRepetidoCarga(idCabecCarga, itemCargaBean.getCodBarraBag());
+        }
+    }
+
+    public void deleteBagRepetidoCarga(Long idCabecCarga, Long codBarraBag){
+
+        ArrayList pesqArrayList = new ArrayList();
+        pesqArrayList.add(getPesqIdCabecCarga(idCabecCarga));
+        pesqArrayList.add(getPesqCodBarraBagCarga(codBarraBag));
+
+        ItemCargaBean itemCargaBean = new ItemCargaBean();
+        List<ItemCargaBean> itemCarregList = itemCargaBean.get(pesqArrayList);
+        if(itemCarregList.size() > 1){
+            ItemCargaBean itemCargaBeanBD = itemCarregList.get(0);
+            itemCargaBeanBD.delete();
+        }
+        itemCarregList.clear();
+        pesqArrayList.clear();
     }
 
     public List<ItemCargaBean> itemCargaListIdCabec(Long idCabec){

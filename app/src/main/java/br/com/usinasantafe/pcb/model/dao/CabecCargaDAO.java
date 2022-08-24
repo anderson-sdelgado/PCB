@@ -51,6 +51,13 @@ public class CabecCargaDAO {
         return cabecCargaBean;
     }
 
+    public boolean verCabecCargaOrdemCarga(Long idOrdemCabecCarga){
+        List<CabecCargaBean> cabecList = cabecCargaListOrdemCarga(idOrdemCabecCarga);
+        boolean ret = (cabecList.size() > 0);
+        cabecList.clear();
+        return ret;
+    }
+
     public boolean verCabecCargaAberto(){
         List<CabecCargaBean> cabecList = cabecCargaAbertoList();
         boolean ret = (cabecList.size() > 0);
@@ -92,6 +99,11 @@ public class CabecCargaDAO {
     public List<CabecCargaBean> cabecCargaListId(Long idCabecCarreg){
         CabecCargaBean cabecCargaBean = new CabecCargaBean();
         return cabecCargaBean.get("idCabecCarga", idCabecCarreg);
+    }
+
+    public List<CabecCargaBean> cabecCargaListOrdemCarga(Long idOrdemCabecCarga){
+        CabecCargaBean cabecCargaBean = new CabecCargaBean();
+        return cabecCargaBean.get("idOrdemCabecCarga", idOrdemCabecCarga);
     }
 
     public String dadosEnvioCabecCargaFechado(){
@@ -161,7 +173,7 @@ public class CabecCargaDAO {
 
         ArrayList<CabecCargaBean> cabecCargaArrayList = new ArrayList<>();
         for (CabecCargaBean cabecCargaBeanBD : cabecCargaList) {
-            if(cabecCargaBeanBD.getDthrLongCabecCarga() < Tempo.getInstance().dthrLongDiaMenos(3)) {
+            if(cabecCargaBeanBD.getDthrLongCabecCarga() < Tempo.getInstance().dthrLongDiaMenos(15)) {
                 cabecCargaArrayList.add(cabecCargaBeanBD);
             }
         }

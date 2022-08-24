@@ -212,7 +212,7 @@ public class ListaBagTransfActivity extends ActivityGeneric {
                             "                        alerta.show();", getLocalClassName());
                     AlertDialog.Builder alerta = new AlertDialog.Builder(ListaBagTransfActivity.this);
                     alerta.setTitle("ATENÇÃO");
-                    alerta.setMessage("FINALIZAÇÃO CANCELADA! POR FAVOR, INSIRA PELO MENOS UM BAG PARA REALIZAR A FINALIZAÇÃO DA TRANSFÊRENCIA.");
+                    alerta.setMessage("Operação cancelada! Por Favor, insira ao menos uma embalagem válida para prosseguir.");
                     alerta.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {

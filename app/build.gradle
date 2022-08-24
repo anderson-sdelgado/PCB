@@ -9,9 +9,8 @@ android {
         applicationId "br.com.usinasantafe.pcb"
         minSdk 22
         targetSdk 31
-        versionCode 1
-        versionName "1.0"
-
+        versionCode 5
+        versionName "1.07"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 

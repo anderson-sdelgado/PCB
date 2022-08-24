@@ -124,25 +124,17 @@ public class ConfigCTR {
         AtualDadosServ.getInstance().atualTodasTabBD(tela, progressDialog, activity);
     }
 
+    public void atualDados(Context telaAtual, Class telaProx, String tipoAtual, int tipoReceb, String activity) {
+        LogProcessoDAO.getInstance().insertLogProcesso("ArrayList classeArrayList = classeArrayList(tipoAtual, activity);\n" +
+                "AtualDadosServ.getInstance().atualGenericoBD(telaAtual, telaProx, progressDialog, classeArrayList, tipoReceb, activity);", activity);
+        ArrayList classeArrayList = classeArrayList(tipoAtual, activity);
+        AtualDadosServ.getInstance().atualGenericoBD(telaAtual, telaProx, classeArrayList, tipoReceb, activity);
+    }
+
     public void atualDados(Context telaAtual, Class telaProx, ProgressDialog progressDialog, String tipoAtual, int tipoReceb, String activity) {
-        ArrayList classeArrayList = new ArrayList();
-        LogProcessoDAO.getInstance().insertLogProcesso("ArrayList classeArrayList = new ArrayList();\n" +
-                "        switch (" + tipoAtual + ") {", activity);
-        switch (tipoAtual) {
-            case "Func":
-                classeArrayList.add("FuncBean");
-                break;
-            case "OrdemCarreg":
-                classeArrayList.add("OrdemCarregBean");
-                break;
-            case "BagCarreg":
-                classeArrayList.add("BagCarregBean");
-                break;
-            case "Safra":
-                classeArrayList.add("SafraBean");
-                break;
-        }
-        LogProcessoDAO.getInstance().insertLogProcesso("AtualDadosServ.getInstance().atualGenericoBD(telaAtual, telaProx, progressDialog, classeArrayList, tipoReceb, activity);", activity);
+        LogProcessoDAO.getInstance().insertLogProcesso("ArrayList classeArrayList = classeArrayList(tipoAtual, activity);\n" +
+                "AtualDadosServ.getInstance().atualGenericoBD(telaAtual, telaProx, progressDialog, classeArrayList, tipoReceb, activity);", activity);
+        ArrayList classeArrayList = classeArrayList(tipoAtual, activity);
         AtualDadosServ.getInstance().atualGenericoBD(telaAtual, telaProx, progressDialog, classeArrayList, tipoReceb, activity);
     }
 
@@ -150,6 +142,28 @@ public class ConfigCTR {
         LogProcessoDAO.getInstance().insertLogProcesso("VerifDadosServ.getInstance().atualDados(telaInicialActivity, activity);", activity);
         VerifDadosServ.getInstance().atualDados(telaInicialActivity, activity);
     }
+
+    private ArrayList classeArrayList(String tipoAtual, String activity){
+        ArrayList classeArrayList = new ArrayList();
+        LogProcessoDAO.getInstance().insertLogProcesso("ArrayList classeArrayList = new ArrayList();\n" +
+                "        switch (" + tipoAtual + ") {", activity);
+        switch (tipoAtual) {
+            case "Func":
+                classeArrayList.add("FuncBean");
+                break;
+            case "OrdemCarga":
+                classeArrayList.add("OrdemCargaBean");
+                break;
+            case "Bag":
+                classeArrayList.add("BagBean");
+                break;
+            case "Safra":
+                classeArrayList.add("SafraBean");
+                break;
+        }
+        return classeArrayList;
+    }
+
 
     ///////////////////////////////////////////////////////////////////////////////////////////////
 

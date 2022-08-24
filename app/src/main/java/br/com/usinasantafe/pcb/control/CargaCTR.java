@@ -119,24 +119,38 @@ public class CargaCTR {
         return getOrdemCargaId(getCabecCargaAberto().getIdOrdemCabecCarga()).getTicketOrdemCarga();
     }
 
+    public boolean verCabecCargaOrdemCarga(Long idOrdemCabecCarga){
+        CabecCargaDAO cabecCargaDAO = new CabecCargaDAO();
+        return cabecCargaDAO.verCabecCargaOrdemCarga(idOrdemCabecCarga);
+    }
+
     ///////////////////////////////////////////////////////////////////////////////////////////////
 
     /////////////////////////////////// BAG CARREG ////////////////////////////////////////////////
 
     public void verBagCargaCod(String dado, Context telaAtual, Class telaProx, ProgressDialog progressDialog, String activity){
         BagDAO bagDAO = new BagDAO();
-        bagDAO.verBagCargaCod(dado, telaAtual, telaProx, progressDialog, activity);
+        ConfigCTR configCTR = new ConfigCTR();
+        if(configCTR.getConfig().getTipoApont() == 1L){
+            bagDAO.verBagCargaEstoqueCod(dado, telaAtual, telaProx, progressDialog, activity);
+        } else {
+            bagDAO.verBagCargaProducaoCod(dado, telaAtual, telaProx, progressDialog, activity);
+        }
     }
 
     public void verBagCargaNro(String dado, Context telaAtual, Class telaProx, ProgressDialog progressDialog, String activity){
         BagDAO bagDAO = new BagDAO();
-        bagDAO.verBagCargaNro(dado, telaAtual, telaProx, progressDialog, activity);
+        ConfigCTR configCTR = new ConfigCTR();
+        if(configCTR.getConfig().getTipoApont() == 1L){
+            bagDAO.verBagCargaEstoqueNro(dado, telaAtual, telaProx, progressDialog, activity);
+        } else {
+            bagDAO.verBagCargaProducaoNro(dado, telaAtual, telaProx, progressDialog, activity);
+        }
     }
 
     public boolean verBagRepetidoCarga(Long codBarra){
         ItemCargaDAO itemCargaDAO = new ItemCargaDAO();
-        CabecCargaDAO cabecCargaDAO = new CabecCargaDAO();
-        return itemCargaDAO.verBagRepetidoCarga(cabecCargaDAO.getCabecCargaAberto().getIdCabecCarga(), codBarra);
+        return itemCargaDAO.verBagRepetidoCarga(codBarra);
     }
 
     public void receberVerifBag(String result){
@@ -148,7 +162,6 @@ public class CargaCTR {
                 JSONArray jsonArray = json.jsonArray(result);
 
                 if (jsonArray.length() > 0) {
-
                     BagDAO bagDAO = new BagDAO();
                     ItemCargaDAO itemCargaDAO = new ItemCargaDAO();
                     itemCargaDAO.inserirItemCarga(getCabecCargaAberto().getIdCabecCarga(), bagDAO.recDadosBag(jsonArray));
@@ -241,6 +254,12 @@ public class CargaCTR {
 
         cabecCargaDAO.deleteCabecCarga(cabecCargaBean.getIdCabecCarga());
 
+    }
+
+    public void deleteRegRepetidoCabecCargaAberto(){
+        CabecCargaDAO cabecCargaDAO = new CabecCargaDAO();
+        ItemCargaDAO itemCargaDAO = new ItemCargaDAO();
+        itemCargaDAO.deleteBagRepetidoCarga(cabecCargaDAO.getCabecCargaAberto().getIdCabecCarga());
     }
 
     ///////////////////////////////////////////////////////////////////////////////////////////////

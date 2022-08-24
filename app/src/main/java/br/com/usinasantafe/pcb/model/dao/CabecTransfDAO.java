@@ -158,7 +158,7 @@ public class CabecTransfDAO {
 
         ArrayList<CabecTransfBean> cabecTransfArrayList = new ArrayList<>();
         for (CabecTransfBean cabecTransfBeanBD : cabecTransfList) {
-            if(cabecTransfBeanBD.getDthrLongCabecTransf() < Tempo.getInstance().dthrLongDiaMenos(3)) {
+            if(cabecTransfBeanBD.getDthrLongCabecTransf() < Tempo.getInstance().dthrLongDiaMenos(15)) {
                 cabecTransfArrayList.add(cabecTransfBeanBD);
             }
         }

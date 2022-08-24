@@ -28,6 +28,14 @@ public class ListaTipoApontActivity extends ActivityGeneric {
 
         Button buttonRetTipoApont = findViewById(R.id.buttonRetTipoApont);
 
+        LogProcessoDAO.getInstance().insertLogProcesso("pcbContext = (PCBContext) getApplication();\n" +
+                "        ArrayList<String> itens = new ArrayList<>();\n" +
+                "        itens.add(\"ORDEM CARGA\");\n" +
+                "        itens.add(\"TRANSFERÊNCIA\");\n" +
+                "        AdapterList adapterList = new AdapterList(this, itens);\n" +
+                "        tipoApontListView = findViewById(R.id.listTipoApont);\n" +
+                "        tipoApontListView.setAdapter(adapterList);", getLocalClassName());
+
         ArrayList<String> itens = new ArrayList<>();
 
         itens.add("ORDEM CARGA");
@@ -36,13 +44,6 @@ public class ListaTipoApontActivity extends ActivityGeneric {
         AdapterList adapterList = new AdapterList(this, itens);
         tipoApontListView = findViewById(R.id.listTipoApont);
         tipoApontListView.setAdapter(adapterList);
-        LogProcessoDAO.getInstance().insertLogProcesso("pcbContext = (PCBContext) getApplication();\n" +
-                "        ArrayList<String> itens = new ArrayList<>();\n" +
-                "        itens.add(\"ORDEM CARGA\");\n" +
-                "        itens.add(\"TRANSFERÊNCIA\");\n" +
-                "        AdapterList adapterList = new AdapterList(this, itens);\n" +
-                "        tipoApontListView = findViewById(R.id.listTipoApont);\n" +
-                "        tipoApontListView.setAdapter(adapterList);", getLocalClassName());
         tipoApontListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             @Override
@@ -60,15 +61,12 @@ public class ListaTipoApontActivity extends ActivityGeneric {
                 String text = textView.getText().toString();
                 if (text.equals("ORDEM CARGA")) {
                     LogProcessoDAO.getInstance().insertLogProcesso("if (text.equals(\"ORDEM CARGA\")) {\n" +
-                            "                    pcbContext.getConfigCTR().setTipoApont(1L);\n" +
                             "                    pcbContext.getCargaCTR().getCabecCargaDAO().getCabecCargaBean().setIdFuncCabecCarga(pcbContext.getConfigCTR().getFuncMatric(pcbContext.getMatricFunc()).getIdFunc());\n" +
                             "                    Intent it = new Intent(ListaTipoApontActivity.this, ListaOrdemCargaActivity.class);", getLocalClassName());
-                    pcbContext.getConfigCTR().setTipoApont(1L);
                     pcbContext.getCargaCTR().getCabecCargaDAO().getCabecCargaBean().setIdFuncCabecCarga(pcbContext.getConfigCTR().getFuncMatric(pcbContext.getMatricFunc()).getIdFunc());
-                    Intent it = new Intent(ListaTipoApontActivity.this, ListaOrdemCargaActivity.class);
+                    Intent it = new Intent(ListaTipoApontActivity.this, ListaTipoOrdemCargaActivity.class);
                     startActivity(it);
-                    finish();
-                } else if (text.equals("TRANSFERÊNCIA")) {
+                } else {
                     LogProcessoDAO.getInstance().insertLogProcesso("} else if (text.equals(\"TRANSFERÊNCIA\")) {\n" +
                             "                    pcbContext.getConfigCTR().setTipoApont(2L);\n" +
                             "                    pcbContext.getTransfCTR().salvarCabecTransfAberto(pcbContext.getConfigCTR().getFuncMatric(Long.parseLong(editTextPadrao.getText().toString())).getIdFunc());\n" +
@@ -78,8 +76,8 @@ public class ListaTipoApontActivity extends ActivityGeneric {
                     pcbContext.getTransfCTR().salvarCabecTransfAberto(pcbContext.getConfigCTR().getFuncMatric(pcbContext.getMatricFunc()).getIdFunc());
                     Intent it = new Intent(ListaTipoApontActivity.this, ListaBagTransfActivity.class);
                     startActivity(it);
-                    finish();
                 }
+                finish();
 
             }
 
@@ -92,8 +90,8 @@ public class ListaTipoApontActivity extends ActivityGeneric {
                 LogProcessoDAO.getInstance().insertLogProcesso("buttonRetOrdemCarreg.setOnClickListener(new View.OnClickListener() {\n" +
                         "            @Override\n" +
                         "            public void onClick(View v) {\n" +
-                        "            Intent it = new Intent(ListaTipoApontActivity.this, TelaInicialActivity.class);", getLocalClassName());
-                Intent it = new Intent(ListaTipoApontActivity.this, TelaInicialActivity.class);
+                        "            Intent it = new Intent(ListaTipoApontActivity.this, LeitorFuncActivity.class);", getLocalClassName());
+                Intent it = new Intent(ListaTipoApontActivity.this, LeitorFuncActivity.class);
                 startActivity(it);
                 finish();
             }
@@ -101,4 +99,8 @@ public class ListaTipoApontActivity extends ActivityGeneric {
         });
 
     }
+
+    public void onBackPressed() {
+    }
+
 }

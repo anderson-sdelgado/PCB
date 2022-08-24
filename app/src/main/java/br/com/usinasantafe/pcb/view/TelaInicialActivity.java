@@ -7,6 +7,7 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
 
+import br.com.usinasantafe.pcb.BuildConfig;
 import br.com.usinasantafe.pcb.PCBContext;
 import br.com.usinasantafe.pcb.R;
 import br.com.usinasantafe.pcb.model.dao.LogProcessoDAO;
@@ -93,7 +94,7 @@ public class TelaInicialActivity extends ActivityGeneric {
                             "                customHandler.postDelayed(updateTimerThread, 10000);\n" +
                             "pmmContext.getConfigCTR().verAtualAplic(pmmContext.versaoAplic, this, getLocalClassName());", getLocalClassName());
                     customHandler.postDelayed(encerraAtualThread, 10000);
-                    pcbContext.getConfigCTR().verAtualAplic(pcbContext.versaoAPP, this, getLocalClassName());
+                    pcbContext.getConfigCTR().verAtualAplic(BuildConfig.VERSION_NAME, this, getLocalClassName());
                 }
                 else{
                     LogProcessoDAO.getInstance().insertLogProcesso("else{\n" +

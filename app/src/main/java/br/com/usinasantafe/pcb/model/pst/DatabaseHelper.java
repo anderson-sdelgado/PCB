@@ -19,11 +19,12 @@ import br.com.usinasantafe.pcb.model.bean.variaveis.ItemCargaBean;
 import br.com.usinasantafe.pcb.model.bean.variaveis.ItemTransfBean;
 import br.com.usinasantafe.pcb.model.bean.variaveis.LogErroBean;
 import br.com.usinasantafe.pcb.model.bean.variaveis.LogProcessoBean;
+import br.com.usinasantafe.pcb.model.dao.LogErroDAO;
 
 public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 
 	public static final String FORCA_DB_NAME = "pcb_db";
-	public static final int FORCA_BD_VERSION = 3;
+	public static final int FORCA_BD_VERSION = 4;
 
 	private static DatabaseHelper instance;
 	
@@ -51,17 +52,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 		
 		try{
 
-			TableUtils.createTable(cs, BagBean.class);
-			TableUtils.createTable(cs, FuncBean.class);
-			TableUtils.createTable(cs, OrdemCargaBean.class);
-			TableUtils.createTable(cs, SafraBean.class);
-			TableUtils.createTable(cs, CabecCargaBean.class);
-			TableUtils.createTable(cs, CabecTransfBean.class);
-			TableUtils.createTable(cs, ConfigBean.class);
-			TableUtils.createTable(cs, ItemCargaBean.class);
-			TableUtils.createTable(cs, ItemTransfBean.class);
-			TableUtils.createTable(cs, LogErroBean.class);
-			TableUtils.createTable(cs, LogProcessoBean.class);
+			createAllInitialV2_3_4(cs);
 
 		}
 		catch(Exception e){
@@ -82,54 +73,22 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 			
 			if(oldVersion == 1 && newVersion == 2){
 
-				TableUtils.dropTable(cs, BagBean.class, true);
-				TableUtils.dropTable(cs, FuncBean.class, true);
-				TableUtils.dropTable(cs, OrdemCargaBean.class, true);
-				TableUtils.dropTable(cs, CabecCargaBean.class, true);
-				TableUtils.dropTable(cs, ConfigBean.class, true);
-				TableUtils.dropTable(cs, ItemCargaBean.class, true);
-				TableUtils.dropTable(cs, LogErroBean.class, true);
-				TableUtils.dropTable(cs, LogProcessoBean.class, true);
-
-				TableUtils.createTable(cs, BagBean.class);
-				TableUtils.createTable(cs, FuncBean.class);
-				TableUtils.createTable(cs, OrdemCargaBean.class);
-				TableUtils.createTable(cs, SafraBean.class);
-
-				TableUtils.createTable(cs, CabecCargaBean.class);
-				TableUtils.createTable(cs, CabecTransfBean.class);
-				TableUtils.createTable(cs, ConfigBean.class);
-				TableUtils.createTable(cs, ItemCargaBean.class);
-				TableUtils.createTable(cs, ItemTransfBean.class);
-				TableUtils.createTable(cs, LogErroBean.class);
-				TableUtils.createTable(cs, LogProcessoBean.class);
+				dropAllInitialV1(cs);
+				createAllInitialV2_3_4(cs);
 
 			}
 			else if(oldVersion == 2 && newVersion == 3){
 
-				TableUtils.dropTable(cs, BagBean.class, true);
-				TableUtils.dropTable(cs, FuncBean.class, true);
-				TableUtils.dropTable(cs, OrdemCargaBean.class, true);
-				TableUtils.dropTable(cs, SafraBean.class, true);
-				TableUtils.dropTable(cs, CabecCargaBean.class, true);
-				TableUtils.dropTable(cs, CabecTransfBean.class, true);
-				TableUtils.dropTable(cs, ConfigBean.class, true);
-				TableUtils.dropTable(cs, ItemCargaBean.class, true);
-				TableUtils.dropTable(cs, ItemTransfBean.class, true);
-				TableUtils.dropTable(cs, LogErroBean.class, true);
-				TableUtils.dropTable(cs, LogProcessoBean.class, true);
+				//Versão 1.03
+				dropAllInitialV2_3_4(cs);
+				createAllInitialV2_3_4(cs);
 
-				TableUtils.createTable(cs, BagBean.class);
-				TableUtils.createTable(cs, FuncBean.class);
-				TableUtils.createTable(cs, OrdemCargaBean.class);
-				TableUtils.createTable(cs, SafraBean.class);
-				TableUtils.createTable(cs, CabecCargaBean.class);
-				TableUtils.createTable(cs, CabecTransfBean.class);
-				TableUtils.createTable(cs, ConfigBean.class);
-				TableUtils.createTable(cs, ItemCargaBean.class);
-				TableUtils.createTable(cs, ItemTransfBean.class);
-				TableUtils.createTable(cs, LogErroBean.class);
-				TableUtils.createTable(cs, LogProcessoBean.class);
+			}
+			else if(oldVersion == 3 && newVersion == 4){
+
+				//Versão 1.04
+				dropAllInitialV2_3_4(cs);
+				createAllInitialV2_3_4(cs);
 
 			}
 			
@@ -138,6 +97,71 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 			Log.e(DatabaseHelper.class.getName(), "Erro atualizando banco de dados...", e);
 		}
 		
+	}
+
+	public void dropAllInitialV1(ConnectionSource cs){
+
+		try {
+
+			TableUtils.dropTable(cs, BagBean.class, true);
+			TableUtils.dropTable(cs, FuncBean.class, true);
+			TableUtils.dropTable(cs, OrdemCargaBean.class, true);
+			TableUtils.dropTable(cs, CabecCargaBean.class, true);
+			TableUtils.dropTable(cs, ConfigBean.class, true);
+			TableUtils.dropTable(cs, ItemCargaBean.class, true);
+			TableUtils.dropTable(cs, LogErroBean.class, true);
+			TableUtils.dropTable(cs, LogProcessoBean.class, true);
+
+		} catch (Exception e) {
+			LogErroDAO.getInstance().insertLogErro(e);
+			Log.e(DatabaseHelper.class.getName(), "Erro atualizando banco de dados...", e);
+		}
+
+	}
+
+	public void createAllInitialV2_3_4(ConnectionSource cs){
+
+		try {
+
+			TableUtils.createTable(cs, BagBean.class);
+			TableUtils.createTable(cs, FuncBean.class);
+			TableUtils.createTable(cs, OrdemCargaBean.class);
+			TableUtils.createTable(cs, SafraBean.class);
+			TableUtils.createTable(cs, CabecCargaBean.class);
+			TableUtils.createTable(cs, CabecTransfBean.class);
+			TableUtils.createTable(cs, ConfigBean.class);
+			TableUtils.createTable(cs, ItemCargaBean.class);
+			TableUtils.createTable(cs, ItemTransfBean.class);
+			TableUtils.createTable(cs, LogErroBean.class);
+			TableUtils.createTable(cs, LogProcessoBean.class);
+
+		} catch (Exception e) {
+			LogErroDAO.getInstance().insertLogErro(e);
+			Log.e(DatabaseHelper.class.getName(), "Erro atualizando banco de dados...", e);
+		}
+	}
+
+	public void dropAllInitialV2_3_4(ConnectionSource cs){
+
+		try {
+
+			TableUtils.dropTable(cs, BagBean.class, true);
+			TableUtils.dropTable(cs, FuncBean.class, true);
+			TableUtils.dropTable(cs, OrdemCargaBean.class, true);
+			TableUtils.dropTable(cs, SafraBean.class, true);
+			TableUtils.dropTable(cs, CabecCargaBean.class, true);
+			TableUtils.dropTable(cs, CabecTransfBean.class, true);
+			TableUtils.dropTable(cs, ConfigBean.class, true);
+			TableUtils.dropTable(cs, ItemCargaBean.class, true);
+			TableUtils.dropTable(cs, ItemTransfBean.class, true);
+			TableUtils.dropTable(cs, LogErroBean.class, true);
+			TableUtils.dropTable(cs, LogProcessoBean.class, true);
+
+		} catch (Exception e) {
+			LogErroDAO.getInstance().insertLogErro(e);
+			Log.e(DatabaseHelper.class.getName(), "Erro atualizando banco de dados...", e);
+		}
+
 	}
 
 }

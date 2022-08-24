@@ -113,7 +113,7 @@ public class TransfCTR {
 
     public boolean verBagRepetidoTransf(Long codBarraBag){
         ItemTransfDAO itemTransfDAO = new ItemTransfDAO();
-        return itemTransfDAO.verBagRepetidoTransf(getCabecTransfAberto().getIdCabecTransf(), codBarraBag);
+        return itemTransfDAO.verBagRepetidoTransf(codBarraBag);
     }
 
     public boolean verCabecTransfAberto(){

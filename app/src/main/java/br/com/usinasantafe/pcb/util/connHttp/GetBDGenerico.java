@@ -1,6 +1,7 @@
 package br.com.usinasantafe.pcb.util.connHttp;
 
 import android.os.AsyncTask;
+import android.util.Log;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -57,6 +58,7 @@ public class GetBDGenerico extends AsyncTask<String, Void, String> {
                }
             }
 
+			Log.i("PCB", "URL = " + url);
 			URL urlCon = new URL(url);
 			HttpsURLConnection connection = (HttpsURLConnection) urlCon.openConnection();
 			connection.setRequestMethod("GET");

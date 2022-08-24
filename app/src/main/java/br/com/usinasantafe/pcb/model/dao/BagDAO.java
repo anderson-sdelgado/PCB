@@ -21,20 +21,28 @@ public class BagDAO {
     public BagDAO() {
     }
 
+    public void verBagCargaEstoqueCod(String dado, Context telaAtual, Class telaProx, ProgressDialog progressDialog, String activity){
+        VerifDadosServ.getInstance().verifDados(dado, "BagCargaEstoqueCod", telaAtual, telaProx, progressDialog, activity);
+    }
+
+    public void verBagCargaEstoqueNro(String dado, Context telaAtual, Class telaProx, ProgressDialog progressDialog, String activity){
+        VerifDadosServ.getInstance().verifDados(dado, "BagCargaEstoqueNro", telaAtual, telaProx, progressDialog, activity);
+    }
+
+    public void verBagCargaProducaoCod(String dado, Context telaAtual, Class telaProx, ProgressDialog progressDialog, String activity){
+        VerifDadosServ.getInstance().verifDados(dado, "BagCargaProducaoCod", telaAtual, telaProx, progressDialog, activity);
+    }
+
+    public void verBagCargaProducaoNro(String dado, Context telaAtual, Class telaProx, ProgressDialog progressDialog, String activity){
+        VerifDadosServ.getInstance().verifDados(dado, "BagCargaProducaoNro", telaAtual, telaProx, progressDialog, activity);
+    }
+
     public void verBagTransfCod(String dado, Context telaAtual, Class telaProx, ProgressDialog progressDialog, String activity){
         VerifDadosServ.getInstance().verifDados(dado, "BagTransfCod", telaAtual, telaProx, progressDialog, activity);
     }
 
-    public void verBagCargaCod(String dado, Context telaAtual, Class telaProx, ProgressDialog progressDialog, String activity){
-        VerifDadosServ.getInstance().verifDados(dado, "BagCargaCod", telaAtual, telaProx, progressDialog, activity);
-    }
-
     public void verBagTransfNro(String dado, Context telaAtual, Class telaProx, ProgressDialog progressDialog, String activity){
         VerifDadosServ.getInstance().verifDados(dado, "BagTransfNro", telaAtual, telaProx, progressDialog, activity);
-    }
-
-    public void verBagCargaNro(String dado, Context telaAtual, Class telaProx, ProgressDialog progressDialog, String activity){
-        VerifDadosServ.getInstance().verifDados(dado, "BagCargaNro", telaAtual, telaProx, progressDialog, activity);
     }
 
     public BagBean recDadosBag(JSONArray jsonArray) throws JSONException {

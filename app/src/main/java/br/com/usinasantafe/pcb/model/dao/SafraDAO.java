@@ -19,6 +19,9 @@ public class SafraDAO {
     public Long idSafraAtual(){
         SafraBean safraBean = new SafraBean();
         List<SafraBean> safraBeanList = safraBean.get("atualSafra", 1L);
+        if(safraBeanList.size() == 0){
+            safraBeanList = safraList();
+        }
         safraBean = safraBeanList.get(0);
         Long idSafra = safraBean.getIdSafra();
         safraBeanList.clear();

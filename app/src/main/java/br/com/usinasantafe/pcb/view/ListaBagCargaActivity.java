@@ -202,7 +202,9 @@ public class ListaBagCargaActivity extends ActivityGeneric {
                         "            @Override\n" +
                         "            public void onClick(View v) {", getLocalClassName());
                 if(pcbContext.getCargaCTR().qtdeItemCarga() > 0){
-                    LogProcessoDAO.getInstance().insertLogProcesso("if(pcbContext.getCarregCTR().qtdeItemCarreg() > 0){", getLocalClassName());
+                    LogProcessoDAO.getInstance().insertLogProcesso("if(pcbContext.getCargaCTR().qtdeItemCarga() > 0){\n" +
+                            "                    pcbContext.getCargaCTR().deleteRegRepetidoCabecCargaAberto();", getLocalClassName());
+                    pcbContext.getCargaCTR().deleteRegRepetidoCabecCargaAberto();
                     if(pcbContext.getCargaCTR().qtdeRestItemCarga() == 0) {
                         LogProcessoDAO.getInstance().insertLogProcesso("if(pcbContext.getCarregCTR().qtdeRestItemCarreg() == 0) {\n" +
                                 "                        AlertDialog.Builder alerta = new AlertDialog.Builder(ListaBagCarregActivity.this);\n" +
@@ -255,6 +257,15 @@ public class ListaBagCargaActivity extends ActivityGeneric {
                         alerta.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
+                                LogProcessoDAO.getInstance().insertLogProcesso("alerta.setPositiveButton(\"OK\", new DialogInterface.OnClickListener() {\n" +
+                                        "                            @Override\n" +
+                                        "                            public void onClick(DialogInterface dialog, int which) {\n" +
+                                        "                                Intent it = new Intent(ListaBagCargaActivity.this, ListaBagCargaActivity.class);\n" +
+                                        "                                startActivity(it);\n" +
+                                        "                                finish();", getLocalClassName());
+                                Intent it = new Intent(ListaBagCargaActivity.this, ListaBagCargaActivity.class);
+                                startActivity(it);
+                                finish();
                             }
                         });
                         alerta.show();
