@@ -6,9 +6,9 @@ public class UrlsConexaoHttp {
 
     public static String versao = "versao_" + PCBContext.versaoWS.replace(".", "_");
 
-//    public static String url = "https://www.usinasantafe.com.br/pcbdev/view/";
+    public static String url = "https://www.usinasantafe.com.br/pcbdev/view/";
 //    public static String url = "https://www.usinasantafe.com.br/pcbqa/view/";
-    public static String url = "https://www.usinasantafe.com.br/pcbprod/" + versao + "/view/";
+//    public static String url = "https://www.usinasantafe.com.br/pcbprod/" + versao + "/view/";
 
     public static String localPSTEstatica = "br.com.usinasantafe.pcb.model.bean.estaticas.";
     public static String localUrl = "br.com.usinasantafe.pcb.util.connHttp.UrlsConexaoHttp";
@@ -46,6 +46,8 @@ public class UrlsConexaoHttp {
             retorno = url + "pesqbagtransfcod.php";
         } else if(classe.equals("BagTransfNro")) {
             retorno = url + "pesqbagtransfnro.php";
+        } else if(classe.equals("Token")) {
+            retorno = url + "aparelho.php";
         }
         return retorno;
     }

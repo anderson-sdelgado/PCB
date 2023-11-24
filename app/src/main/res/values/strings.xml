@@ -170,7 +170,7 @@
     <string name="texto_msg_bag_fixo">DESEJA ADICIONAR MAIS UM BAG NA CARGA?</string>
     <string name="texto_padrao_sim">SIM</string>
     <string name="texto_padrao_nao">NÃO</string>
-    <string name="texto_num_linha_config">NUM. LINHA:</string>
+    <string name="texto_nro_aparelho_config">NRO APARELHO:</string>
     <string name="texto_ticket_carreg">ACS7333</string>
     <string name="texto_qtde_carreg">QTDE: 30</string>
     <string name="texto_titulo_ordem_carreg">TICKET DE CARREGAMENTO</string>

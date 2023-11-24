@@ -83,19 +83,14 @@ public class ListaTipoApontActivity extends ActivityGeneric {
 
         });
 
-        buttonRetTipoApont.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                LogProcessoDAO.getInstance().insertLogProcesso("buttonRetOrdemCarreg.setOnClickListener(new View.OnClickListener() {\n" +
-                        "            @Override\n" +
-                        "            public void onClick(View v) {\n" +
-                        "            Intent it = new Intent(ListaTipoApontActivity.this, LeitorFuncActivity.class);", getLocalClassName());
-                Intent it = new Intent(ListaTipoApontActivity.this, LeitorFuncActivity.class);
-                startActivity(it);
-                finish();
-            }
-
+        buttonRetTipoApont.setOnClickListener(v -> {
+            LogProcessoDAO.getInstance().insertLogProcesso("buttonRetOrdemCarreg.setOnClickListener(new View.OnClickListener() {\n" +
+                    "            @Override\n" +
+                    "            public void onClick(View v) {\n" +
+                    "            Intent it = new Intent(ListaTipoApontActivity.this, LeitorFuncActivity.class);", getLocalClassName());
+            Intent it = new Intent(ListaTipoApontActivity.this, LeitorFuncActivity.class);
+            startActivity(it);
+            finish();
         });
 
     }

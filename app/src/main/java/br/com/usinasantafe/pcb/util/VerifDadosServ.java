@@ -35,6 +35,7 @@ public class VerifDadosServ {
     private ProgressDialog progressDialog;
     private String dados;
     private String classe;
+    private String senha;
     private TelaInicialActivity telaInicialActivity;
     private PostVerGenerico postVerGenerico;
     public static int status;
@@ -80,9 +81,9 @@ public class VerifDadosServ {
             transfCTR.receberVerifBag(result);
             status = 3;
         } else if (this.classe.equals("BagCargaEstoqueCod")
-                    || this.classe.equals("BagCargaEstoqueNro")
-                    || this.classe.equals("BagCargaProducaoCod")
-                    || this.classe.equals("BagCargaProducaoNro")) {
+                || this.classe.equals("BagCargaEstoqueNro")
+                || this.classe.equals("BagCargaProducaoCod")
+                || this.classe.equals("BagCargaProducaoNro")) {
             LogProcessoDAO.getInstance().insertLogProcesso("} else if (this.classe.equals(\"BagCargaEstoqueCod\")\n" +
                     "                    || this.classe.equals(\"BagCargaEstoqueNro\")\n" +
                     "                    || this.classe.equals(\"BagCargaProducaoCod\")\n" +
@@ -92,6 +93,13 @@ public class VerifDadosServ {
                     "            status = 3;", activity);
             CargaCTR cargaCTR = new CargaCTR();
             cargaCTR.receberVerifBag(result);
+            status = 3;
+        } else if (this.classe.equals("Token")) {
+            LogProcessoDAO.getInstance().insertLogProcesso("} else if (this.classe.equals(\"Token\")) {\n" +
+                    "            ConfigCTR configCTR = new ConfigCTR();\n" +
+                    "            configCTR.recToken(result.trim(), this.senha, this.telaAtual, this.telaProx, this.progressDialog);\n" +
+                    "            status = 3;", activity);
+            configCTR.recToken(result.trim(), this.senha, this.telaAtual, this.telaProx, this.progressDialog, activity);
             status = 3;
         } else {
             LogProcessoDAO.getInstance().insertLogProcesso("} else {\n" +
@@ -110,6 +118,20 @@ public class VerifDadosServ {
             }
         }
         return ret;
+    }
+
+    public void salvarToken(String senha, String dados, Context telaAtual, Class telaProx, ProgressDialog progressDialog, String activity) {
+
+        this.urlsConexaoHttp = new UrlsConexaoHttp();
+        this.telaAtual = telaAtual;
+        this.telaProx = telaProx;
+        this.progressDialog = progressDialog;
+        this.dados = dados;
+        this.senha = senha;
+        this.classe = "Token";
+
+        envioVerif(activity);
+
     }
 
     public void verifAtualAplic(String dados, TelaInicialActivity telaInicialActivity, String activity) {
@@ -183,12 +205,9 @@ public class VerifDadosServ {
             this.progressDialog.dismiss();
             if(this.classe.equals("BagTransf") || this.classe.equals("BagCarga")){
                 mp = MediaPlayer.create(telaAtual, R.raw.beep);
-                mp.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-                    @Override
-                    public void onCompletion(MediaPlayer mp) {
-                        if(mp != null) {
-                            mp.release();
-                        }
+                mp.setOnCompletionListener(mp -> {
+                    if(mp != null) {
+                        mp.release();
                     }
                 });
                 mp.start();
@@ -205,11 +224,7 @@ public class VerifDadosServ {
             AlertDialog.Builder alerta = new AlertDialog.Builder(telaAtual);
             alerta.setTitle("ATENÇÃO");
             alerta.setMessage(texto);
-            alerta.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                }
-            });
+            alerta.setPositiveButton("OK", (dialog, which) -> {});
             alerta.show();
         }
     }

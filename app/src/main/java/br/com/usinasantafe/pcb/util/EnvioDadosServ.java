@@ -123,15 +123,13 @@ public class EnvioDadosServ {
                     "            cargaCTR.updCabecCarga(result, activity);", activity);
             CargaCTR cargaCTR = new CargaCTR();
             cargaCTR.updCabecCarga(result, activity);
-        }
-        else if (result.trim().startsWith("TRANSF")) {
+        } else if (result.trim().startsWith("TRANSF")) {
             LogProcessoDAO.getInstance().insertLogProcesso("else if (result.trim().startsWith(\"TRANSF\")) {\n" +
                     "            TransfCTR transfCTR = new TransfCTR();\n" +
                     "            transfCTR.updCabecTransf(result, activity);", activity);
             TransfCTR transfCTR = new TransfCTR();
             transfCTR.updCabecTransf(result, activity);
-        }
-        else {
+        } else {
             LogProcessoDAO.getInstance().insertLogProcesso("else {\n" +
                     "            status = 1;", activity);
             status = 1;

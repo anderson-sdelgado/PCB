@@ -16,7 +16,6 @@ import br.com.usinasantafe.pcb.model.bean.variaveis.LogErroBean;
 /**
  * Created by anderson on 08/03/2018.
  */
-
 public class AdapterListErro extends BaseAdapter {
 
     private List<LogErroBean> itens;
@@ -55,7 +54,7 @@ public class AdapterListErro extends BaseAdapter {
         textViewErroDthr = view.findViewById(R.id.textViewErroDthr);
         textViewErroDescr = view.findViewById(R.id.textViewErroDescr);
 
-        LogErroBean logErroBean = (LogErroBean) itens.get(position);
+        LogErroBean logErroBean = itens.get(position);
 
         textViewErroId.setText("ID = " + logErroBean.getIdLogErro());
         textViewErroAparelho.setText("NRO APARELHO = " + logErroBean.getNroAparelho());

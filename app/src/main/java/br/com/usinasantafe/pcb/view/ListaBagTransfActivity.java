@@ -26,6 +26,7 @@ public class ListaBagTransfActivity extends ActivityGeneric {
     private TextView textViewProcesso;
     private Handler customHandler = new Handler();
     private ProgressDialog progressBar;
+    private boolean statusLeitor;
 
     private static final String EXTRA_CONTROL = "com.honeywell.aidc.action.ACTION_CONTROL_SCANNER";
     private static final String EXTRA_SCAN = "com.honeywell.aidc.extra.EXTRA_SCAN";
@@ -72,174 +73,131 @@ public class ListaBagTransfActivity extends ActivityGeneric {
         AdapterList adapterList = new AdapterList(this, pcbContext.getTransfCTR().bagItemTransfArrayList());
         bagListView.setAdapter(adapterList);
 
-        buttonLeituraBagTransf.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                LogProcessoDAO.getInstance().insertLogProcesso("buttonLeituraBagTransf.setOnClickListener(new View.OnClickListener() {\n" +
-                        "            @Override\n" +
-                        "            public void onClick(View v) {\n" +
-                        "                sendBroadcast(new Intent(EXTRA_CONTROL)\n" +
-                        "                        .setPackage(\"com.intermec.datacollectionservice\")\n" +
-                        "                        .putExtra(EXTRA_SCAN, true));", getLocalClassName());
-                sendBroadcast(new Intent(EXTRA_CONTROL)
-                        .setPackage("com.intermec.datacollectionservice")
-                        .putExtra(EXTRA_SCAN, true));
-            }
-
+        buttonLeituraBagTransf.setOnClickListener(v -> {
+            LogProcessoDAO.getInstance().insertLogProcesso("buttonLeituraBagTransf.setOnClickListener(new View.OnClickListener() {\n" +
+                    "            @Override\n" +
+                    "            public void onClick(View v) {\n" +
+                    "                sendBroadcast(new Intent(EXTRA_CONTROL)\n" +
+                    "                        .setPackage(\"com.intermec.datacollectionservice\")\n" +
+                    "                        .putExtra(EXTRA_SCAN, true));", getLocalClassName());
+            sendBroadcast(new Intent(EXTRA_CONTROL)
+                    .setPackage("com.intermec.datacollectionservice")
+                    .putExtra(EXTRA_SCAN, statusLeitor)
+            );
+            statusLeitor = statusLeitor ? false : true;
         });
 
-        buttonDigBagTransf.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                LogProcessoDAO.getInstance().insertLogProcesso("buttonDigBagTransf.setOnClickListener(new View.OnClickListener() {\n" +
-                        "            @Override\n" +
-                        "            public void onClick(View v) {\n" +
-                        "                Intent it = new Intent(ListaBagTransfActivity.this, DigBagTransfActivity.class);", getLocalClassName());
-                Intent it = new Intent(ListaBagTransfActivity.this, DigBagTransfActivity.class);
+        buttonDigBagTransf.setOnClickListener(v -> {
+            LogProcessoDAO.getInstance().insertLogProcesso("buttonDigBagTransf.setOnClickListener(new View.OnClickListener() {\n" +
+                    "            @Override\n" +
+                    "            public void onClick(View v) {\n" +
+                    "                Intent it = new Intent(ListaBagTransfActivity.this, DigBagTransfActivity.class);", getLocalClassName());
+            Intent it = new Intent(ListaBagTransfActivity.this, DigBagTransfActivity.class);
+            startActivity(it);
+            finish();
+        });
+
+        buttonSafra.setOnClickListener(v -> {
+            LogProcessoDAO.getInstance().insertLogProcesso("buttonDigBagTransf.setOnClickListener(new View.OnClickListener() {\n" +
+                    "            @Override\n" +
+                    "            public void onClick(View v) {\n" +
+                    "                Intent it = new Intent(ListaBagTransfActivity.this, ListaSafraActivity.class);", getLocalClassName());
+            Intent it = new Intent(ListaBagTransfActivity.this, ListaSafraActivity.class);
+            startActivity(it);
+            finish();
+        });
+
+        buttonCancelarTransf.setOnClickListener(v -> {
+            LogProcessoDAO.getInstance().insertLogProcesso("AlertDialog.Builder alerta = new AlertDialog.Builder( OperadorActivity.this);\n" +
+                    "                alerta.setTitle(\"ATENÇÃO\");\n" +
+                    "                alerta.setMessage(\"DESEJA REALMENTE CANCELAR O PROCESSO DE TRANSFERÊNCIA?\");", getLocalClassName());
+            AlertDialog.Builder alerta = new AlertDialog.Builder( ListaBagTransfActivity.this);
+            alerta.setTitle("ATENÇÃO");
+            alerta.setMessage("DESEJA REALMENTE CANCELAR O PROCESSO DE TRANSFERÊNCIA?");
+            alerta.setNegativeButton("SIM", (dialog, which) -> {
+                LogProcessoDAO.getInstance().insertLogProcesso("alerta.setNegativeButton(\"SIM\", new DialogInterface.OnClickListener() {\n" +
+                        "                    @Override\n" +
+                        "                    public void onClick(DialogInterface dialog, int which) {\n" +
+                        "                        pcbContext.getTransfCTR().deleteCabecTransfAberto();\n" +
+                        "                        Intent it = new Intent(ListaBagTransfActivity.this, TelaInicialActivity.class);", getLocalClassName());
+                pcbContext.getTransfCTR().deleteCabecTransfAberto();
+                Intent it = new Intent(ListaBagTransfActivity.this, TelaInicialActivity.class);
                 startActivity(it);
                 finish();
-            }
+            });
+
+            alerta.setPositiveButton("NÃO", (dialog, which) -> LogProcessoDAO.getInstance().insertLogProcesso("alerta.setPositiveButton(\"NÃO\", new DialogInterface.OnClickListener() {\n" +
+                    "                    @Override\n" +
+                    "                    public void onClick(DialogInterface dialog, int which) {", getLocalClassName()));
+            alerta.show();
 
         });
 
-        buttonSafra.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                LogProcessoDAO.getInstance().insertLogProcesso("buttonDigBagTransf.setOnClickListener(new View.OnClickListener() {\n" +
+        buttonFinalizarTransf.setOnClickListener(v -> {
+
+            if(pcbContext.getTransfCTR().qtdeItemTransf() > 0){
+
+                LogProcessoDAO.getInstance().insertLogProcesso("buttonFinalizarTransf.setOnClickListener(new View.OnClickListener() {\n" +
                         "            @Override\n" +
                         "            public void onClick(View v) {\n" +
-                        "                Intent it = new Intent(ListaBagTransfActivity.this, ListaSafraActivity.class);", getLocalClassName());
-                Intent it = new Intent(ListaBagTransfActivity.this, ListaSafraActivity.class);
-                startActivity(it);
-                finish();
-            }
+                        "                    AlertDialog.Builder alerta = new AlertDialog.Builder(ListaBagTransfActivity.this);\n" +
+                        "                    alerta.setTitle(\"ATENÇÃO\");\n" +
+                        "                    alerta.setMessage(\"DESEJA FINALIZAR A TRANSFERÊNCIA?\");", getLocalClassName());
 
-        });
-
-        buttonCancelarTransf.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                LogProcessoDAO.getInstance().insertLogProcesso("AlertDialog.Builder alerta = new AlertDialog.Builder( OperadorActivity.this);\n" +
-                        "                alerta.setTitle(\"ATENÇÃO\");\n" +
-                        "                alerta.setMessage(\"DESEJA REALMENTE CANCELAR O PROCESSO DE TRANSFERÊNCIA?\");", getLocalClassName());
-                AlertDialog.Builder alerta = new AlertDialog.Builder( ListaBagTransfActivity.this);
+                AlertDialog.Builder alerta = new AlertDialog.Builder(ListaBagTransfActivity.this);
                 alerta.setTitle("ATENÇÃO");
-                alerta.setMessage("DESEJA REALMENTE CANCELAR O PROCESSO DE TRANSFERÊNCIA?");
-                alerta.setNegativeButton("SIM", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        LogProcessoDAO.getInstance().insertLogProcesso("alerta.setNegativeButton(\"SIM\", new DialogInterface.OnClickListener() {\n" +
-                                "                    @Override\n" +
-                                "                    public void onClick(DialogInterface dialog, int which) {\n" +
-                                "                        pcbContext.getTransfCTR().deleteCabecTransfAberto();\n" +
-                                "                        Intent it = new Intent(ListaBagTransfActivity.this, TelaInicialActivity.class);", getLocalClassName());
-                        pcbContext.getTransfCTR().deleteCabecTransfAberto();
-                        Intent it = new Intent(ListaBagTransfActivity.this, TelaInicialActivity.class);
-                        startActivity(it);
-                        finish();
-                    }
+                alerta.setMessage("Deseja finalizar as leituras?");
+                alerta.setNegativeButton("SIM", (dialog, which) -> {
+
+                    LogProcessoDAO.getInstance().insertLogProcesso("alerta.setNegativeButton(\"SIM\", new DialogInterface.OnClickListener() {\n" +
+                            "@Override\n" +
+                            "public void onClick(DialogInterface dialog, int which) {\n" +
+                            "pcbContext.getTransfCTR().fecharTransfCarga(getLocalClassName());\n" +
+                            "Intent it = new Intent(ListaBagCarregActivity.this, MenuInicialActivity.class);", getLocalClassName());
+                    pcbContext.getTransfCTR().fecharTransfCarga(getLocalClassName());
+                    Intent it = new Intent(ListaBagTransfActivity.this, TelaInicialActivity.class);
+                    startActivity(it);
+                    finish();
+
                 });
 
-                alerta.setPositiveButton("NÃO", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        LogProcessoDAO.getInstance().insertLogProcesso("alerta.setPositiveButton(\"NÃO\", new DialogInterface.OnClickListener() {\n" +
-                                "                    @Override\n" +
-                                "                    public void onClick(DialogInterface dialog, int which) {", getLocalClassName());
-                    }
-                });
+                alerta.setPositiveButton("NÃO", (dialog, which) -> LogProcessoDAO.getInstance().insertLogProcesso("alerta.setPositiveButton(\"NÃO\", new DialogInterface.OnClickListener() {\n" +
+                        "                    @Override\n" +
+                        "                    public void onClick(DialogInterface dialog, int which) {", getLocalClassName()));
                 alerta.show();
 
+            } else {
+
+                LogProcessoDAO.getInstance().insertLogProcesso("} else {" +
+                        "AlertDialog.Builder alerta = new AlertDialog.Builder(MenuInicialActivity.this);\n" +
+                        "                        alerta.setTitle(\"ATENÇÃO\");\n" +
+                        "alerta.setMessage(\"FINALIZAÇÃO CANCELADA! POR FAVOR, INSIRA PELO MENOS UM BAG PARA REALIZAR A FINALIZAÇÃO DA TRANSFÊRENCIA.\");\n" +
+                        "                        alerta.setPositiveButton(\"OK\", new DialogInterface.OnClickListener() {\n" +
+                        "                            @Override\n" +
+                        "                            public void onClick(DialogInterface dialog, int which) {\n" +
+                        "                            }\n" +
+                        "                        });\n" +
+                        "                        alerta.show();", getLocalClassName());
+                AlertDialog.Builder alerta = new AlertDialog.Builder(ListaBagTransfActivity.this);
+                alerta.setTitle("ATENÇÃO");
+                alerta.setMessage("Operação cancelada! Por Favor, insira ao menos uma embalagem válida para prosseguir.");
+                alerta.setPositiveButton("OK", (dialog, which) -> {});
+                alerta.show();
 
             }
 
         });
 
-        buttonFinalizarTransf.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                if(pcbContext.getTransfCTR().qtdeItemTransf() > 0){
-
-                    LogProcessoDAO.getInstance().insertLogProcesso("buttonFinalizarTransf.setOnClickListener(new View.OnClickListener() {\n" +
-                            "            @Override\n" +
-                            "            public void onClick(View v) {\n" +
-                            "                    AlertDialog.Builder alerta = new AlertDialog.Builder(ListaBagTransfActivity.this);\n" +
-                            "                    alerta.setTitle(\"ATENÇÃO\");\n" +
-                            "                    alerta.setMessage(\"DESEJA FINALIZAR A TRANSFERÊNCIA?\");", getLocalClassName());
-
-                    AlertDialog.Builder alerta = new AlertDialog.Builder(ListaBagTransfActivity.this);
-                    alerta.setTitle("ATENÇÃO");
-                    alerta.setMessage("Deseja finalizar as leituras?");
-                    alerta.setNegativeButton("SIM", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-
-                            LogProcessoDAO.getInstance().insertLogProcesso("alerta.setNegativeButton(\"SIM\", new DialogInterface.OnClickListener() {\n" +
-                                    "@Override\n" +
-                                    "public void onClick(DialogInterface dialog, int which) {\n" +
-                                    "pcbContext.getTransfCTR().fecharTransfCarga(getLocalClassName());\n" +
-                                    "Intent it = new Intent(ListaBagCarregActivity.this, MenuInicialActivity.class);", getLocalClassName());
-                            pcbContext.getTransfCTR().fecharTransfCarga(getLocalClassName());
-                            Intent it = new Intent(ListaBagTransfActivity.this, TelaInicialActivity.class);
-                            startActivity(it);
-                            finish();
-
-                        }
-                    });
-
-                    alerta.setPositiveButton("NÃO", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            LogProcessoDAO.getInstance().insertLogProcesso("alerta.setPositiveButton(\"NÃO\", new DialogInterface.OnClickListener() {\n" +
-                                    "                    @Override\n" +
-                                    "                    public void onClick(DialogInterface dialog, int which) {", getLocalClassName());
-                        }
-                    });
-                    alerta.show();
-
-                } else {
-
-                    LogProcessoDAO.getInstance().insertLogProcesso("} else {" +
-                            "AlertDialog.Builder alerta = new AlertDialog.Builder(MenuInicialActivity.this);\n" +
-                            "                        alerta.setTitle(\"ATENÇÃO\");\n" +
-                            "alerta.setMessage(\"FINALIZAÇÃO CANCELADA! POR FAVOR, INSIRA PELO MENOS UM BAG PARA REALIZAR A FINALIZAÇÃO DA TRANSFÊRENCIA.\");\n" +
-                            "                        alerta.setPositiveButton(\"OK\", new DialogInterface.OnClickListener() {\n" +
-                            "                            @Override\n" +
-                            "                            public void onClick(DialogInterface dialog, int which) {\n" +
-                            "                            }\n" +
-                            "                        });\n" +
-                            "                        alerta.show();", getLocalClassName());
-                    AlertDialog.Builder alerta = new AlertDialog.Builder(ListaBagTransfActivity.this);
-                    alerta.setTitle("ATENÇÃO");
-                    alerta.setMessage("Operação cancelada! Por Favor, insira ao menos uma embalagem válida para prosseguir.");
-                    alerta.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                        }
-                    });
-                    alerta.show();
-
-                }
-
-            }
-
-        });
-
-        textViewProcesso.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                pcbContext.getConfigCTR().setPosicaoTela(5L);
-                LogProcessoDAO.getInstance().insertLogProcesso("textViewProcesso.setOnClickListener(new View.OnClickListener() {\n" +
-                        "            @Override\n" +
-                        "            public void onClick(View v) {\n" +
-                        "                pcbContext.getConfigCTR().setPosicaoTela(3L);\n" +
-                        "                Intent it = new Intent(ListaBagCarregActivity.this, SenhaActivity.class);", getLocalClassName());
-                Intent it = new Intent(ListaBagTransfActivity.this, SenhaActivity.class);
-                startActivity(it);
-                finish();
-            }
-
+        textViewProcesso.setOnClickListener(v -> {
+            pcbContext.getConfigCTR().setPosicaoTela(5L);
+            LogProcessoDAO.getInstance().insertLogProcesso("textViewProcesso.setOnClickListener(new View.OnClickListener() {\n" +
+                    "            @Override\n" +
+                    "            public void onClick(View v) {\n" +
+                    "                pcbContext.getConfigCTR().setPosicaoTela(3L);\n" +
+                    "                Intent it = new Intent(ListaBagCarregActivity.this, SenhaActivity.class);", getLocalClassName());
+            Intent it = new Intent(ListaBagTransfActivity.this, SenhaActivity.class);
+            startActivity(it);
+            finish();
         });
 
 
@@ -315,8 +273,7 @@ public class ListaBagTransfActivity extends ActivityGeneric {
 
                         pcbContext.getTransfCTR().verBagTransfCod(codBarraBag, ListaBagTransfActivity.this, ListaBagTransfActivity.class, progressBar, getLocalClassName());
 
-                    }
-                    else{
+                    } else {
 
                         LogProcessoDAO.getInstance().insertLogProcesso("} else {" +
                                 "AlertDialog.Builder alerta = new AlertDialog.Builder(ListaBagTransfActivity.this);\n" +
@@ -331,10 +288,7 @@ public class ListaBagTransfActivity extends ActivityGeneric {
                         AlertDialog.Builder alerta = new AlertDialog.Builder(ListaBagTransfActivity.this);
                         alerta.setTitle("ATENÇÃO");
                         alerta.setMessage("Embalagem duplicada! Por favor realize novamente a leitura ou verifique a etiqueta e tente novamente.");
-                        alerta.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                            }
+                        alerta.setPositiveButton("OK", (dialog, which) -> {
                         });
                         alerta.show();
 

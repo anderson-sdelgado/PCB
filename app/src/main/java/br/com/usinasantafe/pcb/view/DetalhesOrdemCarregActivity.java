@@ -42,37 +42,27 @@ public class DetalhesOrdemCarregActivity extends ActivityGeneric {
                             "CLASSIFICAÇÃO: " + ordemCargaBean.getClassifOrdemCarga();
         textViewDescrOrdemCarreg.setText(descr);
 
-        buttonOkDetalhesOrdemCarreg.setOnClickListener(new View.OnClickListener() {
+        buttonOkDetalhesOrdemCarreg.setOnClickListener(v -> {
 
-            @Override
-            public void onClick(View v) {
-
-                pcbContext.getCargaCTR().salvarCabecCargaAberto();
-                LogProcessoDAO.getInstance().insertLogProcesso("buttonOkDetalhesOrdemCarreg.setOnClickListener(new View.OnClickListener() {\n" +
-                        "            @Override\n" +
-                        "            public void onClick(View v) {\n" +
-                        "                pcbContext.getCarregCTR().salvarCabecAberto();\n" +
-                        "                Intent it = new Intent(DetalhesOrdemCarregActivity.this, ListaBagCarregActivity.class);", getLocalClassName());
-                Intent it = new Intent(DetalhesOrdemCarregActivity.this, ListaBagCargaActivity.class);
-                startActivity(it);
-                finish();
-            }
-
+            pcbContext.getCargaCTR().salvarCabecCargaAberto();
+            LogProcessoDAO.getInstance().insertLogProcesso("buttonOkDetalhesOrdemCarreg.setOnClickListener(new View.OnClickListener() {\n" +
+                    "            @Override\n" +
+                    "            public void onClick(View v) {\n" +
+                    "                pcbContext.getCarregCTR().salvarCabecAberto();\n" +
+                    "                Intent it = new Intent(DetalhesOrdemCarregActivity.this, ListaBagCarregActivity.class);", getLocalClassName());
+            Intent it = new Intent(DetalhesOrdemCarregActivity.this, ListaBagCargaActivity.class);
+            startActivity(it);
+            finish();
         });
 
-        buttonCancDetalhesOrdemCarreg.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                LogProcessoDAO.getInstance().insertLogProcesso("buttonCancDetalhesOrdemCarreg.setOnClickListener(new View.OnClickListener() {\n" +
-                        "            @Override\n" +
-                        "            public void onClick(View v) {\n" +
-                        "            Intent it = new Intent(DetalhesOrdemCarregActivity.this, ListaOrdemCarregActivity.class);", getLocalClassName());
-                Intent it = new Intent(DetalhesOrdemCarregActivity.this, ListaOrdemCargaActivity.class);
-                startActivity(it);
-                finish();
-            }
-
+        buttonCancDetalhesOrdemCarreg.setOnClickListener(v -> {
+            LogProcessoDAO.getInstance().insertLogProcesso("buttonCancDetalhesOrdemCarreg.setOnClickListener(new View.OnClickListener() {\n" +
+                    "            @Override\n" +
+                    "            public void onClick(View v) {\n" +
+                    "            Intent it = new Intent(DetalhesOrdemCarregActivity.this, ListaOrdemCarregActivity.class);", getLocalClassName());
+            Intent it = new Intent(DetalhesOrdemCarregActivity.this, ListaOrdemCargaActivity.class);
+            startActivity(it);
+            finish();
         });
 
     }

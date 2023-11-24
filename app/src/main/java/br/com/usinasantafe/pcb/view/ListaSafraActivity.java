@@ -55,127 +55,101 @@ public class ListaSafraActivity extends ActivityGeneric {
         ListView safraListView = findViewById(R.id.listSafra);
         AdapterList adapterList = new AdapterList(this, itens);
         safraListView.setAdapter(adapterList);
-        safraListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        safraListView.setOnItemClickListener((l, v, position, id) -> {
 
-            @Override
-            public void onItemClick(AdapterView<?> l, View v, int position,
-                                    long id) {
+            LogProcessoDAO.getInstance().insertLogProcesso("safraListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {\n" +
+                    "            @Override\n" +
+                    "            public void onItemClick(AdapterView<?> l, View v, int position,\n" +
+                    "                                    long id) {\n" +
+                    "                SafraBean safraBean = safraBeanList.get(position);\n" +
+                    "                safraBeanList.clear();\n" +
+                    "                pcbContext.getConfigCTR().setIdSafra(safraBean.getIdSafra());\n" +
+                    "                Intent it = new Intent(ListaSafraActivity.this, ListaBagTransfActivity.class);", getLocalClassName());
 
-                LogProcessoDAO.getInstance().insertLogProcesso("safraListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {\n" +
-                        "            @Override\n" +
-                        "            public void onItemClick(AdapterView<?> l, View v, int position,\n" +
-                        "                                    long id) {\n" +
-                        "                SafraBean safraBean = safraBeanList.get(position);\n" +
-                        "                safraBeanList.clear();\n" +
-                        "                pcbContext.getConfigCTR().setIdSafra(safraBean.getIdSafra());\n" +
-                        "                Intent it = new Intent(ListaSafraActivity.this, ListaBagTransfActivity.class);", getLocalClassName());
+            SafraBean safraBean = safraBeanList.get(position);
+            safraBeanList.clear();
 
-                SafraBean safraBean = safraBeanList.get(position);
-                safraBeanList.clear();
-
-                pcbContext.getConfigCTR().setIdSafra(safraBean.getIdSafra());
-                Intent it = new Intent(ListaSafraActivity.this, ListaBagTransfActivity.class);
-                startActivity(it);
-                finish();
-
-            }
+            pcbContext.getConfigCTR().setIdSafra(safraBean.getIdSafra());
+            Intent it = new Intent(ListaSafraActivity.this, ListaBagTransfActivity.class);
+            startActivity(it);
+            finish();
 
         });
 
-        buttonRetSafra.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                LogProcessoDAO.getInstance().insertLogProcesso("buttonRetSafra.setOnClickListener(new View.OnClickListener() {\n" +
-                        "            @Override\n" +
-                        "            public void onClick(View v) {\n" +
-                        "                Intent it = new Intent(ListaSafraActivity.this, ListaBagTransfActivity.class);", getLocalClassName());
-                Intent it = new Intent(ListaSafraActivity.this, ListaBagTransfActivity.class);
-                startActivity(it);
-                finish();
-            }
-
+        buttonRetSafra.setOnClickListener(v -> {
+            LogProcessoDAO.getInstance().insertLogProcesso("buttonRetSafra.setOnClickListener(new View.OnClickListener() {\n" +
+                    "            @Override\n" +
+                    "            public void onClick(View v) {\n" +
+                    "                Intent it = new Intent(ListaSafraActivity.this, ListaBagTransfActivity.class);", getLocalClassName());
+            Intent it = new Intent(ListaSafraActivity.this, ListaBagTransfActivity.class);
+            startActivity(it);
+            finish();
         });
 
-        buttonAtualSafra.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                LogProcessoDAO.getInstance().insertLogProcesso("buttonAtualSafra.setOnClickListener(new View.OnClickListener() {\n" +
-                        "            @Override\n" +
-                        "            public void onClick(View v) {\n" +
-                        "AlertDialog.Builder alerta = new AlertDialog.Builder(ListaSafraActivity.this);\n" +
-                        "                alerta.setTitle(\"ATENÇÃO\");\n" +
-                        "                alerta.setMessage(\"DESEJA REALMENTE ATUALIZAR BASE DE DADOS?\");", getLocalClassName());
-                AlertDialog.Builder alerta = new AlertDialog.Builder(ListaSafraActivity.this);
-                alerta.setTitle("ATENÇÃO");
-                alerta.setMessage("DESEJA REALMENTE ATUALIZAR BASE DE DADOS?");
-                alerta.setNegativeButton("SIM", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
+        buttonAtualSafra.setOnClickListener(v -> {
+            LogProcessoDAO.getInstance().insertLogProcesso("buttonAtualSafra.setOnClickListener(new View.OnClickListener() {\n" +
+                    "            @Override\n" +
+                    "            public void onClick(View v) {\n" +
+                    "AlertDialog.Builder alerta = new AlertDialog.Builder(ListaSafraActivity.this);\n" +
+                    "                alerta.setTitle(\"ATENÇÃO\");\n" +
+                    "                alerta.setMessage(\"DESEJA REALMENTE ATUALIZAR BASE DE DADOS?\");", getLocalClassName());
+            AlertDialog.Builder alerta = new AlertDialog.Builder(ListaSafraActivity.this);
+            alerta.setTitle("ATENÇÃO");
+            alerta.setMessage("DESEJA REALMENTE ATUALIZAR BASE DE DADOS?");
+            alerta.setNegativeButton("SIM", (dialog, which) -> {
 
-                        LogProcessoDAO.getInstance().insertLogProcesso("alerta.setNegativeButton(\"SIM\", new DialogInterface.OnClickListener() {\n" +
-                                "                    @Override\n" +
-                                "                    public void onClick(DialogInterface dialog, int which) {", getLocalClassName());
+                LogProcessoDAO.getInstance().insertLogProcesso("alerta.setNegativeButton(\"SIM\", new DialogInterface.OnClickListener() {\n" +
+                        "                    @Override\n" +
+                        "                    public void onClick(DialogInterface dialog, int which) {", getLocalClassName());
 
-                        if (connectNetwork) {
+                if (connectNetwork) {
 
-                            LogProcessoDAO.getInstance().insertLogProcesso("if (connectNetwork) {\n" +
-                                    "progressBar = new ProgressDialog(ListaOrdemCarregActivity.this);\n" +
-                                    "                            progressBar.setCancelable(true);\n" +
-                                    "                            progressBar.setMessage(\"ATUALIZANDO ...\");\n" +
-                                    "                            progressBar.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);\n" +
-                                    "                            progressBar.setProgress(0);\n" +
-                                    "                            progressBar.setMax(100);\n" +
-                                    "                            progressBar.show();", getLocalClassName());
-                            progressBar = new ProgressDialog(ListaSafraActivity.this);
-                            progressBar.setCancelable(true);
-                            progressBar.setMessage("ATUALIZANDO ...");
-                            progressBar.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-                            progressBar.setProgress(0);
-                            progressBar.setMax(100);
-                            progressBar.show();
+                    LogProcessoDAO.getInstance().insertLogProcesso("if (connectNetwork) {\n" +
+                            "progressBar = new ProgressDialog(ListaOrdemCarregActivity.this);\n" +
+                            "                            progressBar.setCancelable(true);\n" +
+                            "                            progressBar.setMessage(\"ATUALIZANDO ...\");\n" +
+                            "                            progressBar.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);\n" +
+                            "                            progressBar.setProgress(0);\n" +
+                            "                            progressBar.setMax(100);\n" +
+                            "                            progressBar.show();", getLocalClassName());
+                    progressBar = new ProgressDialog(ListaSafraActivity.this);
+                    progressBar.setCancelable(true);
+                    progressBar.setMessage("ATUALIZANDO ...");
+                    progressBar.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+                    progressBar.setProgress(0);
+                    progressBar.setMax(100);
+                    progressBar.show();
 
-                            LogProcessoDAO.getInstance().insertLogProcesso("pcbContext.getConfigCTR().atualDados(ListaOrdemCarregActivity.this, ListaOrdemCarregActivity.class, progressBar, \"OrdemCarreg\", 1, getLocalClassName());", getLocalClassName());
-                            pcbContext.getConfigCTR().atualDados(ListaSafraActivity.this, ListaSafraActivity.class, progressBar, "Safra", 1, getLocalClassName());
+                    LogProcessoDAO.getInstance().insertLogProcesso("pcbContext.getConfigCTR().atualDados(ListaOrdemCarregActivity.this, ListaOrdemCarregActivity.class, progressBar, \"OrdemCarreg\", 1, getLocalClassName());", getLocalClassName());
+                    pcbContext.getConfigCTR().atualDados(ListaSafraActivity.this, ListaSafraActivity.class, progressBar, "Safra", 1, getLocalClassName());
 
-                        } else {
+                } else {
 
-                            LogProcessoDAO.getInstance().insertLogProcesso(" } else {\n" +
-                                    "AlertDialog.Builder alerta = new AlertDialog.Builder(ListaSafraActivity.this);\n" +
-                                    "                            alerta.setTitle(\"ATENÇÃO\");\n" +
-                                    "                            alerta.setMessage(\"FALHA NA CONEXÃO DE DADOS. O CELULAR ESTA SEM SINAL. POR FAVOR, TENTE NOVAMENTE QUANDO O CELULAR ESTIVE COM SINAL.\");\n" +
-                                    "                            alerta.setPositiveButton(\"OK\", new DialogInterface.OnClickListener() {\n" +
-                                    "                                @Override\n" +
-                                    "                                public void onClick(DialogInterface dialog, int which) {\n" +
-                                    "                                }\n" +
-                                    "                            });\n" +
-                                    "                            alerta.show();", getLocalClassName());
-                            AlertDialog.Builder alerta = new AlertDialog.Builder(ListaSafraActivity.this);
-                            alerta.setTitle("ATENÇÃO");
-                            alerta.setMessage("FALHA NA CONEXÃO DE DADOS. O CELULAR ESTA SEM SINAL. POR FAVOR, TENTE NOVAMENTE QUANDO O CELULAR ESTIVE COM SINAL.");
-                            alerta.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                }
-                            });
-                            alerta.show();
+                    LogProcessoDAO.getInstance().insertLogProcesso(" } else {\n" +
+                            "AlertDialog.Builder alerta = new AlertDialog.Builder(ListaSafraActivity.this);\n" +
+                            "                            alerta.setTitle(\"ATENÇÃO\");\n" +
+                            "                            alerta.setMessage(\"FALHA NA CONEXÃO DE DADOS. O CELULAR ESTA SEM SINAL. POR FAVOR, TENTE NOVAMENTE QUANDO O CELULAR ESTIVE COM SINAL.\");\n" +
+                            "                            alerta.setPositiveButton(\"OK\", new DialogInterface.OnClickListener() {\n" +
+                            "                                @Override\n" +
+                            "                                public void onClick(DialogInterface dialog, int which) {\n" +
+                            "                                }\n" +
+                            "                            });\n" +
+                            "                            alerta.show();", getLocalClassName());
+                    AlertDialog.Builder alerta1 = new AlertDialog.Builder(ListaSafraActivity.this);
+                    alerta1.setTitle("ATENÇÃO");
+                    alerta1.setMessage("FALHA NA CONEXÃO DE DADOS. O CELULAR ESTA SEM SINAL. POR FAVOR, TENTE NOVAMENTE QUANDO O CELULAR ESTIVE COM SINAL.");
+                    alerta1.setPositiveButton("OK", (dialog1, which1) -> {});
+                    alerta1.show();
 
-                        }
+                }
 
 
-                    }
-                });
+            });
 
-                alerta.setPositiveButton("NÃO", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        LogProcessoDAO.getInstance().insertLogProcesso("alerta.setPositiveButton(\"NÃO\", new DialogInterface.OnClickListener() {\n" +
-                                "                    @Override\n" +
-                                "                    public void onClick(DialogInterface dialog, int which) {", getLocalClassName());
-                    }
-                });
-                alerta.show();
-            }
-
+            alerta.setPositiveButton("NÃO", (dialog, which) -> LogProcessoDAO.getInstance().insertLogProcesso("alerta.setPositiveButton(\"NÃO\", new DialogInterface.OnClickListener() {\n" +
+                    "                    @Override\n" +
+                    "                    public void onClick(DialogInterface dialog, int which) {", getLocalClassName()));
+            alerta.show();
         });
 
     }

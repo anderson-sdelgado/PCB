@@ -14,10 +14,10 @@
     <TextView
         android:id="@+id/textViewLinhaConfig"
         style="@style/TextView"
-        android:text="@string/texto_num_linha_config" />
+        android:text="@string/texto_nro_aparelho_config" />
 
     <EditText
-        android:id="@+id/editTextLinhaConfig"
+        android:id="@+id/editTextNroAparelhoConfig"
         style="@style/EditView"
         android:inputType="number" />
 

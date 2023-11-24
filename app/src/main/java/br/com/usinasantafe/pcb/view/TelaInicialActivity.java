@@ -38,11 +38,6 @@ public class TelaInicialActivity extends ActivityGeneric {
 
     }
 
-    public boolean checkPermission(String permission) {
-        int check = ContextCompat.checkSelfPermission(this, permission);
-        return (check == PackageManager.PERMISSION_GRANTED);
-    }
-
     public void onBackPressed() {
     }
 
@@ -63,7 +58,6 @@ public class TelaInicialActivity extends ActivityGeneric {
                     "            Intent it = new Intent(TelaInicialActivity.this, ListaBagCarregActivity.class);", getLocalClassName());
             Intent it = new Intent(TelaInicialActivity.this, ListaBagCargaActivity.class);
             startActivity(it);
-            finish();
         } else {
             LogProcessoDAO.getInstance().insertLogProcesso("} else {", getLocalClassName());
             if(pcbContext.getTransfCTR().verCabecTransfAberto()){
@@ -71,15 +65,14 @@ public class TelaInicialActivity extends ActivityGeneric {
                         "                Intent it = new Intent(TelaInicialActivity.this, ListaBagTransfActivity.class);", getLocalClassName());
                 Intent it = new Intent(TelaInicialActivity.this, ListaBagTransfActivity.class);
                 startActivity(it);
-                finish();
             } else {
                 LogProcessoDAO.getInstance().insertLogProcesso("} else {\n" +
                         "            Intent it = new Intent(TelaInicialActivity.this, MenuInicialActivity.class);", getLocalClassName());
                 Intent it = new Intent(TelaInicialActivity.this, MenuInicialActivity.class);
                 startActivity(it);
-                finish();
             }
         }
+        finish();
 
     }
 
@@ -95,16 +88,14 @@ public class TelaInicialActivity extends ActivityGeneric {
                             "pmmContext.getConfigCTR().verAtualAplic(pmmContext.versaoAplic, this, getLocalClassName());", getLocalClassName());
                     customHandler.postDelayed(encerraAtualThread, 10000);
                     pcbContext.getConfigCTR().verAtualAplic(BuildConfig.VERSION_NAME, this, getLocalClassName());
-                }
-                else{
+                } else {
                     LogProcessoDAO.getInstance().insertLogProcesso("else{\n" +
                             "                VerifDadosServ.status = 3;\n" +
                             "goMenuInicial();", getLocalClassName());
                     VerifDadosServ.status = 3;
                     goMenuInicial();
                 }
-            }
-            else{
+            } else {
                 LogProcessoDAO.getInstance().insertLogProcesso("else{\n" +
                         "                VerifDadosServ.status = 3;\n" +
                         "goMenuInicial();", getLocalClassName());
@@ -127,55 +118,47 @@ public class TelaInicialActivity extends ActivityGeneric {
         pcbContext.getTransfCTR().deleteCabecTransfEnviados();
     }
 
-    private Runnable encerraAtualThread = new Runnable() {
-
-        public void run() {
-            LogProcessoDAO.getInstance().insertLogProcesso("    private Runnable updateTimerThread = new Runnable() {\n" +
-                    "        public void run() {", getLocalClassName());
-            LogProcessoDAO.getInstance().insertLogProcesso("verifEnvio();", getLocalClassName());
-            if(VerifDadosServ.status < 3) {
-                LogProcessoDAO.getInstance().insertLogProcesso("if(VerifDadosServ.status < 3) {\n" +
-                        "VerifDadosServ.getInstance().cancel();", getLocalClassName());
-                VerifDadosServ.getInstance().cancel();
-            }
-            LogProcessoDAO.getInstance().insertLogProcesso("goMenuInicial();", getLocalClassName());
-            goMenuInicial();
+    private Runnable encerraAtualThread = () -> {
+        LogProcessoDAO.getInstance().insertLogProcesso("    private Runnable updateTimerThread = new Runnable() {\n" +
+                "        public void run() {", getLocalClassName());
+        LogProcessoDAO.getInstance().insertLogProcesso("verifEnvio();", getLocalClassName());
+        if(VerifDadosServ.status < 3) {
+            LogProcessoDAO.getInstance().insertLogProcesso("if(VerifDadosServ.status < 3) {\n" +
+                    "VerifDadosServ.getInstance().cancel();", getLocalClassName());
+            VerifDadosServ.getInstance().cancel();
         }
+        LogProcessoDAO.getInstance().insertLogProcesso("goMenuInicial();", getLocalClassName());
+        goMenuInicial();
     };
 
-    private Runnable excluirBDThread = new Runnable() {
+    private Runnable excluirBDThread = () -> {
 
-        public void run() {
+        LogProcessoDAO.getInstance().insertLogProcesso("clearBD();", getLocalClassName());
+        clearBD();
 
-            LogProcessoDAO.getInstance().insertLogProcesso("clearBD();", getLocalClassName());
-            clearBD();
-
-            if(EnvioDadosServ.getInstance().verifDadosEnvio()){
-                LogProcessoDAO.getInstance().insertLogProcesso("EnvioDadosServ.getInstance().verifDadosEnvio()", getLocalClassName());
-                if(connectNetwork){
-                    LogProcessoDAO.getInstance().insertLogProcesso("if(connectNetwork){\n" +
-                            "EnvioDadosServ.getInstance().envioDados()", getLocalClassName());
-                    EnvioDadosServ.getInstance().envioDados(getLocalClassName());
-                }
-                else{
-                    LogProcessoDAO.getInstance().insertLogProcesso("else{\n" +
-                            "                EnvioDadosServ.status = 1;", getLocalClassName());
-                    EnvioDadosServ.status = 1;
-                }
-            }
-            else{
+        if(EnvioDadosServ.getInstance().verifDadosEnvio()){
+            LogProcessoDAO.getInstance().insertLogProcesso("EnvioDadosServ.getInstance().verifDadosEnvio()", getLocalClassName());
+            if(connectNetwork){
+                LogProcessoDAO.getInstance().insertLogProcesso("if(connectNetwork){\n" +
+                        "EnvioDadosServ.getInstance().envioDados()", getLocalClassName());
+                EnvioDadosServ.getInstance().envioDados(getLocalClassName());
+            } else {
                 LogProcessoDAO.getInstance().insertLogProcesso("else{\n" +
-                        "            EnvioDadosServ.status = 3;", getLocalClassName());
-                EnvioDadosServ.status = 3;
+                        "                EnvioDadosServ.status = 1;", getLocalClassName());
+                EnvioDadosServ.status = 1;
             }
-
-            LogProcessoDAO.getInstance().insertLogProcesso("VerifDadosServ.status = 3;", getLocalClassName());
-            VerifDadosServ.status = 3;
-
-            LogProcessoDAO.getInstance().insertLogProcesso("atualizarAplic()", getLocalClassName());
-            atualizarAplic();
-
+        } else {
+            LogProcessoDAO.getInstance().insertLogProcesso("else{\n" +
+                    "            EnvioDadosServ.status = 3;", getLocalClassName());
+            EnvioDadosServ.status = 3;
         }
+
+        LogProcessoDAO.getInstance().insertLogProcesso("VerifDadosServ.status = 3;", getLocalClassName());
+        VerifDadosServ.status = 3;
+
+        LogProcessoDAO.getInstance().insertLogProcesso("atualizarAplic()", getLocalClassName());
+        atualizarAplic();
+
     };
 
 

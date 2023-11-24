@@ -28,161 +28,136 @@ public class DigBagCargaActivity extends ActivityGeneric {
         Button buttonCancBag = findViewById(R.id.buttonCancPadrao);
         Button buttonAtualPadrao = findViewById(R.id.buttonAtualPadrao);
 
-        buttonAtualPadrao.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        buttonAtualPadrao.setOnClickListener(v -> {
 
-                LogProcessoDAO.getInstance().insertLogProcesso("buttonAtualPadrao.setOnClickListener(new View.OnClickListener() {\n" +
-                        "            @Override\n" +
-                        "            public void onClick(View v) {\n" +
-                        "AlertDialog.Builder alerta = new AlertDialog.Builder(DigBagCarregActivity.this);\n" +
-                        "                alerta.setTitle(\"ATENÇÃO\");\n" +
-                        "                alerta.setMessage(\"DESEJA REALMENTE ATUALIZAR BASE DE DADOS?\");", getLocalClassName());
-                AlertDialog.Builder alerta = new AlertDialog.Builder(DigBagCargaActivity.this);
-                alerta.setTitle("ATENÇÃO");
-                alerta.setMessage("DESEJA REALMENTE ATUALIZAR BASE DE DADOS?");
-                alerta.setNegativeButton("SIM", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
+            LogProcessoDAO.getInstance().insertLogProcesso("buttonAtualPadrao.setOnClickListener(new View.OnClickListener() {\n" +
+                    "            @Override\n" +
+                    "            public void onClick(View v) {\n" +
+                    "AlertDialog.Builder alerta = new AlertDialog.Builder(DigBagCarregActivity.this);\n" +
+                    "                alerta.setTitle(\"ATENÇÃO\");\n" +
+                    "                alerta.setMessage(\"DESEJA REALMENTE ATUALIZAR BASE DE DADOS?\");", getLocalClassName());
+            AlertDialog.Builder alerta = new AlertDialog.Builder(DigBagCargaActivity.this);
+            alerta.setTitle("ATENÇÃO");
+            alerta.setMessage("DESEJA REALMENTE ATUALIZAR BASE DE DADOS?");
+            alerta.setNegativeButton("SIM", (dialog, which) -> {
 
-                        LogProcessoDAO.getInstance().insertLogProcesso("alerta.setNegativeButton(\"SIM\", new DialogInterface.OnClickListener() {\n" +
-                                "                    @Override\n" +
-                                "                    public void onClick(DialogInterface dialog, int which) {", getLocalClassName());
+                LogProcessoDAO.getInstance().insertLogProcesso("alerta.setNegativeButton(\"SIM\", new DialogInterface.OnClickListener() {\n" +
+                        "                    @Override\n" +
+                        "                    public void onClick(DialogInterface dialog, int which) {", getLocalClassName());
 
-                        if (connectNetwork) {
+                if (connectNetwork) {
 
-                            LogProcessoDAO.getInstance().insertLogProcesso("if (connectNetwork) {\n" +
-                                    "progressBar = new ProgressDialog(DigBagCarregActivity.this);\n" +
-                                    "                            progressBar.setCancelable(true);\n" +
-                                    "                            progressBar.setMessage(\"ATUALIZANDO ...\");\n" +
-                                    "                            progressBar.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);\n" +
-                                    "                            progressBar.setProgress(0);\n" +
-                                    "                            progressBar.setMax(100);\n" +
-                                    "                            progressBar.show();", getLocalClassName());
-                            progressBar = new ProgressDialog(DigBagCargaActivity.this);
-                            progressBar.setCancelable(true);
-                            progressBar.setMessage("ATUALIZANDO ...");
-                            progressBar.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-                            progressBar.setProgress(0);
-                            progressBar.setMax(100);
-                            progressBar.show();
+                    LogProcessoDAO.getInstance().insertLogProcesso("if (connectNetwork) {\n" +
+                            "progressBar = new ProgressDialog(DigBagCarregActivity.this);\n" +
+                            "                            progressBar.setCancelable(true);\n" +
+                            "                            progressBar.setMessage(\"ATUALIZANDO ...\");\n" +
+                            "                            progressBar.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);\n" +
+                            "                            progressBar.setProgress(0);\n" +
+                            "                            progressBar.setMax(100);\n" +
+                            "                            progressBar.show();", getLocalClassName());
+                    progressBar = new ProgressDialog(DigBagCargaActivity.this);
+                    progressBar.setCancelable(true);
+                    progressBar.setMessage("ATUALIZANDO ...");
+                    progressBar.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+                    progressBar.setProgress(0);
+                    progressBar.setMax(100);
+                    progressBar.show();
 
-                            LogProcessoDAO.getInstance().insertLogProcesso("pcbContext.getConfigCTR().atualDados(DigBagCarregActivity.this, DigFuncActivity.class, progressBar, \"Func\", 1, getLocalClassName());", getLocalClassName());
-                            pcbContext.getConfigCTR().atualDados(DigBagCargaActivity.this, DigFuncActivity.class, progressBar, "Func", 1, getLocalClassName());
+                    LogProcessoDAO.getInstance().insertLogProcesso("pcbContext.getConfigCTR().atualDados(DigBagCarregActivity.this, DigFuncActivity.class, progressBar, \"Func\", 1, getLocalClassName());", getLocalClassName());
+                    pcbContext.getConfigCTR().atualDados(DigBagCargaActivity.this, DigFuncActivity.class, progressBar, "Func", 1, getLocalClassName());
 
-                        } else {
+                } else {
 
-                            LogProcessoDAO.getInstance().insertLogProcesso("AlertDialog.Builder alerta = new AlertDialog.Builder( OperadorActivity.this);\n" +
-                                    "                            alerta.setTitle(\"ATENÇÃO\");\n" +
-                                    "                            alerta.setMessage(\"FALHA NA CONEXÃO DE DADOS. O CELULAR ESTA SEM SINAL. POR FAVOR, TENTE NOVAMENTE QUANDO O CELULAR ESTIVE COM SINAL.\");\n" +
-                                    "                            alerta.setPositiveButton(\"OK\", new DialogInterface.OnClickListener() {\n" +
-                                    "                                @Override\n" +
-                                    "                                public void onClick(DialogInterface dialog, int which) {\n" +
-                                    "                                }\n" +
-                                    "                            });\n" +
-                                    "                            alerta.show();", getLocalClassName());
-                            AlertDialog.Builder alerta = new AlertDialog.Builder(DigBagCargaActivity.this);
-                            alerta.setTitle("ATENÇÃO");
-                            alerta.setMessage("FALHA NA CONEXÃO DE DADOS. O CELULAR ESTA SEM SINAL. POR FAVOR, TENTE NOVAMENTE QUANDO O CELULAR ESTIVE COM SINAL.");
-                            alerta.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                }
-                            });
-                            alerta.show();
-
+                    LogProcessoDAO.getInstance().insertLogProcesso("AlertDialog.Builder alerta = new AlertDialog.Builder( OperadorActivity.this);\n" +
+                            "                            alerta.setTitle(\"ATENÇÃO\");\n" +
+                            "                            alerta.setMessage(\"FALHA NA CONEXÃO DE DADOS. O CELULAR ESTA SEM SINAL. POR FAVOR, TENTE NOVAMENTE QUANDO O CELULAR ESTIVE COM SINAL.\");\n" +
+                            "                            alerta.setPositiveButton(\"OK\", new DialogInterface.OnClickListener() {\n" +
+                            "                                @Override\n" +
+                            "                                public void onClick(DialogInterface dialog, int which) {\n" +
+                            "                                }\n" +
+                            "                            });\n" +
+                            "                            alerta.show();", getLocalClassName());
+                    AlertDialog.Builder alerta1 = new AlertDialog.Builder(DigBagCargaActivity.this);
+                    alerta1.setTitle("ATENÇÃO");
+                    alerta1.setMessage("FALHA NA CONEXÃO DE DADOS. O CELULAR ESTA SEM SINAL. POR FAVOR, TENTE NOVAMENTE QUANDO O CELULAR ESTIVE COM SINAL.");
+                    alerta1.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
                         }
+                    });
+                    alerta1.show();
+
+                }
 
 
-                    }
-                });
+            });
 
-                alerta.setPositiveButton("NÃO", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        LogProcessoDAO.getInstance().insertLogProcesso("alerta.setPositiveButton(\"NÃO\", new DialogInterface.OnClickListener() {\n" +
-                                "                    @Override\n" +
-                                "                    public void onClick(DialogInterface dialog, int which) {", getLocalClassName());
-                    }
-                });
-                alerta.show();
+            alerta.setPositiveButton("NÃO", (dialog, which) -> LogProcessoDAO.getInstance().insertLogProcesso("alerta.setPositiveButton(\"NÃO\", new DialogInterface.OnClickListener() {\n" +
+                    "                    @Override\n" +
+                    "                    public void onClick(DialogInterface dialog, int which) {", getLocalClassName()));
+            alerta.show();
 
+        });
+
+        buttonOkBag.setOnClickListener(v -> {
+
+            LogProcessoDAO.getInstance().insertLogProcesso("buttonOkMotorista.setOnClickListener(new View.OnClickListener() {\n" +
+                    "            @SuppressWarnings(\"rawtypes\")\n" +
+                    "            @Override\n" +
+                    "            public void onClick(View v) {", getLocalClassName());
+            if (!editTextPadrao.getText().toString().equals("")) {
+
+                LogProcessoDAO.getInstance().insertLogProcesso("if (!editTextPadrao.getText().toString().equals(\"\")) {", getLocalClassName());
+                if(pcbContext.getCargaCTR().verBagRepetidoCarga(Long.valueOf(editTextPadrao.getText().toString()))) {
+
+                    LogProcessoDAO.getInstance().insertLogProcesso("if(pcbContext.getCargaCTR().verBagRepetidoCarga(Long.valueOf(editTextPadrao.getText().toString()))) {\n" +
+                            "                        progressBar = new ProgressDialog(DigBagCargaActivity.this);\n" +
+                            "                        progressBar.setCancelable(true);\n" +
+                            "                        progressBar.setMessage(\"PESQUISANDO BAG...\");\n" +
+                            "                        progressBar.show();\n" +
+                            "                    pcbContext.getCargaCTR().verBagCarga(" + editTextPadrao.getText().toString() + ", ListaBagTransfActivity.this, ListaBagTransfActivity.class, progressBar, getLocalClassName());", getLocalClassName());
+
+                    progressBar = new ProgressDialog(DigBagCargaActivity.this);
+                    progressBar.setCancelable(true);
+                    progressBar.setMessage("PESQUISANDO BAG...");
+                    progressBar.show();
+
+                    pcbContext.getCargaCTR().verBagCargaNro(editTextPadrao.getText().toString(), DigBagCargaActivity.this, ListaBagCargaActivity.class, progressBar, getLocalClassName());
+
+                } else {
+
+                    LogProcessoDAO.getInstance().insertLogProcesso("} else {" +
+                            "AlertDialog.Builder alerta = new AlertDialog.Builder(DigBagCargaActivity.this);\n" +
+                            "                        alerta.setTitle(\"ATENÇÃO\");\n" +
+                            "                        alerta.setMessage(\"Embalagem duplicada! Por favor realize novamente a leitura ou verifique a etiqueta e tente novamente.\");\n" +
+                            "                        alerta.setPositiveButton(\"OK\", new DialogInterface.OnClickListener() {\n" +
+                            "                            @Override\n" +
+                            "                            public void onClick(DialogInterface dialog, int which) {\n" +
+                            "                            }\n" +
+                            "                        });\n" +
+                            "                        alerta.show();", getLocalClassName());
+                    AlertDialog.Builder alerta = new AlertDialog.Builder(DigBagCargaActivity.this);
+                    alerta.setTitle("ATENÇÃO");
+                    alerta.setMessage("Embalagem duplicada! Por favor realize novamente a leitura ou verifique a etiqueta e tente novamente.");
+                    alerta.setPositiveButton("OK", (dialog, which) -> {
+                    });
+                    alerta.show();
+
+                }
             }
 
         });
 
-        buttonOkBag.setOnClickListener(new View.OnClickListener() {
-            @SuppressWarnings("rawtypes")
-            @Override
-            public void onClick(View v) {
+        buttonCancBag.setOnClickListener(v -> {
 
-                LogProcessoDAO.getInstance().insertLogProcesso("buttonOkMotorista.setOnClickListener(new View.OnClickListener() {\n" +
-                        "            @SuppressWarnings(\"rawtypes\")\n" +
-                        "            @Override\n" +
-                        "            public void onClick(View v) {", getLocalClassName());
-                if (!editTextPadrao.getText().toString().equals("")) {
-
-                    LogProcessoDAO.getInstance().insertLogProcesso("if (!editTextPadrao.getText().toString().equals(\"\")) {", getLocalClassName());
-                    if(pcbContext.getCargaCTR().verBagRepetidoCarga(Long.valueOf(editTextPadrao.getText().toString()))) {
-
-                        LogProcessoDAO.getInstance().insertLogProcesso("if(pcbContext.getCargaCTR().verBagRepetidoCarga(Long.valueOf(editTextPadrao.getText().toString()))) {\n" +
-                                "                        progressBar = new ProgressDialog(DigBagCargaActivity.this);\n" +
-                                "                        progressBar.setCancelable(true);\n" +
-                                "                        progressBar.setMessage(\"PESQUISANDO BAG...\");\n" +
-                                "                        progressBar.show();\n" +
-                                "                    pcbContext.getCargaCTR().verBagCarga(" + editTextPadrao.getText().toString() + ", ListaBagTransfActivity.this, ListaBagTransfActivity.class, progressBar, getLocalClassName());", getLocalClassName());
-
-                        progressBar = new ProgressDialog(DigBagCargaActivity.this);
-                        progressBar.setCancelable(true);
-                        progressBar.setMessage("PESQUISANDO BAG...");
-                        progressBar.show();
-
-                        pcbContext.getCargaCTR().verBagCargaNro(editTextPadrao.getText().toString(), DigBagCargaActivity.this, ListaBagCargaActivity.class, progressBar, getLocalClassName());
-
-                    }
-                    else{
-
-                        LogProcessoDAO.getInstance().insertLogProcesso("} else {" +
-                                "AlertDialog.Builder alerta = new AlertDialog.Builder(DigBagCargaActivity.this);\n" +
-                                "                        alerta.setTitle(\"ATENÇÃO\");\n" +
-                                "                        alerta.setMessage(\"Embalagem duplicada! Por favor realize novamente a leitura ou verifique a etiqueta e tente novamente.\");\n" +
-                                "                        alerta.setPositiveButton(\"OK\", new DialogInterface.OnClickListener() {\n" +
-                                "                            @Override\n" +
-                                "                            public void onClick(DialogInterface dialog, int which) {\n" +
-                                "                            }\n" +
-                                "                        });\n" +
-                                "                        alerta.show();", getLocalClassName());
-                        AlertDialog.Builder alerta = new AlertDialog.Builder(DigBagCargaActivity.this);
-                        alerta.setTitle("ATENÇÃO");
-                        alerta.setMessage("Embalagem duplicada! Por favor realize novamente a leitura ou verifique a etiqueta e tente novamente.");
-                        alerta.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                            }
-                        });
-                        alerta.show();
-
-                    }
-                }
-
-            }
-
-        });
-
-        buttonCancBag.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-
-                LogProcessoDAO.getInstance().insertLogProcesso("buttonCancBag.setOnClickListener(new View.OnClickListener() {\n" +
-                        "            @Override\n" +
-                        "            public void onClick(View v) {\n" +
-                        "if (editTextPadrao.getText().toString().length() > 0) {\n" +
-                        "                    editTextPadrao.setText(editTextPadrao.getText().toString().substring(0, editTextPadrao.getText().toString().length() - 1));\n" +
-                        "                }", getLocalClassName());
-                if (editTextPadrao.getText().toString().length() > 0) {
-                    editTextPadrao.setText(editTextPadrao.getText().toString().substring(0, editTextPadrao.getText().toString().length() - 1));
-                }
+            LogProcessoDAO.getInstance().insertLogProcesso("buttonCancBag.setOnClickListener(new View.OnClickListener() {\n" +
+                    "            @Override\n" +
+                    "            public void onClick(View v) {\n" +
+                    "if (editTextPadrao.getText().toString().length() > 0) {\n" +
+                    "                    editTextPadrao.setText(editTextPadrao.getText().toString().substring(0, editTextPadrao.getText().toString().length() - 1));\n" +
+                    "                }", getLocalClassName());
+            if (editTextPadrao.getText().toString().length() > 0) {
+                editTextPadrao.setText(editTextPadrao.getText().toString().substring(0, editTextPadrao.getText().toString().length() - 1));
             }
         });
 

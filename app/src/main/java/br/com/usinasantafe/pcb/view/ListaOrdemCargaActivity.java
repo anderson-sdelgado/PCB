@@ -26,6 +26,7 @@ public class ListaOrdemCargaActivity extends ActivityGeneric {
     private PCBContext pcbContext;
     private ProgressDialog progressBar;
     private List<OrdemCargaBean> ordemCarregList;
+    private boolean statusLeitor;
 
     private static final String EXTRA_CONTROL = "com.honeywell.aidc.action.ACTION_CONTROL_SCANNER";
     private static final String EXTRA_SCAN = "com.honeywell.aidc.extra.EXTRA_SCAN";
@@ -58,154 +59,43 @@ public class ListaOrdemCargaActivity extends ActivityGeneric {
         AdapterListOrdemCarga adapterListOrdemCarreg = new AdapterListOrdemCarga(this, ordemCarregList);
         ordemCarregListView.setAdapter(adapterListOrdemCarreg);
 
-        ordemCarregListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        ordemCarregListView.setOnItemClickListener((l, v, position, id) -> {
 
-            @Override
-            public void onItemClick(AdapterView<?> l, View v, int position,
-                                    long id) {
+            LogProcessoDAO.getInstance().insertLogProcesso("listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {\n" +
+                    "            @Override\n" +
+                    "            public void onItemClick(AdapterView<?> l, View v, int position,\n" +
+                    "                                    long id) {\n" +
+                    "                OrdemCarregBean ordemCarregBean = ordemCarregList.get(position);\n" +
+                    "                ordemCarregList.clear();", getLocalClassName());
 
-                LogProcessoDAO.getInstance().insertLogProcesso("listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {\n" +
-                        "            @Override\n" +
-                        "            public void onItemClick(AdapterView<?> l, View v, int position,\n" +
-                        "                                    long id) {\n" +
-                        "                OrdemCarregBean ordemCarregBean = ordemCarregList.get(position);\n" +
-                        "                ordemCarregList.clear();", getLocalClassName());
+            OrdemCargaBean ordemCargaBean = ordemCarregList.get(position);
+            ordemCarregList.clear();
 
-                OrdemCargaBean ordemCargaBean = ordemCarregList.get(position);
-                ordemCarregList.clear();
+            if(!pcbContext.getCargaCTR().verCabecCargaOrdemCarga(ordemCargaBean.getIdOrdemCarga())){
+                LogProcessoDAO.getInstance().insertLogProcesso("if(!pcbContext.getCargaCTR().verCabecCargaOrdemCarga(ordemCargaBean.getIdOrdemCarga())){\n" +
+                        "                    pcbContext.getCargaCTR().getCabecCargaDAO().getCabecCargaBean().setIdOrdemCabecCarga(ordemCargaBean.getIdOrdemCarga());\n" +
+                        "                    Intent it = new Intent(ListaOrdemCargaActivity.this, DetalhesOrdemCarregActivity.class);", getLocalClassName());
+                pcbContext.getCargaCTR().getCabecCargaDAO().getCabecCargaBean().setIdOrdemCabecCarga(ordemCargaBean.getIdOrdemCarga());
+                Intent it = new Intent(ListaOrdemCargaActivity.this, DetalhesOrdemCarregActivity.class);
+                startActivity(it);
+                finish();
 
-                if(!pcbContext.getCargaCTR().verCabecCargaOrdemCarga(ordemCargaBean.getIdOrdemCarga())){
-                    LogProcessoDAO.getInstance().insertLogProcesso("if(!pcbContext.getCargaCTR().verCabecCargaOrdemCarga(ordemCargaBean.getIdOrdemCarga())){\n" +
-                            "                    pcbContext.getCargaCTR().getCabecCargaDAO().getCabecCargaBean().setIdOrdemCabecCarga(ordemCargaBean.getIdOrdemCarga());\n" +
-                            "                    Intent it = new Intent(ListaOrdemCargaActivity.this, DetalhesOrdemCarregActivity.class);", getLocalClassName());
-                    pcbContext.getCargaCTR().getCabecCargaDAO().getCabecCargaBean().setIdOrdemCabecCarga(ordemCargaBean.getIdOrdemCarga());
-                    Intent it = new Intent(ListaOrdemCargaActivity.this, DetalhesOrdemCarregActivity.class);
-                    startActivity(it);
-                    finish();
+            } else {
 
-                } else {
-
-                    LogProcessoDAO.getInstance().insertLogProcesso("} else {\n" +
-                            " AlertDialog.Builder alerta = new AlertDialog.Builder(ListaOrdemCargaActivity.this);\n" +
-                            "                    alerta.setTitle(\"ATENÇÃO\");\n" +
-                            "                    alerta.setMessage(\"ORDEM DE CARGA JÁ INSERIDA. VALOR ESCOLHE OUTRA ORDEM DE CARGA\");\n" +
-                            "                    alerta.setPositiveButton(\"OK\", new DialogInterface.OnClickListener() {\n" +
-                            "                        @Override\n" +
-                            "                        public void onClick(DialogInterface dialog, int which) {\n" +
-                            "                        }\n" +
-                            "                    });\n" +
-                            "                    alerta.show();", getLocalClassName());
-                    AlertDialog.Builder alerta = new AlertDialog.Builder(ListaOrdemCargaActivity.this);
-                    alerta.setTitle("ATENÇÃO");
-                    alerta.setMessage("ORDEM DE CARGA JÁ INSERIDA. POR FAVOR, ESCOLHE OUTRA ORDEM DE CARGA.");
-                    alerta.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                        }
-                    });
-                    alerta.show();
-
-                }
-
-
-
-            }
-
-        });
-
-        buttonCapturaOrdemCarreg.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                LogProcessoDAO.getInstance().insertLogProcesso("buttonCapturaOrdemCarreg.setOnClickListener(new View.OnClickListener() {\n" +
-                        "            @Override\n" +
-                        "            public void onClick(View v) {\n" +
-                        "                sendBroadcast(new Intent(EXTRA_CONTROL)\n" +
-                        "                        .setPackage(\"com.intermec.datacollectionservice\")\n" +
-                        "                        .putExtra(EXTRA_SCAN, true)\n" +
-                        "                );", getLocalClassName());
-                sendBroadcast(new Intent(EXTRA_CONTROL)
-                        .setPackage("com.intermec.datacollectionservice")
-                        .putExtra(EXTRA_SCAN, true)
-                );
-            }
-
-        });
-
-        buttonAtualOrdemCarreg.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                LogProcessoDAO.getInstance().insertLogProcesso("buttonAtualPadrao.setOnClickListener(new View.OnClickListener() {\n" +
-                        "            @Override\n" +
-                        "            public void onClick(View v) {\n" +
-                        "AlertDialog.Builder alerta = new AlertDialog.Builder(ListaOrdemCarregActivity.this);\n" +
-                        "                alerta.setTitle(\"ATENÇÃO\");\n" +
-                        "                alerta.setMessage(\"DESEJA REALMENTE ATUALIZAR BASE DE DADOS?\");", getLocalClassName());
+                LogProcessoDAO.getInstance().insertLogProcesso("} else {\n" +
+                        " AlertDialog.Builder alerta = new AlertDialog.Builder(ListaOrdemCargaActivity.this);\n" +
+                        "                    alerta.setTitle(\"ATENÇÃO\");\n" +
+                        "                    alerta.setMessage(\"ORDEM DE CARGA JÁ INSERIDA. VALOR ESCOLHE OUTRA ORDEM DE CARGA\");\n" +
+                        "                    alerta.setPositiveButton(\"OK\", new DialogInterface.OnClickListener() {\n" +
+                        "                        @Override\n" +
+                        "                        public void onClick(DialogInterface dialog, int which) {\n" +
+                        "                        }\n" +
+                        "                    });\n" +
+                        "                    alerta.show();", getLocalClassName());
                 AlertDialog.Builder alerta = new AlertDialog.Builder(ListaOrdemCargaActivity.this);
                 alerta.setTitle("ATENÇÃO");
-                alerta.setMessage("DESEJA REALMENTE ATUALIZAR BASE DE DADOS?");
-                alerta.setNegativeButton("SIM", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-
-                        LogProcessoDAO.getInstance().insertLogProcesso("alerta.setNegativeButton(\"SIM\", new DialogInterface.OnClickListener() {\n" +
-                                "                    @Override\n" +
-                                "                    public void onClick(DialogInterface dialog, int which) {", getLocalClassName());
-
-                        if (connectNetwork) {
-
-                            LogProcessoDAO.getInstance().insertLogProcesso("if (connectNetwork) {\n" +
-                                    "progressBar = new ProgressDialog(ListaOrdemCarregActivity.this);\n" +
-                                    "                            progressBar.setCancelable(true);\n" +
-                                    "                            progressBar.setMessage(\"ATUALIZANDO ...\");\n" +
-                                    "                            progressBar.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);\n" +
-                                    "                            progressBar.setProgress(0);\n" +
-                                    "                            progressBar.setMax(100);\n" +
-                                    "                            progressBar.show();", getLocalClassName());
-                            progressBar = new ProgressDialog(ListaOrdemCargaActivity.this);
-                            progressBar.setCancelable(true);
-                            progressBar.setMessage("ATUALIZANDO ...");
-                            progressBar.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-                            progressBar.setProgress(0);
-                            progressBar.setMax(100);
-                            progressBar.show();
-
-                            LogProcessoDAO.getInstance().insertLogProcesso("pcbContext.getConfigCTR().atualDados(ListaOrdemCarregActivity.this, ListaOrdemCarregActivity.class, progressBar, \"OrdemCarreg\", 2, getLocalClassName());", getLocalClassName());
-                            pcbContext.getConfigCTR().atualDados(ListaOrdemCargaActivity.this, ListaOrdemCargaActivity.class, progressBar, "OrdemCarga", 2, getLocalClassName());
-
-                        } else {
-
-                            LogProcessoDAO.getInstance().insertLogProcesso("AlertDialog.Builder alerta = new AlertDialog.Builder(ListaOrdemCarregActivity.this);\n" +
-                                    "                            alerta.setTitle(\"ATENÇÃO\");\n" +
-                                    "                            alerta.setMessage(\"FALHA NA CONEXÃO DE DADOS. O CELULAR ESTA SEM SINAL. POR FAVOR, TENTE NOVAMENTE QUANDO O CELULAR ESTIVE COM SINAL.\");\n" +
-                                    "                            alerta.setPositiveButton(\"OK\", new DialogInterface.OnClickListener() {\n" +
-                                    "                                @Override\n" +
-                                    "                                public void onClick(DialogInterface dialog, int which) {\n" +
-                                    "                                }\n" +
-                                    "                            });\n" +
-                                    "                            alerta.show();", getLocalClassName());
-                            AlertDialog.Builder alerta = new AlertDialog.Builder(ListaOrdemCargaActivity.this);
-                            alerta.setTitle("ATENÇÃO");
-                            alerta.setMessage("FALHA NA CONEXÃO DE DADOS. O CELULAR ESTA SEM SINAL. POR FAVOR, TENTE NOVAMENTE QUANDO O CELULAR ESTIVE COM SINAL.");
-                            alerta.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                }
-                            });
-                            alerta.show();
-
-                        }
-
-
-                    }
-                });
-
-                alerta.setPositiveButton("NÃO", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        LogProcessoDAO.getInstance().insertLogProcesso("alerta.setPositiveButton(\"NÃO\", new DialogInterface.OnClickListener() {\n" +
-                                "                    @Override\n" +
-                                "                    public void onClick(DialogInterface dialog, int which) {", getLocalClassName());
-                    }
+                alerta.setMessage("ORDEM DE CARGA JÁ INSERIDA. POR FAVOR, ESCOLHE OUTRA ORDEM DE CARGA.");
+                alerta.setPositiveButton("OK", (dialog, which) -> {
                 });
                 alerta.show();
 
@@ -213,19 +103,95 @@ public class ListaOrdemCargaActivity extends ActivityGeneric {
 
         });
 
-        buttonRetOrdemCarreg.setOnClickListener(new View.OnClickListener() {
+        buttonCapturaOrdemCarreg.setOnClickListener(v -> {
+            LogProcessoDAO.getInstance().insertLogProcesso("buttonCapturaOrdemCarreg.setOnClickListener(new View.OnClickListener() {\n" +
+                    "            @Override\n" +
+                    "            public void onClick(View v) {\n" +
+                    "                sendBroadcast(new Intent(EXTRA_CONTROL)\n" +
+                    "                        .setPackage(\"com.intermec.datacollectionservice\")\n" +
+                    "                        .putExtra(EXTRA_SCAN, true)\n" +
+                    "                );", getLocalClassName());
+            sendBroadcast(new Intent(EXTRA_CONTROL)
+                    .setPackage("com.intermec.datacollectionservice")
+                    .putExtra(EXTRA_SCAN, statusLeitor)
+            );
+            statusLeitor = statusLeitor ? false : true;
+        });
 
-            @Override
-            public void onClick(View v) {
-                LogProcessoDAO.getInstance().insertLogProcesso("buttonRetOrdemCarreg.setOnClickListener(new View.OnClickListener() {\n" +
-                        "            @Override\n" +
-                        "            public void onClick(View v) {\n" +
-                        "                Intent it = new Intent(ListaOrdemCarregActivity.this, LeitorFuncActivity.class);", getLocalClassName());
-                Intent it = new Intent(ListaOrdemCargaActivity.this, LeitorFuncActivity.class);
-                startActivity(it);
-                finish();
-            }
+        buttonAtualOrdemCarreg.setOnClickListener(v -> {
+            LogProcessoDAO.getInstance().insertLogProcesso("buttonAtualPadrao.setOnClickListener(new View.OnClickListener() {\n" +
+                    "            @Override\n" +
+                    "            public void onClick(View v) {\n" +
+                    "AlertDialog.Builder alerta = new AlertDialog.Builder(ListaOrdemCarregActivity.this);\n" +
+                    "                alerta.setTitle(\"ATENÇÃO\");\n" +
+                    "                alerta.setMessage(\"DESEJA REALMENTE ATUALIZAR BASE DE DADOS?\");", getLocalClassName());
+            AlertDialog.Builder alerta = new AlertDialog.Builder(ListaOrdemCargaActivity.this);
+            alerta.setTitle("ATENÇÃO");
+            alerta.setMessage("DESEJA REALMENTE ATUALIZAR BASE DE DADOS?");
+            alerta.setNegativeButton("SIM", (dialog, which) -> {
 
+                LogProcessoDAO.getInstance().insertLogProcesso("alerta.setNegativeButton(\"SIM\", new DialogInterface.OnClickListener() {\n" +
+                        "                    @Override\n" +
+                        "                    public void onClick(DialogInterface dialog, int which) {", getLocalClassName());
+
+                if (connectNetwork) {
+
+                    LogProcessoDAO.getInstance().insertLogProcesso("if (connectNetwork) {\n" +
+                            "progressBar = new ProgressDialog(ListaOrdemCarregActivity.this);\n" +
+                            "                            progressBar.setCancelable(true);\n" +
+                            "                            progressBar.setMessage(\"ATUALIZANDO ...\");\n" +
+                            "                            progressBar.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);\n" +
+                            "                            progressBar.setProgress(0);\n" +
+                            "                            progressBar.setMax(100);\n" +
+                            "                            progressBar.show();", getLocalClassName());
+                    progressBar = new ProgressDialog(ListaOrdemCargaActivity.this);
+                    progressBar.setCancelable(true);
+                    progressBar.setMessage("ATUALIZANDO ...");
+                    progressBar.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+                    progressBar.setProgress(0);
+                    progressBar.setMax(100);
+                    progressBar.show();
+
+                    LogProcessoDAO.getInstance().insertLogProcesso("pcbContext.getConfigCTR().atualDados(ListaOrdemCarregActivity.this, ListaOrdemCarregActivity.class, progressBar, \"OrdemCarreg\", 2, getLocalClassName());", getLocalClassName());
+                    pcbContext.getConfigCTR().atualDados(ListaOrdemCargaActivity.this, ListaOrdemCargaActivity.class, progressBar, "OrdemCarga", 2, getLocalClassName());
+
+                } else {
+
+                    LogProcessoDAO.getInstance().insertLogProcesso("AlertDialog.Builder alerta = new AlertDialog.Builder(ListaOrdemCarregActivity.this);\n" +
+                            "                            alerta.setTitle(\"ATENÇÃO\");\n" +
+                            "                            alerta.setMessage(\"FALHA NA CONEXÃO DE DADOS. O CELULAR ESTA SEM SINAL. POR FAVOR, TENTE NOVAMENTE QUANDO O CELULAR ESTIVE COM SINAL.\");\n" +
+                            "                            alerta.setPositiveButton(\"OK\", new DialogInterface.OnClickListener() {\n" +
+                            "                                @Override\n" +
+                            "                                public void onClick(DialogInterface dialog, int which) {\n" +
+                            "                                }\n" +
+                            "                            });\n" +
+                            "                            alerta.show();", getLocalClassName());
+                    AlertDialog.Builder alerta1 = new AlertDialog.Builder(ListaOrdemCargaActivity.this);
+                    alerta1.setTitle("ATENÇÃO");
+                    alerta1.setMessage("FALHA NA CONEXÃO DE DADOS. O CELULAR ESTA SEM SINAL. POR FAVOR, TENTE NOVAMENTE QUANDO O CELULAR ESTIVE COM SINAL.");
+                    alerta1.setPositiveButton("OK", (dialog1, which1) -> {});
+                    alerta1.show();
+
+                }
+
+
+            });
+
+            alerta.setPositiveButton("NÃO", (dialog, which) -> LogProcessoDAO.getInstance().insertLogProcesso("alerta.setPositiveButton(\"NÃO\", new DialogInterface.OnClickListener() {\n" +
+                    "                    @Override\n" +
+                    "                    public void onClick(DialogInterface dialog, int which) {", getLocalClassName()));
+            alerta.show();
+
+        });
+
+        buttonRetOrdemCarreg.setOnClickListener(v -> {
+            LogProcessoDAO.getInstance().insertLogProcesso("buttonRetOrdemCarreg.setOnClickListener(new View.OnClickListener() {\n" +
+                    "            @Override\n" +
+                    "            public void onClick(View v) {\n" +
+                    "                Intent it = new Intent(ListaOrdemCarregActivity.this, LeitorFuncActivity.class);", getLocalClassName());
+            Intent it = new Intent(ListaOrdemCargaActivity.this, LeitorFuncActivity.class);
+            startActivity(it);
+            finish();
         });
 
     }
@@ -261,11 +227,7 @@ public class ListaOrdemCargaActivity extends ActivityGeneric {
                     AlertDialog.Builder alerta = new AlertDialog.Builder( ListaOrdemCargaActivity.this);
                     alerta.setTitle("ATENÇÃO");
                     alerta.setMessage("FALHA NA LEITURA DO TICKET!");
-                    alerta.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                        }
-                    });
+                    alerta.setPositiveButton("OK", (dialog, which) -> {});
                     alerta.show();
                 }
             } else {
@@ -282,11 +244,7 @@ public class ListaOrdemCargaActivity extends ActivityGeneric {
                 AlertDialog.Builder alerta = new AlertDialog.Builder( ListaOrdemCargaActivity.this);
                 alerta.setTitle("ATENÇÃO");
                 alerta.setMessage("FALHA NA LEITURA DO TICKET!");
-                alerta.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                    }
-                });
+                alerta.setPositiveButton("OK", (dialog, which) -> {});
                 alerta.show();
             }
         }
@@ -335,11 +293,7 @@ public class ListaOrdemCargaActivity extends ActivityGeneric {
                             AlertDialog.Builder alerta = new AlertDialog.Builder( ListaOrdemCargaActivity.this);
                             alerta.setTitle("ATENÇÃO");
                             alerta.setMessage("FALHA NA LEITURA DO TICKET!");
-                            alerta.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                }
-                            });
+                            alerta.setPositiveButton("OK", (dialog, which) -> {});
                             alerta.show();
                         }
                     } else {
@@ -356,11 +310,7 @@ public class ListaOrdemCargaActivity extends ActivityGeneric {
                         AlertDialog.Builder alerta = new AlertDialog.Builder( ListaOrdemCargaActivity.this);
                         alerta.setTitle("ATENÇÃO");
                         alerta.setMessage("FALHA NA LEITURA DO TICKET!");
-                        alerta.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                            }
-                        });
+                        alerta.setPositiveButton("OK", (dialog, which) -> {});
                         alerta.show();
                     }
                 }

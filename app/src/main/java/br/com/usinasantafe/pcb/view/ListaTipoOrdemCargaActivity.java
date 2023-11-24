@@ -42,57 +42,46 @@ public class ListaTipoOrdemCargaActivity extends ActivityGeneric {
         AdapterList adapterList = new AdapterList(this, itens);
         tipoOrdemCargaListView= findViewById(R.id.listTipoOrdemCarga);
         tipoOrdemCargaListView.setAdapter(adapterList);
-        tipoOrdemCargaListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        tipoOrdemCargaListView.setOnItemClickListener((l, v, position, id) -> {
 
-            @Override
-            public void onItemClick(AdapterView<?> l, View v, int position,
-                                    long id) {
+            LogProcessoDAO.getInstance().insertLogProcesso("tipoOrdemCargaListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {\n" +
+                    "            @Override\n" +
+                    "            public void onItemClick(AdapterView<?> l, View v, int position,\n" +
+                    "                                    long id) {\n" +
+                    "                TextView textView = v.findViewById(R.id.textViewItemList);\n" +
+                    "                String text = textView.getText().toString();", getLocalClassName());
+            TextView textView = v.findViewById(R.id.textViewItemList);
+            String text = textView.getText().toString();
+            if (text.equals("ESTOQUE")) {
+                LogProcessoDAO.getInstance().insertLogProcesso("if (text.equals(\"ESTOQUE\")) {\n" +
+                        "                    pcbContext.getConfigCTR().setTipoApont(1L);\n" +
+                        "                    pcbContext.getCargaCTR().getCabecCargaDAO().getCabecCargaBean().setTipoCabecCarga(0L);", getLocalClassName());
+                pcbContext.getConfigCTR().setTipoApont(1L);
+                pcbContext.getCargaCTR().getCabecCargaDAO().getCabecCargaBean().setTipoCabecCarga(0L);
 
-                LogProcessoDAO.getInstance().insertLogProcesso("tipoOrdemCargaListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {\n" +
-                        "            @Override\n" +
-                        "            public void onItemClick(AdapterView<?> l, View v, int position,\n" +
-                        "                                    long id) {\n" +
-                        "                TextView textView = v.findViewById(R.id.textViewItemList);\n" +
-                        "                String text = textView.getText().toString();", getLocalClassName());
-                TextView textView = v.findViewById(R.id.textViewItemList);
-                String text = textView.getText().toString();
-                if (text.equals("ESTOQUE")) {
-                    LogProcessoDAO.getInstance().insertLogProcesso("if (text.equals(\"ESTOQUE\")) {\n" +
-                            "                    pcbContext.getConfigCTR().setTipoApont(1L);\n" +
-                            "                    pcbContext.getCargaCTR().getCabecCargaDAO().getCabecCargaBean().setTipoCabecCarga(0L);", getLocalClassName());
-                    pcbContext.getConfigCTR().setTipoApont(1L);
-                    pcbContext.getCargaCTR().getCabecCargaDAO().getCabecCargaBean().setTipoCabecCarga(0L);
-
-                } else  {
-                    LogProcessoDAO.getInstance().insertLogProcesso("} else  {\n" +
-                            "                    pcbContext.getConfigCTR().setTipoApont(3L);\n" +
-                            "                    pcbContext.getCargaCTR().getCabecCargaDAO().getCabecCargaBean().setTipoCabecCarga(1L);", getLocalClassName());
-                    pcbContext.getConfigCTR().setTipoApont(3L);
-                    pcbContext.getCargaCTR().getCabecCargaDAO().getCabecCargaBean().setTipoCabecCarga(1L);
-                }
-
-                LogProcessoDAO.getInstance().insertLogProcesso("Intent it = new Intent(ListaTipoOrdemCargaActivity.this, AtualOrdemCargaActivity.class);", getLocalClassName());
-                Intent it = new Intent(ListaTipoOrdemCargaActivity.this, AtualOrdemCargaActivity.class);
-                startActivity(it);
-                finish();
-
+            } else  {
+                LogProcessoDAO.getInstance().insertLogProcesso("} else  {\n" +
+                        "                    pcbContext.getConfigCTR().setTipoApont(3L);\n" +
+                        "                    pcbContext.getCargaCTR().getCabecCargaDAO().getCabecCargaBean().setTipoCabecCarga(1L);", getLocalClassName());
+                pcbContext.getConfigCTR().setTipoApont(3L);
+                pcbContext.getCargaCTR().getCabecCargaDAO().getCabecCargaBean().setTipoCabecCarga(1L);
             }
+
+            LogProcessoDAO.getInstance().insertLogProcesso("Intent it = new Intent(ListaTipoOrdemCargaActivity.this, AtualOrdemCargaActivity.class);", getLocalClassName());
+            Intent it = new Intent(ListaTipoOrdemCargaActivity.this, AtualOrdemCargaActivity.class);
+            startActivity(it);
+            finish();
 
         });
 
-        buttonRetTipoOrdemCarga.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                LogProcessoDAO.getInstance().insertLogProcesso("buttonRetTipoOrdemCarga.setOnClickListener(new View.OnClickListener() {\n" +
-                        "            @Override\n" +
-                        "            public void onClick(View v) {\n" +
-                        "                Intent it = new Intent(ListaTipoOrdemCargaActivity.this, ListaTipoApontActivity.class);", getLocalClassName());
-                Intent it = new Intent(ListaTipoOrdemCargaActivity.this, ListaTipoApontActivity.class);
-                startActivity(it);
-                finish();
-            }
-
+        buttonRetTipoOrdemCarga.setOnClickListener(v -> {
+            LogProcessoDAO.getInstance().insertLogProcesso("buttonRetTipoOrdemCarga.setOnClickListener(new View.OnClickListener() {\n" +
+                    "            @Override\n" +
+                    "            public void onClick(View v) {\n" +
+                    "                Intent it = new Intent(ListaTipoOrdemCargaActivity.this, ListaTipoApontActivity.class);", getLocalClassName());
+            Intent it = new Intent(ListaTipoOrdemCargaActivity.this, ListaTipoApontActivity.class);
+            startActivity(it);
+            finish();
         });
 
     }

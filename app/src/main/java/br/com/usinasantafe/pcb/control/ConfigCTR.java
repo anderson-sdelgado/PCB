@@ -116,7 +116,6 @@ public class ConfigCTR {
 
     ///////////////////////////////////////////////////////////////////////////////////////////////
 
-
     ////////////////////////////////////// ATUALIZAR DADOS ////////////////////////////////////////
 
     public void atualTodasTabelas(Context tela, ProgressDialog progressDialog, String activity){
@@ -164,6 +163,47 @@ public class ConfigCTR {
         return classeArrayList;
     }
 
+    ///////////////////////////////////////////////////////////////////////////////////////////////
+
+    ///////////////////////////////////////// TOKEN ///////////////////////////////////////////////
+
+    public void salvarToken(String senha, String versao, Long nroAparelho, Context telaAtual, Class telaProx, ProgressDialog progressDialog, String activity){
+        AtualAplicDAO atualAplicDAO = new AtualAplicDAO();
+        VerifDadosServ.getInstance().salvarToken(senha, atualAplicDAO.dadosAplic(nroAparelho, versao), telaAtual, telaProx, progressDialog, activity);
+    }
+
+    public void recToken(String result, String senha, Context telaAtual, Class telaProx, ProgressDialog progressDialog, String activity) {
+
+        AtualAplicBean atualAplicBean = new AtualAplicBean();
+
+        try {
+
+            progressDialog.dismiss();
+
+            JSONObject jObj = new JSONObject(result);
+            JSONArray jsonArray = jObj.getJSONArray("dados");
+
+            if (jsonArray.length() > 0) {
+                AtualAplicDAO atualAplicDAO = new AtualAplicDAO();
+                atualAplicBean = atualAplicDAO.recAparelho(jsonArray);
+            }
+
+            salvarConfig(atualAplicBean.getNroAparelho(), senha);
+
+            progressDialog = new ProgressDialog(telaAtual);
+            progressDialog.setCancelable(true);
+            progressDialog.setMessage("ATUALIZANDO ...");
+            progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+            progressDialog.setProgress(0);
+            progressDialog.setMax(100);
+            progressDialog.show();
+
+            AtualDadosServ.getInstance().atualTodasTabBD(telaAtual, telaProx, progressDialog, activity);
+
+        } catch (Exception e) {
+            VerifDadosServ.status = 1;
+        }
+    }
 
     ///////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -194,7 +234,7 @@ public class ConfigCTR {
         AtualAplicDAO atualAplicDAO = new AtualAplicDAO();
         LogProcessoDAO.getInstance().insertLogProcesso("VerifDadosServ.getInstance().verifAtualAplic(atualAplicDAO.dadosVerAtualAplicBean(equipBean.getNroEquip(), equipBean.getIdCheckList(), versaoAplic)\n" +
                 "                , telaInicialActivity, progressDialog);", activity);
-        VerifDadosServ.getInstance().verifAtualAplic(atualAplicDAO.dadosVerAtualAplicBean(getConfig().getNroAparelhoConfig(), versaoAplic)
+        VerifDadosServ.getInstance().verifAtualAplic(atualAplicDAO.dadosAplic(getConfig().getNroAparelhoConfig(), versaoAplic)
                 , telaInicialActivity, activity);
     }
 

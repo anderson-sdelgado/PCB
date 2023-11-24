@@ -27,73 +27,60 @@ public class DigBagTransfActivity extends ActivityGeneric {
         Button buttonOkBag = findViewById(R.id.buttonOkPadrao);
         Button buttonCancBag = findViewById(R.id.buttonCancPadrao);
 
-        buttonOkBag.setOnClickListener(new View.OnClickListener() {
-            @SuppressWarnings("rawtypes")
-            @Override
-            public void onClick(View v) {
+        buttonOkBag.setOnClickListener(v -> {
 
-                LogProcessoDAO.getInstance().insertLogProcesso("buttonOkMotorista.setOnClickListener(new View.OnClickListener() {\n" +
-                        "            @SuppressWarnings(\"rawtypes\")\n" +
-                        "            @Override\n" +
-                        "            public void onClick(View v) {", getLocalClassName());
-                if (!editTextPadrao.getText().toString().equals("")) {
-                    LogProcessoDAO.getInstance().insertLogProcesso("if (!editTextPadrao.getText().toString().equals(\"\")) {", getLocalClassName());
-                    if(pcbContext.getTransfCTR().verBagRepetidoTransf(Long.valueOf(editTextPadrao.getText().toString()))) {
+            LogProcessoDAO.getInstance().insertLogProcesso("buttonOkMotorista.setOnClickListener(new View.OnClickListener() {\n" +
+                    "            @SuppressWarnings(\"rawtypes\")\n" +
+                    "            @Override\n" +
+                    "            public void onClick(View v) {", getLocalClassName());
+            if (!editTextPadrao.getText().toString().equals("")) {
+                LogProcessoDAO.getInstance().insertLogProcesso("if (!editTextPadrao.getText().toString().equals(\"\")) {", getLocalClassName());
+                if(pcbContext.getTransfCTR().verBagRepetidoTransf(Long.valueOf(editTextPadrao.getText().toString()))) {
 
-                        LogProcessoDAO.getInstance().insertLogProcesso("if(pcbContext.getTransfCTR().verBagRepetidoTransf(Long.valueOf(editTextPadrao.getText().toString()))) {\n" +
-                                "                        progressBar = new ProgressDialog(DigBagTransfActivity.this);\n" +
-                                "                        progressBar.setCancelable(true);\n" +
-                                "                        progressBar.setMessage(\"PESQUISANDO BAG...\");\n" +
-                                "                        progressBar.show();\n" +
-                                "                    pcbContext.getTransfCTR().verBag(" + editTextPadrao.getText().toString() + ", ListaBagTransfActivity.this, ListaBagTransfActivity.class, progressBar, getLocalClassName());", getLocalClassName());
-                        progressBar = new ProgressDialog(DigBagTransfActivity.this);
-                        progressBar.setCancelable(true);
-                        progressBar.setMessage("PESQUISANDO BAG...");
-                        progressBar.show();
-                        pcbContext.getTransfCTR().verBagTransfNro(editTextPadrao.getText().toString(), DigBagTransfActivity.this, ListaBagTransfActivity.class, progressBar, getLocalClassName());
+                    LogProcessoDAO.getInstance().insertLogProcesso("if(pcbContext.getTransfCTR().verBagRepetidoTransf(Long.valueOf(editTextPadrao.getText().toString()))) {\n" +
+                            "                        progressBar = new ProgressDialog(DigBagTransfActivity.this);\n" +
+                            "                        progressBar.setCancelable(true);\n" +
+                            "                        progressBar.setMessage(\"PESQUISANDO BAG...\");\n" +
+                            "                        progressBar.show();\n" +
+                            "                    pcbContext.getTransfCTR().verBag(" + editTextPadrao.getText().toString() + ", ListaBagTransfActivity.this, ListaBagTransfActivity.class, progressBar, getLocalClassName());", getLocalClassName());
+                    progressBar = new ProgressDialog(DigBagTransfActivity.this);
+                    progressBar.setCancelable(true);
+                    progressBar.setMessage("PESQUISANDO BAG...");
+                    progressBar.show();
+                    pcbContext.getTransfCTR().verBagTransfNro(editTextPadrao.getText().toString(), DigBagTransfActivity.this, ListaBagTransfActivity.class, progressBar, getLocalClassName());
 
-                    }
-                    else{
-                        LogProcessoDAO.getInstance().insertLogProcesso("else{\n" +
-                                "                        AlertDialog.Builder alerta = new AlertDialog.Builder(DigBagTransfActivity.this);\n" +
-                                "                        alerta.setTitle(\"ATENÇÃO\");\n" +
-                                "                        alerta.setMessage(\"Embalagem duplicada! Por favor realize novamente a leitura ou verifique a etiqueta e tente novamente.\");\n" +
-                                "                        alerta.setPositiveButton(\"OK\", new DialogInterface.OnClickListener() {\n" +
-                                "                            @Override\n" +
-                                "                            public void onClick(DialogInterface dialog, int which) {\n" +
-                                "                            }\n" +
-                                "                        });\n" +
-                                "                        alerta.show();", getLocalClassName());
-                        AlertDialog.Builder alerta = new AlertDialog.Builder(DigBagTransfActivity.this);
-                        alerta.setTitle("ATENÇÃO");
-                        alerta.setMessage("Embalagem duplicada! Por favor realize novamente a leitura ou verifique a etiqueta e tente novamente.");
-                        alerta.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                            }
-                        });
-                        alerta.show();
-                    }
+                } else {
+                    LogProcessoDAO.getInstance().insertLogProcesso("else{\n" +
+                            "                        AlertDialog.Builder alerta = new AlertDialog.Builder(DigBagTransfActivity.this);\n" +
+                            "                        alerta.setTitle(\"ATENÇÃO\");\n" +
+                            "                        alerta.setMessage(\"Embalagem duplicada! Por favor realize novamente a leitura ou verifique a etiqueta e tente novamente.\");\n" +
+                            "                        alerta.setPositiveButton(\"OK\", new DialogInterface.OnClickListener() {\n" +
+                            "                            @Override\n" +
+                            "                            public void onClick(DialogInterface dialog, int which) {\n" +
+                            "                            }\n" +
+                            "                        });\n" +
+                            "                        alerta.show();", getLocalClassName());
+                    AlertDialog.Builder alerta = new AlertDialog.Builder(DigBagTransfActivity.this);
+                    alerta.setTitle("ATENÇÃO");
+                    alerta.setMessage("Embalagem duplicada! Por favor realize novamente a leitura ou verifique a etiqueta e tente novamente.");
+                    alerta.setPositiveButton("OK", (dialog, which) -> {
+                    });
+                    alerta.show();
                 }
-
             }
 
         });
 
-        buttonCancBag.setOnClickListener(new View.OnClickListener() {
+        buttonCancBag.setOnClickListener(v -> {
 
-            @Override
-            public void onClick(View v) {
-
-                LogProcessoDAO.getInstance().insertLogProcesso("buttonCancBag.setOnClickListener(new View.OnClickListener() {\n" +
-                        "            @Override\n" +
-                        "            public void onClick(View v) {\n" +
-                        "if (editTextPadrao.getText().toString().length() > 0) {\n" +
-                        "                    editTextPadrao.setText(editTextPadrao.getText().toString().substring(0, editTextPadrao.getText().toString().length() - 1));\n" +
-                        "                }", getLocalClassName());
-                if (editTextPadrao.getText().toString().length() > 0) {
-                    editTextPadrao.setText(editTextPadrao.getText().toString().substring(0, editTextPadrao.getText().toString().length() - 1));
-                }
+            LogProcessoDAO.getInstance().insertLogProcesso("buttonCancBag.setOnClickListener(new View.OnClickListener() {\n" +
+                    "            @Override\n" +
+                    "            public void onClick(View v) {\n" +
+                    "if (editTextPadrao.getText().toString().length() > 0) {\n" +
+                    "                    editTextPadrao.setText(editTextPadrao.getText().toString().substring(0, editTextPadrao.getText().toString().length() - 1));\n" +
+                    "                }", getLocalClassName());
+            if (editTextPadrao.getText().toString().length() > 0) {
+                editTextPadrao.setText(editTextPadrao.getText().toString().substring(0, editTextPadrao.getText().toString().length() - 1));
             }
         });
 
