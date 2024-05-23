@@ -17,7 +17,7 @@ public class PCBContext extends Application {
     private String codBarraBagLido;
     private Long matricFunc;
 
-    public static String versaoWS = "1.04";
+    public static String versaoWS = "2.00";
 
     @Override
     public void onCreate() {
